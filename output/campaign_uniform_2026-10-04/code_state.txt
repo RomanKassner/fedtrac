@@ -1,0 +1,36 @@
+launch: 2026-10-04T22:17:13+02:00  families: b0 b1 b2 b3 parties
+commit: 1613a258c7f90d853d8827c94a27b2cc9c3bc650
+
+launch: 2026-10-05T07:51:43+02:00  families: b3 parties
+commit: 08f57e8982698825c0587299dc8f777d5f70007c
+
+launch: 2026-10-05T21:59:50+02:00  families: b0 b1 b2 b3 b4
+commit: 5dcf13fc4dbefcf1d306a167bba414687e1180be
+
+launch: 2026-10-06T08:41:01+02:00  families: b5 b6 b7 b8
+commit: 5dcf13fc4dbefcf1d306a167bba414687e1180be
+
+launch: 2026-10-10T19:11:19+02:00  families: c0 c1 c2 c3
+commit: 5a45b81fb6ad5699aa8e402e99f0477013a79818
+ M docs/CONTRACTS.md
+ M scripts/evaluate_campaign.py
+ M scripts/run_uniform_campaign.sh
+ M scripts/test_evaluate_campaign.py
+ M scripts/variant_suppression_sweep.py
+?? scripts/attacks/rescore_battery_uniform.py
+?? scripts/causes_study_uniform.py
+?? scripts/cluster_scatter_uniform.py
+?? scripts/method_study_uniform.py
+?? scripts/models_figure_uniform.py
+?? scripts/test_causes_study_uniform.py
+?? scripts/test_uniform_campaign_family_c.py
+?? scripts/uniform_figures.py
+adb7920328ccaa4feb49ed5a82110712ca94c2c160318fb09f23e3e5e57c9ef2  scripts/attacks/rescore_battery_uniform.py
+935db05a2c8f7904f105ef9519679a7df45e32369e49cd1e3a7601d9ea481937  scripts/causes_study_uniform.py
+56de7118c5eb7c7a150930dcb8e4073196ca45ae2cf856b58e4dcc55d4bf2fe3  scripts/cluster_scatter_uniform.py
+80817300358cb200843dee08221c0776054ce67074336b651d934ad57d5bd3b4  scripts/method_study_uniform.py
+ece904ab342574b5cfad5eb65ecd88af67ed3b28abccc038a462ca4ad7cc1b03  scripts/models_figure_uniform.py
+b3ea8194f3788a3859adc1637399022125d3de56bd5d1ca4344f1a8ecabc0759  scripts/test_causes_study_uniform.py
+8c5e4cfa3f40f16b60393715dcec81e77e5135d01311b4331dab499f5df4b5cb  scripts/test_uniform_campaign_family_c.py
+90659d71bd02c360fed0ca63ef595cb9a75bb15a4e1ff58e2419da570728e381  scripts/uniform_figures.py
+

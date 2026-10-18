@@ -1,0 +1,4 @@
+cell ms_bpic2013-pc2p_rp_bigram_s202: truth output/runs/rescore_uni_ms_bpic2013-pc2p_rp_bigram_s202_2026-10-09_16-10-58/features_encoded.csv (4507 rows, d=14), opened rows output/runs/uni_ms_bpic2013-pc2p_rp_bigram_s202_2026-10-05_09-45-09/federated/features.csv (3557 nonzero, k=27), k_priv=5, |A|=3557 -> OK
+frequency match: 119 opened classes over 3557 opened rows, class sizes equal the counts of the opened profiles: OK; 96 classes (1477 rows) in size ties
+frequency match: class_acc = 0.1933, row_acc = 0.5848 (certain: a tied class counts as a miss); expected over R (lexicographic tie rule, 200 antithetic draws): class_acc_exp = 0.3632, row_acc_exp = 0.7360
+frequency match: oracle-aligned P = 0.9995, R = 0.7691 on 3000 rows (the rebuilt multiset equals the true one whenever the sizes match, so the oracle scores it 1 on the opened rows below the row cap)

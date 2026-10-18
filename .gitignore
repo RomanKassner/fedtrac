@@ -1,0 +1,9 @@
+target
+.venv
+__pycache__
+*.pyc
+data/raw
+data/splits/*
+!data/splits/*.tar.xz
+output/runs/*
+!output/runs/*.tar.xz

@@ -1,0 +1,4 @@
+cell ms_rtfm-pc3p_rp_skipbigram_s42: truth output/runs/rescore_uni_ms_rtfm-pc3p_rp_skipbigram_s42_2026-10-11_06-32-44/features_encoded.csv (1184 rows, d=392), opened rows output/runs/uni_ms_rtfm-pc3p_rp_skipbigram_s42_2026-10-11_04-13-56/federated/features.csv (974 nonzero, k=73), k_priv=7, |A|=974 -> OK
+frequency match: 28 opened classes over 974 opened rows, class sizes equal the counts of the opened profiles: OK; 13 classes (129 rows) in size ties
+frequency match: class_acc = 0.5357, row_acc = 0.8676 (certain: a tied class counts as a miss); expected over R (lexicographic tie rule, 200 antithetic draws): class_acc_exp = 0.6837, row_acc_exp = 0.9128
+frequency match: oracle-aligned P = 1.0000, R = 0.8150 on 974 rows (the rebuilt multiset equals the true one whenever the sizes match, so the oracle scores it 1 on the opened rows below the row cap)

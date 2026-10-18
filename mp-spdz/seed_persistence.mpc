@@ -1,0 +1,21 @@
+"""Test fixture, outside the pipeline: persist N party-0 values as a known secret array for a harness to check."""
+
+from Compiler.types import sint
+from Compiler.library import print_ln, for_range_opt
+
+N = int(program.args[1]) if len(program.args) > 1 else 10
+OFFSET = int(program.args[2]) if len(program.args) > 2 else 0
+
+print_ln("=== Seed Persistence ===")
+print_ln("MODE: TESTING - fixture only; seeds a known secret array for a "
+         "downstream persistence-contract check")
+print_ln("N=%s OFFSET=%s", N, OFFSET)
+
+vals = sint.Array(N)
+
+@for_range_opt(N)
+def _(i):
+    vals[i] = sint.get_input_from(0)
+
+vals.write_to_file(OFFSET)
+print_ln("SEEDED %s values at offset %s", N, OFFSET)

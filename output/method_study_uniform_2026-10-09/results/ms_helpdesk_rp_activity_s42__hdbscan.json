@@ -1,0 +1,58 @@
+{
+ "cell": "ms_helpdesk_rp_activity_s42",
+ "method": "hdbscan",
+ "k_requested": 3,
+ "count": 2,
+ "sizes": [
+  3349,
+  1228
+ ],
+ "opened": 3728,
+ "withheld": 849,
+ "ari_to_run": 0.681139,
+ "seconds": 1.1,
+ "note": "noise rows rehomed 344; own count 2",
+ "summary": {
+  "clusters": 2,
+  "cases": 4577,
+  "models_scored": 2,
+  "pruned_activities": 4,
+  "fitness": 0.9894,
+  "precision": 0.978,
+  "f_score": 0.9834,
+  "simplicity": 0.5699,
+  "edges": 9.0732,
+  "activities": 5.0,
+  "rel": 4.071,
+  "rho": 0.9441
+ },
+ "clusters": [
+  {
+   "size": 3349,
+   "rel": 3.4156,
+   "rho": 0.9415,
+   "pruned_activities": 2,
+   "edges": 8,
+   "activities": 5,
+   "fitness": 0.9879,
+   "precision": 0.9948,
+   "f_score": 0.9913,
+   "simplicity": 0.5789,
+   "cluster_id": 0
+  },
+  {
+   "size": 1228,
+   "rel": 5.8585,
+   "rho": 0.9511,
+   "pruned_activities": 2,
+   "edges": 12,
+   "activities": 5,
+   "fitness": 0.9936,
+   "precision": 0.9321,
+   "f_score": 0.9619,
+   "simplicity": 0.5455,
+   "cluster_id": 1
+  }
+ ],
+ "score_seconds": 4.7
+}

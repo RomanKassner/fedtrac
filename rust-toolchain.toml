@@ -1,0 +1,4 @@
+[toolchain]
+# The toolchain the recorded campaigns compiled under.
+channel = "1.93.1"
+components = ["clippy", "rustfmt"]

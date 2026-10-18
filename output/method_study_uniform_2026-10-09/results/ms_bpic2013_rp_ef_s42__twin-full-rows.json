@@ -1,0 +1,100 @@
+{
+ "cell": "ms_bpic2013_rp_ef_s42",
+ "method": "twin-full-rows",
+ "k_requested": 5,
+ "count": 5,
+ "sizes": [
+  2104,
+  1819,
+  1804,
+  1006,
+  812
+ ],
+ "opened": 6071,
+ "withheld": 1474,
+ "ari_to_run": 0.831973,
+ "seconds": 6.4,
+ "note": "",
+ "summary": {
+  "clusters": 5,
+  "cases": 7545,
+  "models_scored": 5,
+  "pruned_activities": 0,
+  "fitness": 0.996,
+  "precision": 0.8938,
+  "f_score": 0.9412,
+  "simplicity": 0.6833,
+  "edges": 4.8846,
+  "activities": 2.6276,
+  "rel": 10.8122,
+  "rho": 0.9453
+ },
+ "clusters": [
+  {
+   "size": 1006,
+   "rel": 5.3985,
+   "rho": 0.9901,
+   "pruned_activities": 0,
+   "edges": 4,
+   "activities": 2,
+   "fitness": 0.999,
+   "precision": 0.8581,
+   "f_score": 0.9232,
+   "simplicity": 0.7143,
+   "cluster_id": 0
+  },
+  {
+   "size": 2104,
+   "rel": 23.253,
+   "rho": 0.856,
+   "pruned_activities": 0,
+   "edges": 6,
+   "activities": 3,
+   "fitness": 0.991,
+   "precision": 0.8394,
+   "f_score": 0.9089,
+   "simplicity": 0.6364,
+   "cluster_id": 1
+  },
+  {
+   "size": 1819,
+   "rel": 9.7422,
+   "rho": 0.9571,
+   "pruned_activities": 0,
+   "edges": 6,
+   "activities": 3,
+   "fitness": 0.9958,
+   "precision": 0.8899,
+   "f_score": 0.9399,
+   "simplicity": 0.6364,
+   "cluster_id": 2
+  },
+  {
+   "size": 812,
+   "rel": 7.1806,
+   "rho": 0.9754,
+   "pruned_activities": 0,
+   "edges": 7,
+   "activities": 3,
+   "fitness": 0.9973,
+   "precision": 0.8596,
+   "f_score": 0.9233,
+   "simplicity": 0.5714,
+   "cluster_id": 3
+  },
+  {
+   "size": 1804,
+   "rel": 2.0352,
+   "rho": 0.9989,
+   "pruned_activities": 0,
+   "edges": 2,
+   "activities": 2,
+   "fitness": 0.9998,
+   "precision": 0.9965,
+   "f_score": 0.9981,
+   "simplicity": 0.8182,
+   "cluster_id": 4
+  }
+ ],
+ "score_seconds": 98.3
+}

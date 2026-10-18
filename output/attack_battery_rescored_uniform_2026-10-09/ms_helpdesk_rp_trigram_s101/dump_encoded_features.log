@@ -1,0 +1,21 @@
+$ /home/roman/projects/federated_clustering/target/release/clustering_federated --data-dir data/splits/helpdesk_split --case-ids config/case_ids/helpdesk_full.txt --encoding trigram --truncate-baseline --dump-encoded-features --run-name rescore_uni_ms_helpdesk_rp_trigram_s101
+
+--- Start ---
+Output: output/runs/rescore_uni_ms_helpdesk_rp_trigram_s101_2026-10-09_16-12-28
+Loaded XES: 10240 events (Party_A.xes), 11108 events (Party_B.xes) from data/splits/helpdesk_split
+
+--- Phase 0: Case ID Intersection (2 parties) ---
+Phase 0: pinned to 4577 cases from config/case_ids/helpdesk_full.txt
+Phase 0: 4577 common cases in 2.857654ms
+
+--- Phase 1: Activity Dictionary ---
+Phase 1: 14 user activities (17 total with markers) in 1.207583ms
+
+--- Phase 2-3: Plaintext Integration & Clustering ---
+[Harness] Auto-L reads the joint per-case length distribution across parties; a deployment fixes --max-trace-len by policy instead
+[MPC] Trace length distribution (merged, 2 parties): P50=4, P95=7, P99=9, max=15
+[MPC] Dynamic L = 8 (per-party, bigram coverage 98.9%), truncated = 0.0%
+[Plaintext] Integrated 4577 traces (truncated, L=8)
+[Plaintext] 65 bigrams, 4577 features
+Exported encoded feature matrix (4577 x 134) to output/runs/rescore_uni_ms_helpdesk_rp_trigram_s101_2026-10-09_16-12-28/features_encoded.csv (case ids in output/runs/rescore_uni_ms_helpdesk_rp_trigram_s101_2026-10-09_16-12-28/features_encoded_cases.txt)
+Plaintext dump completed in 42.185595ms

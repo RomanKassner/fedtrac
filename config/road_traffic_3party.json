@@ -1,0 +1,6 @@
+{
+  "party_a_issuance": ["Create Fine", "Send Fine", "Insert Fine Notification", "Add penalty"],
+  "party_b_collection": ["Payment", "Send for Credit Collection"],
+  "party_c_appeal": ["Insert Date Appeal to Prefecture", "Send Appeal to Prefecture",
+    "Receive Result Appeal from Prefecture", "Notify Result Appeal to Offender", "Appeal to Judge"]
+}

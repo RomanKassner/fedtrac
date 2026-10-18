@@ -1,0 +1,662 @@
+    Finished `release` profile [optimized] target(s) in 0.16s
+     Running `target/release/clustering_federated --data-dir data/splits/road_traffic_split --case-ids config/case_ids/rtfm_full.txt --encoding ef --mpc --secure-kmeans --secure-clustering sequence --k 6 --reuse-extraction --evaluate-full --fast-eval --run-name uni_rtfm-ef_sl_seq`
+--- Start ---
+Output: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43
+Loaded XES: 414077 events (Party_A.xes), 147393 events (Party_B.xes) from data/splits/road_traffic_split
+
+--- Phase 0: Case ID Intersection (2 parties) ---
+Phase 0: pinned to 129985 cases from config/case_ids/rtfm_full.txt
+Phase 0: 129985 common cases in 200.848809ms
+
+--- Phase 1: Activity Dictionary ---
+Phase 1: 11 user activities (14 total with markers) in 77.081251ms
+[Harness] Auto-L reads the joint per-case length distribution across parties; a deployment fixes --max-trace-len by policy instead
+[MPC] Trace length distribution (merged, 2 parties): P50=5, P95=6, P99=6, max=20
+[MPC] Dynamic L = 8 (per-party, bigram coverage 99.7%), truncated = 0.0%
+[Plaintext] Integrated 129985 traces
+[Plaintext] 81 bigrams, 129985 features
+[Auto-kproj] Party 0 sparsity (Ef): 3.7
+[Auto-kproj] Party 1 sparsity (Ef): 0.2
+[Auto-kproj] CS_per_party=59, CS_full=97, CS_binding=59, k_proj=50 (safety=0.8)
+[MPC] Party 0: 129985 cases
+[MPC] Party 1: 129985 cases
+[MPC] --reuse-extraction: tail-only (skip Round-1 input read + merge + extract) (encoding slab @67852170)
+
+--- Protocol: Secure k-means (2 parties) ---
+  Round 1: encoding + projection (persisted, not revealed)
+  Middle:  Lloyd's k-means (k=6, max_iter=5) on secret Y, then Markov-chain refinement (max_iter=5, init=kmeans), then the oblivious small-cluster merge (min 10 cases)
+  Round 2: secure aggregation with secret labels (DFG)
+[SPDZ] Compiling secure_extract with args ["129985", "8", "14", "8", "50", "2", "1", "1", "196", "4x8", "2", "0", "67852170", "0"]...
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ] Compiled secure_extract-129985-8-14-8-50-2-1-1-196-4x8-2-0-67852170-0
+[MPC] compiled secure_extract in 0.4s
+[SPDZ] Running 2 parties...
+[SPDZ-NP] === N-Party Merge Tree Configuration ===
+[SPDZ-NP] MODE: PRODUCTION - Y persisted secret-shared, no per-case reveal
+[SPDZ-NP] CORE_MODE=2 (0=full,2=tail_only)  PERSIST_ENC=0  ENC_OFFSET=67852170  BIGRAM_OFFSET=0
+[SPDZ-NP]   Level 0: 4 reversal, 20 oblivious, 4 static, 4 merge steps
+[SPDZ-NP] === Steps 1-2 (tail_only): read core slab from persistence ===
+[SPDZ-NP] === Step 2b: Project Encoding Features (k_proj=50) ===
+[SPDZ-NP] === Step 3: Save Raw Bigram DFG ===
+[SPDZ-NP] Saved 129985 x 196 bigram features to file at offset 0
+[SPDZ-NP] === Step 4 (secure): Persist Projected Features ===
+[SPDZ-NP] Saved 129985 x 50 projected features at offset 25477060
+[SPDZ-NP] === Complete ===
+[MPC] Round 1 (secure) completed in 3.034975933s
+[MPC] 129985 cases, Y persisted at offset 25477060
+[SPDZ] Compiling secure_kmeans with args ["129985", "50", "6", "5", "8", "1", "25477060", "0", "57", "0"]...
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ] Compiled secure_kmeans-129985-50-6-5-8-1-25477060-0-57-0
+[MPC] compiled secure_kmeans in 5.1s
+[SPDZ] Running 2 parties...
+[SPDZ-KM] === Secure Lloyd's k-means (integer-scaled centroids) ===
+[SPDZ-KM] MODE: PRODUCTION - Y read from persistence; labels persisted, no reveal
+[SPDZ-KM] Iteration 1 / 5
+[SPDZ-KM] Iteration 2 / 5
+[SPDZ-KM] Iteration 3 / 5
+[SPDZ-KM] Iteration 4 / 5
+[SPDZ-KM] Iteration 5 / 5
+[SPDZ-KM] Persisting labels at offset 31976310
+[SPDZ-KM] === Complete ===
+[MPC] secure_kmeans completed in 1610.640897465s (labels at offset 31976310)
+[SPDZ] Compiling secure_sequence_cluster with args ["129985", "196", "6", "5", "8", "1", "31976310", "1", "1", "0", "10"]...
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Probabilistic truncation leaks some information, see https://eprint.iacr.org/2024/1127 for discussion. Use 'sfix.round_nearest = True' to deactivate this for fixed-point operations.
+[SPDZ] Compiled secure_sequence_cluster-129985-196-6-5-8-1-31976310-1-1-0-10
+[MPC] compiled secure_sequence_cluster in 31.8s
+[SPDZ] Running 2 parties...
+[SPDZ-SQ] === Secure Sequence Clustering (Markov-chain hard-EM, prototype) ===
+[SPDZ-SQ] MODE: PRODUCTION+EVAL - labels persisted secret-shared AND revealed for --evaluate-full benchmarking
+[SPDZ-SQ] Iteration 1 / 5
+[SPDZ-SQ] Iteration 2 / 5
+[SPDZ-SQ] Iteration 3 / 5
+[SPDZ-SQ] Iteration 4 / 5
+[SPDZ-SQ] Iteration 5 / 5
+[SPDZ-SQ] Persisting labels at offset 31976310
+[SPDZ-SQ] === Labels (revealed) ===
+[SPDZ-SQ] === Complete ===
+[MPC] secure_sequence_cluster completed in 2096.754141397s (refined labels at offset 31976310)
+[MPC] compiled secure_aggregate in 0.0s (bytecode cache hit)
+[SPDZ] Running 2 parties...
+[SPDZ-R2] === Secure Aggregate ===
+[SPDZ-R2] MODE: PRODUCTION - secret one-hot labels from persistence, no label-side reveal
+[SPDZ-R2] === Step 1: Read Saved Features ===
+[SPDZ-R2] === Step 2: Read Assignments ===
+[SPDZ-R2] === Step 3: Aggregate DFG ===
+[SPDZ-R2] Aggregated 129985 traces into 6 clusters
+[SPDZ-R2] === Step 3b: In-MPC Edge Filter ===
+[SPDZ-R2] Filtered 144 activity cells per cluster
+[SPDZ-R2] === Step 4: Output ===
+[SPDZ-R2] === Complete ===
+[MPC] Round 2 (secure labels) completed in 273.429338018s
+[MPC] Cluster sizes (derived from START rows): [3922, 16428, 2775, 3851, 46376, 56633]
+MPC completed in 3984.804643349s
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_0_dfg.json
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_1_dfg.json
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_2_dfg.json
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_3_dfg.json
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_4_dfg.json
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_5_dfg.json
+Exported 6 DFGs to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/activity_org_map.json
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_0_traces.json (3922 traces)
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_1_traces.json (16428 traces)
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_2_traces.json (2775 traces)
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_3_traces.json (3851 traces)
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_4_traces.json (46376 traces)
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_5_traces.json (56633 traces)
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_assignments.json
+
+--- Evaluation: federated (labels revealed for eval only) ---
+[Eval] === Tier: federated ===
+[Eval] Found 6 cluster DFGs, 6 trace files
+[Eval] --- Cluster 0 (3922 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_0_tree.ptml
+[Eval] Process tree: ->( 'Create Fine', +( 'Send Fine', 'Insert Fine Notification' ), +( 'Add penalty', ->( 'Insert Date Appeal to Prefecture', 'Send Appeal to Prefecture' ) ), X( tau, ->( 'Receive Result Appeal from Prefecture', X( tau, ->( 'Notify Result Appeal to Offender', X( tau, 'Appeal to Judge', 'Send for Credit Collection', 'Payment' ) ) ) ) ) )
+[Eval]     Fitness: 0.9910
+[Eval]     Precision: 0.9965
+[Eval]     Generalization: 0.9600
+[Eval]     Simplicity: 0.7143
+[Eval]     F-Score: 0.9937
+[Eval] --- Cluster 1 (16428 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 2 (2775 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 3 (3851 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 4 (46376 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 5 (56633 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 0 (3922 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_0_hm.pnml
+[Eval] Heuristics Miner: 12 places, 14 transitions
+[Eval]     Fitness: 0.9653
+[Eval]     Precision: 1.0000
+[Eval]     Generalization: 0.9566
+[Eval]     Simplicity: 0.6500
+[Eval]     F-Score: 0.9823
+[Eval] --- Cluster 1 (16428 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_1_hm.pnml
+[Eval] Heuristics Miner: 9 places, 8 transitions
+[Eval]     Fitness: 0.9546
+[Eval]     Precision: 0.9992
+[Eval]     Generalization: 0.9911
+[Eval]     Simplicity: 0.8095
+[Eval]     F-Score: 0.9764
+[Eval] --- Cluster 2 (2775 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_2_hm.pnml
+[Eval] Heuristics Miner: 7 places, 7 transitions
+[Eval]     Fitness: 0.9797
+[Eval]     Precision: 0.9951
+[Eval]     Generalization: 0.9753
+[Eval]     Simplicity: 0.8750
+[Eval]     F-Score: 0.9873
+[Eval] --- Cluster 3 (3851 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_3_hm.pnml
+[Eval] Heuristics Miner: 9 places, 9 transitions
+[Eval]     Fitness: 0.9703
+[Eval]     Precision: 0.9997
+[Eval]     Generalization: 0.9183
+[Eval]     Simplicity: 0.8182
+[Eval]     F-Score: 0.9848
+[Eval] --- Cluster 4 (46376 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_4_hm.pnml
+[Eval] Heuristics Miner: 3 places, 2 transitions
+[Eval]     Fitness: 1.0000
+[Eval]     Precision: 0.9998
+[Eval]     Generalization: 0.9954
+[Eval]     Simplicity: 1.0000
+[Eval]     F-Score: 0.9999
+[Eval] --- Cluster 5 (56633 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/cluster_5_hm.pnml
+[Eval] Heuristics Miner: 7 places, 7 transitions
+[Eval]     Fitness: 0.9985
+[Eval]     Precision: 0.9999
+[Eval]     Generalization: 0.9932
+[Eval]     Simplicity: 1.0000
+[Eval]     F-Score: 0.9992
+[Eval] === Weighted Averages (clustered, IM) ===
+[Eval]   clustered: fitness=0.9910  precision=0.9965  generalization=0.9600  simplicity=0.7143  F=0.9937
+[Eval] === Weighted Averages (clustered, HM) ===
+[Eval]   clustered: fitness=0.9912  precision=0.9997  generalization=0.9900  simplicity=0.9573  F=0.9954
+[Eval] === Single-Model Baseline ===
+[Eval]   Merged 6 DFGs into global DFG
+[Eval]   Discovering global process tree...
+[Eval] Process tree saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/global_tree.ptml
+[Eval] Process tree: ->( 'Create Fine', *( tau, X( 'Notify Result Appeal to Offender', 'Send Appeal to Prefecture', 'Receive Result Appeal from Prefecture', 'Send Fine', 'Payment', 'Insert Fine Notification', 'Add penalty', 'Insert Date Appeal to Prefecture' ) ), X( tau, 'Appeal to Judge', 'Send for Credit Collection' ) )
+[Eval]   Computing conformance (all traces)...
+[Eval]     Fitness: 0.9998
+[Eval]     Precision: 0.5375
+[Eval]     Generalization: 0.9887
+[Eval]     Simplicity: 0.5385
+[Eval]     F-Score: 0.6991
+[Eval]   Single-model (IM): fitness=0.9998  precision=0.5375  generalization=0.9887  simplicity=0.5385  F=0.6991
+[Eval] === Global HM Baseline ===
+[Eval]   Discovering global Petri net (Heuristics Miner)...
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/global_hm.pnml
+[Eval] Heuristics Miner: 19 places, 30 transitions
+[Eval]   Computing conformance (all traces)...
+[Eval]     Fitness: 0.9018
+[Eval]     Precision: 1.0000
+[Eval]     Generalization: 0.8966
+[Eval]     Simplicity: 0.5506
+[Eval]     F-Score: 0.9484
+[Eval]   Global HM: fitness=0.9018  precision=1.0000  generalization=0.8966  simplicity=0.5506  F=0.9484
+[Eval] (Skipping log-based baseline)
+[Eval] === Per-Cluster Results (IM) ===
+[Eval]  Cluster   Size  Fitness  Precis. General.   Simpl.  F-Score
+[Eval]        0   3922   0.9910   0.9965   0.9600   0.7143   0.9937
+[Eval]    W.AVG          0.9910   0.9965   0.9600   0.7143   0.9937
+[Eval] === Per-Cluster Results (HM) ===
+[Eval]  Cluster   Size  Fitness  Precis. General.   Simpl.  F-Score
+[Eval]        0   3922   0.9653   1.0000   0.9566   0.6500   0.9823
+[Eval]        1  16428   0.9546   0.9992   0.9911   0.8095   0.9764
+[Eval]        2   2775   0.9797   0.9951   0.9753   0.8750   0.9873
+[Eval]        3   3851   0.9703   0.9997   0.9183   0.8182   0.9848
+[Eval]        4  46376   1.0000   0.9998   0.9954   1.0000   0.9999
+[Eval]        5  56633   0.9985   0.9999   0.9932   1.0000   0.9992
+[Eval]    W.AVG          0.9912   0.9997   0.9900   0.9573   0.9954
+[Eval] === Method Comparison ===
+[Eval] Method                        Fitness  Precision  F-Score    Buijs
+[Eval] --------------------------------------------------------------------
+[Eval] Per-cluster IM                 0.9910     0.9965   0.9937   0.9795
+[Eval] Per-cluster HM                 0.9912     0.9997   0.9954   0.9935
+[Eval] Global IM (no clustering)      0.9998     0.5375   0.6991   0.7682
+[Eval] Global HM (no clustering)      0.9018     1.0000   0.9484   0.9302
+[Eval] === Clustering Quality Metrics ===
+[Eval]   Edge (DFG) Entropy:
+[Eval]     H(global)    = 3.1417 bits
+[Eval]     H(clustered) = 1.4907 bits
+[Eval]     Reduction    = 52.5%
+[Eval]     H(cluster 0) = 3.5455 bits
+[Eval]     H(cluster 1) = 2.6303 bits
+[Eval]     H(cluster 2) = 2.4425 bits
+[Eval]     H(cluster 3) = 2.1183 bits
+[Eval]     H(cluster 4) = 0.0090 bits
+[Eval]     H(cluster 5) = 2.1418 bits
+[Eval]   Trace Variant Entropy (259 global variants):
+[Eval]     H(global)    = 2.3351 bits
+[Eval]     H(clustered) = 0.4839 bits
+[Eval]     Reduction    = 79.3%
+[Eval]     H(cluster 0) = 2.7570 bits
+[Eval]     H(cluster 1) = 1.6801 bits
+[Eval]     H(cluster 2) = 1.2649 bits
+[Eval]     H(cluster 3) = 1.1730 bits
+[Eval]     H(cluster 4) = 0.0018 bits
+[Eval]     H(cluster 5) = 0.2892 bits
+[Eval]   Entropic Relevance (lower = cluster model encodes log more compactly):
+[Eval]     Weighted avg  = 1.5685 bits/trace
+[Eval]     Cluster 0     = 9.6043 bits/trace (size=3922)
+[Eval]     Cluster 1     = 5.0834 bits/trace (size=16428)
+[Eval]     Cluster 2     = 3.9919 bits/trace (size=2775)
+[Eval]     Cluster 3     = 4.3878 bits/trace (size=3851)
+[Eval]     Cluster 4     = 0.0134 bits/trace (size=46376)
+[Eval]     Cluster 5     = 0.9554 bits/trace (size=56633)
+[Eval]   Variant Purity (homogeneity by classification scheme):
+[Eval]     Length           homogeneity=0.2155
+[Eval]       Global: {'short': 129976, 'mid': 9}
+[Eval]       Cluster 0 (3922): dominant=100%  [short:3921, mid:1]
+[Eval]       Cluster 1 (16428): dominant=100%  [short:16425, mid:3]
+[Eval]       Cluster 2 (2775): dominant=100%  [short:2770, mid:5]
+[Eval]       Cluster 3 (3851): dominant=100%  [short:3851]
+[Eval]       Cluster 4 (46376): dominant=100%  [short:46376]
+[Eval]       Cluster 5 (56633): dominant=100%  [short:56633]
+[Eval]     Activity set     homogeneity=1.0000 *
+[Eval]       Global: {'neither': 129985}
+[Eval]       Cluster 0 (3922): dominant=100%  [neither:3922]
+[Eval]       Cluster 1 (16428): dominant=100%  [neither:16428]
+[Eval]       Cluster 2 (2775): dominant=100%  [neither:2775]
+[Eval]       Cluster 3 (3851): dominant=100%  [neither:3851]
+[Eval]       Cluster 4 (46376): dominant=100%  [neither:46376]
+[Eval]       Cluster 5 (56633): dominant=100%  [neither:56633]
+[Eval]     Loop behavior    homogeneity=0.5644
+[Eval]       Global: {'no_loops': 122443, 'has_loops': 7542}
+[Eval]       Cluster 0 (3922): dominant=99%  [no_loops:3887, has_loops:35]
+[Eval]       Cluster 1 (16428): dominant=56%  [no_loops:9162, has_loops:7266]
+[Eval]       Cluster 2 (2775): dominant=97%  [no_loops:2705, has_loops:70]
+[Eval]       Cluster 3 (3851): dominant=96%  [no_loops:3685, has_loops:166]
+[Eval]       Cluster 4 (46376): dominant=100%  [no_loops:46376]
+[Eval]       Cluster 5 (56633): dominant=100%  [no_loops:56628, has_loops:5]
+[Eval]   Approach                      F-Score   Edge H    Var H       ER
+[Eval]   ----------------------------------------------------------------
+[Eval]   Global HM (no clustering)      0.9484        -        -        -
+[Eval]   Per-cluster HM                 0.9954    52.5%    79.3%     1.57
+[Eval]   Per-cluster detail (HM):
+[Eval]    Cluster  Size  Fitness  Precis.  F-Score  Edge H      ER  |P|  |T|  |A|  CFC  Sound
+[Eval]   ------------------------------------------------------------------------------------------------
+[Eval]          0  3922   0.9653   1.0000   0.9823  3.5455    9.60   12   14   33    9    yes
+[Eval]          1 16428   0.9546   0.9992   0.9764  2.6303    5.08    9    8   19    4    yes
+[Eval]          2  2775   0.9797   0.9951   0.9873  2.4425    3.99    7    7   15    3    yes
+[Eval]          3  3851   0.9703   0.9997   0.9848  2.1183    4.39    9    9   20    4     no
+[Eval]          4 46376   1.0000   0.9998   0.9999  0.0090    0.01    3    2    4    1    yes
+[Eval]          5 56633   0.9985   0.9999   0.9992  2.1418    0.96    7    7   14    2    yes
+[Eval] === Headline Diagnostics ===
+[Eval]   HM F-Score (all):              0.9954
+[Eval]   HM F-Score (sound only):       0.9957  (5/6 sound)
+[Eval]   HM Buijs (10·fit+10·prec+gen+simpl)/22: 0.9935
+[Eval]   Entropic relevance (HM, lower=better): 1.57 bits/trace
+[Eval]   Edge entropy reduction:         52.5%
+[Eval]   Cluster size imbalance:         20.4x  (Gini=0.52, sizes=[3922, 16428, 2775, 3851, 46376, 56633])
+[Eval] Saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/federated/evaluation_results.json
+
+--- Plaintext Baseline ---
+Clustered into 6 groups (sequence, k=6, max_iter=5, init=kmeans)
+
+--- Phase 4: Build Cluster DFGs ---
+  Cluster 0: filtered 30 edges below 64.5 (kept 10)
+  Cluster 1: filtered 14 edges below 1143.4 (kept 11)
+  Cluster 2: filtered 37 edges below 148.3 (kept 12)
+  Cluster 3: filtered 9 edges below 927.4 (kept 4)
+  Cluster 4: filtered 21 edges below 193.2 (kept 14)
+  Cluster 5: filtered 44 edges below 78.2 (kept 25)
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_0_dfg.json
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_1_dfg.json
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_2_dfg.json
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_3_dfg.json
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_4_dfg.json
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_5_dfg.json
+Exported 6 DFGs to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/activity_org_map.json
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_0_traces.json (3622 traces)
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_1_traces.json (58710 traces)
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_2_traces.json (7450 traces)
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_3_traces.json (46375 traces)
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_4_traces.json (9737 traces)
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_5_traces.json (4091 traces)
+  Written: output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_assignments.json
+Exported feature matrix (129985 x 81) to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/features.csv
+
+--- Evaluation: plaintext ---
+[Eval] === Tier: plaintext ===
+[Eval] Found 6 cluster DFGs, 6 trace files
+[Eval] --- Cluster 0 (3622 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 1 (58710 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_1_tree.ptml
+[Eval] Process tree: ->( 'Create Fine', +( 'Send Fine', 'Insert Fine Notification' ), 'Add penalty', X( tau, 'Payment' ), 'Send for Credit Collection' )
+[Eval]     Fitness: 0.9988
+[Eval]     Precision: 0.9999
+[Eval]     Generalization: 0.9933
+[Eval]     Simplicity: 0.8824
+[Eval]     F-Score: 0.9993
+[Eval] --- Cluster 2 (7450 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 3 (46375 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 4 (9737 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 5 (4091 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_5_tree.ptml
+[Eval] Process tree: ->( 'Create Fine', +( 'Send Fine', 'Insert Fine Notification' ), +( 'Add penalty', ->( 'Insert Date Appeal to Prefecture', 'Send Appeal to Prefecture' ) ), X( tau, ->( 'Receive Result Appeal from Prefecture', X( tau, ->( 'Notify Result Appeal to Offender', X( tau, 'Appeal to Judge', 'Send for Credit Collection', 'Payment' ) ) ) ) ) )
+[Eval]     Fitness: 0.9773
+[Eval]     Precision: 0.9995
+[Eval]     Generalization: 0.9602
+[Eval]     Simplicity: 0.7143
+[Eval]     F-Score: 0.9883
+[Eval] --- Cluster 0 (3622 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_0_hm.pnml
+[Eval] Heuristics Miner: 5 places, 4 transitions
+[Eval]     Fitness: 0.9735
+[Eval]     Precision: 0.9942
+[Eval]     Generalization: 0.9354
+[Eval]     Simplicity: 0.8182
+[Eval]     F-Score: 0.9837
+[Eval] --- Cluster 1 (58710 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_1_hm.pnml
+[Eval] Heuristics Miner: 7 places, 7 transitions
+[Eval]     Fitness: 0.9935
+[Eval]     Precision: 0.9999
+[Eval]     Generalization: 0.9933
+[Eval]     Simplicity: 1.0000
+[Eval]     F-Score: 0.9967
+[Eval] --- Cluster 2 (7450 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_2_hm.pnml
+[Eval] Heuristics Miner: 8 places, 7 transitions
+[Eval]     Fitness: 0.9466
+[Eval]     Precision: 0.9967
+[Eval]     Generalization: 0.9889
+[Eval]     Simplicity: 1.0000
+[Eval]     F-Score: 0.9710
+[Eval] --- Cluster 3 (46375 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_3_hm.pnml
+[Eval] Heuristics Miner: 3 places, 2 transitions
+[Eval]     Fitness: 1.0000
+[Eval]     Precision: 0.9999
+[Eval]     Generalization: 0.9954
+[Eval]     Simplicity: 1.0000
+[Eval]     F-Score: 0.9999
+[Eval] --- Cluster 4 (9737 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_4_hm.pnml
+[Eval] Heuristics Miner: 8 places, 5 transitions
+[Eval]     Fitness: 0.9922
+[Eval]     Precision: 0.9996
+[Eval]     Generalization: 0.9899
+[Eval]     Simplicity: 0.8667
+[Eval]     F-Score: 0.9959
+[Eval] --- Cluster 5 (4091 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/cluster_5_hm.pnml
+[Eval] Heuristics Miner: 13 places, 14 transitions
+[Eval]     Fitness: 0.9594
+[Eval]     Precision: 1.0000
+[Eval]     Generalization: 0.9568
+[Eval]     Simplicity: 0.6279
+[Eval]     F-Score: 0.9793
+[Eval] === Weighted Averages (clustered, IM) ===
+[Eval]   clustered: fitness=0.9974  precision=0.9999  generalization=0.9911  simplicity=0.8714  F=0.9986
+[Eval] === Weighted Averages (clustered, HM) ===
+[Eval]   clustered: fitness=0.9914  precision=0.9995  generalization=0.9908  simplicity=0.9732  F=0.9954
+[Eval] === Single-Model Baseline ===
+[Eval]   Merged 6 DFGs into global DFG
+[Eval]   Discovering global process tree...
+[Eval] Process tree saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/global_tree.ptml
+[Eval] Process tree: ->( 'Create Fine', *( tau, X( 'Notify Result Appeal to Offender', 'Send Appeal to Prefecture', 'Receive Result Appeal from Prefecture', 'Send Fine', 'Payment', 'Insert Fine Notification', 'Add penalty', 'Insert Date Appeal to Prefecture' ) ), X( tau, 'Appeal to Judge', 'Send for Credit Collection' ) )
+[Eval]   Computing conformance (all traces)...
+[Eval]     Fitness: 0.9998
+[Eval]     Precision: 0.5375
+[Eval]     Generalization: 0.9887
+[Eval]     Simplicity: 0.5385
+[Eval]     F-Score: 0.6991
+[Eval]   Single-model (IM): fitness=0.9998  precision=0.5375  generalization=0.9887  simplicity=0.5385  F=0.6991
+[Eval] === Global HM Baseline ===
+[Eval]   Discovering global Petri net (Heuristics Miner)...
+[Eval] Petri net saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/global_hm.pnml
+[Eval] Heuristics Miner: 19 places, 30 transitions
+[Eval]   Computing conformance (all traces)...
+[Eval]     Fitness: 0.9018
+[Eval]     Precision: 1.0000
+[Eval]     Generalization: 0.8984
+[Eval]     Simplicity: 0.5506
+[Eval]     F-Score: 0.9484
+[Eval]   Global HM: fitness=0.9018  precision=1.0000  generalization=0.8984  simplicity=0.5506  F=0.9484
+[Eval] (Skipping log-based baseline)
+[Eval] === Per-Cluster Results (IM) ===
+[Eval]  Cluster   Size  Fitness  Precis. General.   Simpl.  F-Score
+[Eval]        1  58710   0.9988   0.9999   0.9933   0.8824   0.9993
+[Eval]        5   4091   0.9773   0.9995   0.9602   0.7143   0.9883
+[Eval]    W.AVG          0.9974   0.9999   0.9911   0.8714   0.9986
+[Eval] === Per-Cluster Results (HM) ===
+[Eval]  Cluster   Size  Fitness  Precis. General.   Simpl.  F-Score
+[Eval]        0   3622   0.9735   0.9942   0.9354   0.8182   0.9837
+[Eval]        1  58710   0.9935   0.9999   0.9933   1.0000   0.9967
+[Eval]        2   7450   0.9466   0.9967   0.9889   1.0000   0.9710
+[Eval]        3  46375   1.0000   0.9999   0.9954   1.0000   0.9999
+[Eval]        4   9737   0.9922   0.9996   0.9899   0.8667   0.9959
+[Eval]        5   4091   0.9594   1.0000   0.9568   0.6279   0.9793
+[Eval]    W.AVG          0.9914   0.9995   0.9908   0.9732   0.9954
+[Eval] === Method Comparison ===
+[Eval] Method                        Fitness  Precision  F-Score    Buijs
+[Eval] --------------------------------------------------------------------
+[Eval] Per-cluster IM                 0.9974     0.9999   0.9986   0.9925
+[Eval] Per-cluster HM                 0.9914     0.9995   0.9954   0.9942
+[Eval] Global IM (no clustering)      0.9998     0.5375   0.6991   0.7682
+[Eval] Global HM (no clustering)      0.9018     1.0000   0.9484   0.9303
+[Eval] === Clustering Quality Metrics ===
+[Eval]   Edge (DFG) Entropy:
+[Eval]     H(global)    = 3.1417 bits
+[Eval]     H(clustered) = 1.5465 bits
+[Eval]     Reduction    = 50.8%
+[Eval]     H(cluster 0) = 1.7370 bits
+[Eval]     H(cluster 1) = 2.3055 bits
+[Eval]     H(cluster 2) = 2.9000 bits
+[Eval]     H(cluster 3) = 0.0064 bits
+[Eval]     H(cluster 4) = 2.3356 bits
+[Eval]     H(cluster 5) = 3.6010 bits
+[Eval]   Trace Variant Entropy (259 global variants):
+[Eval]     H(global)    = 2.3351 bits
+[Eval]     H(clustered) = 0.4692 bits
+[Eval]     Reduction    = 79.9%
+[Eval]     H(cluster 0) = 0.7787 bits
+[Eval]     H(cluster 1) = 0.5039 bits
+[Eval]     H(cluster 2) = 1.5433 bits
+[Eval]     H(cluster 3) = 0.0014 bits
+[Eval]     H(cluster 4) = 0.5136 bits
+[Eval]     H(cluster 5) = 2.9375 bits
+[Eval]   Entropic Relevance (lower = cluster model encodes log more compactly):
+[Eval]     Weighted avg  = 1.8564 bits/trace
+[Eval]     Cluster 0     = 3.2357 bits/trace (size=3622)
+[Eval]     Cluster 1     = 1.8282 bits/trace (size=58710)
+[Eval]     Cluster 2     = 7.6949 bits/trace (size=7450)
+[Eval]     Cluster 3     = 0.0096 bits/trace (size=46375)
+[Eval]     Cluster 4     = 2.3744 bits/trace (size=9737)
+[Eval]     Cluster 5     = 10.1105 bits/trace (size=4091)
+[Eval]   Variant Purity (homogeneity by classification scheme):
+[Eval]     Length           homogeneity=0.2437
+[Eval]       Global: {'short': 129976, 'mid': 9}
+[Eval]       Cluster 0 (3622): dominant=100%  [short:3622]
+[Eval]       Cluster 1 (58710): dominant=100%  [short:58710]
+[Eval]       Cluster 2 (7450): dominant=100%  [short:7442, mid:8]
+[Eval]       Cluster 3 (46375): dominant=100%  [short:46375]
+[Eval]       Cluster 4 (9737): dominant=100%  [short:9737]
+[Eval]       Cluster 5 (4091): dominant=100%  [short:4090, mid:1]
+[Eval]     Activity set     homogeneity=1.0000 *
+[Eval]       Global: {'neither': 129985}
+[Eval]       Cluster 0 (3622): dominant=100%  [neither:3622]
+[Eval]       Cluster 1 (58710): dominant=100%  [neither:58710]
+[Eval]       Cluster 2 (7450): dominant=100%  [neither:7450]
+[Eval]       Cluster 3 (46375): dominant=100%  [neither:46375]
+[Eval]       Cluster 4 (9737): dominant=100%  [neither:9737]
+[Eval]       Cluster 5 (4091): dominant=100%  [neither:4091]
+[Eval]     Loop behavior    homogeneity=0.9677
+[Eval]       Global: {'no_loops': 122443, 'has_loops': 7542}
+[Eval]       Cluster 0 (3622): dominant=97%  [no_loops:3528, has_loops:94]
+[Eval]       Cluster 1 (58710): dominant=100%  [no_loops:58708, has_loops:2]
+[Eval]       Cluster 2 (7450): dominant=99%  [has_loops:7409, no_loops:41]
+[Eval]       Cluster 3 (46375): dominant=100%  [no_loops:46375]
+[Eval]       Cluster 4 (9737): dominant=100%  [no_loops:9736, has_loops:1]
+[Eval]       Cluster 5 (4091): dominant=99%  [no_loops:4055, has_loops:36]
+[Eval]   Approach                      F-Score   Edge H    Var H       ER
+[Eval]   ----------------------------------------------------------------
+[Eval]   Global HM (no clustering)      0.9484        -        -        -
+[Eval]   Per-cluster HM                 0.9954    50.8%    79.9%     1.86
+[Eval]   Per-cluster detail (HM):
+[Eval]    Cluster  Size  Fitness  Precis.  F-Score  Edge H      ER  |P|  |T|  |A|  CFC  Sound
+[Eval]   ------------------------------------------------------------------------------------------------
+[Eval]          0  3622   0.9735   0.9942   0.9837  1.7370    3.24    5    4   10    3    yes
+[Eval]          1 58710   0.9935   0.9999   0.9967  2.3055    1.83    7    7   14    2    yes
+[Eval]          2  7450   0.9466   0.9967   0.9710  2.9000    7.69    8    7   15    2     no
+[Eval]          3 46375   1.0000   0.9999   0.9999  0.0064    0.01    3    2    4    1    yes
+[Eval]          4  9737   0.9922   0.9996   0.9959  2.3356    2.37    8    5   14    3    yes
+[Eval]          5  4091   0.9594   1.0000   0.9793  3.6010   10.11   13   14   35   10    yes
+[Eval] === Headline Diagnostics ===
+[Eval]   HM F-Score (all):              0.9954
+[Eval]   HM F-Score (sound only):       0.9969  (5/6 sound)
+[Eval]   HM Buijs (10·fit+10·prec+gen+simpl)/22: 0.9942
+[Eval]   Entropic relevance (HM, lower=better): 1.86 bits/trace
+[Eval]   Edge entropy reduction:         50.8%
+[Eval]   Cluster size imbalance:         16.2x  (Gini=0.52, sizes=[3622, 58710, 7450, 46375, 9737, 4091])
+[Eval] Saved to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/evaluation_results.json
+
+=== Evaluation ===
+Evaluation completed in 570ns
+
+--- Projected-Plaintext Baseline: SKIPPED (--clustering-algo sequence scores the same d^2 count rows as the plaintext tier, so plaintext-vs-projected measures no JL loss) ---
+
+--- Tier Comparison ---
+[Compare] === Tier Comparison ===
+[Compare] --- Single-Model vs Clustered (Plaintext) ---
+[Compare]            Metric     Single  Clustered      Delta
+[Compare]           fitness     0.9998     0.9974    -0.0024
+[Compare]         precision     0.5375     0.9999    +0.4624
+[Compare]    generalization     0.9887     0.9911    +0.0024
+[Compare]        simplicity     0.5385     0.8714    +0.3329
+[Compare]           f_score     0.6991     0.9986    +0.2995
+[Compare] --- Plaintext vs Federated (Privacy Cost) ---
+[Compare]            Metric  Plaintext  Federated      Delta
+[Compare]           fitness     0.9974     0.9910    -0.0064
+[Compare]         precision     0.9999     0.9965    -0.0034
+[Compare]    generalization     0.9911     0.9600    -0.0311
+[Compare]        simplicity     0.8714     0.7143    -0.1571
+[Compare]           f_score     0.9986     0.9937    -0.0049
+[Compare] --- Cluster Assignment Agreement ---
+[Compare]   ARI = 0.9477
+[Compare]   NMI = 0.9159
+[Compare] --- Per-Cluster DFG L1 Distance ---
+[Compare]   Cluster 5 <-> 0: L1 = 0.0336
+[Compare]   Average L1 = 0.0336
+[Compare]   Global DFG L1 = 0.0013
+[Compare] === Consolidated Results ===
+[Compare]            Metric     Single  Clust(PT) Clust(MPC)
+[Compare]           fitness     0.9998     0.9974     0.9910
+[Compare]         precision     0.5375     0.9999     0.9965
+[Compare]    generalization     0.9887     0.9911     0.9600
+[Compare]        simplicity     0.5385     0.8714     0.7143
+[Compare]           f_score     0.6991     0.9986     0.9937
+[Compare] Saved comparison to output/runs/uni_rtfm-ef_sl_seq_2026-10-07_15-04-43/plaintext/comparison.json
+[SPDZ] Truncated raw inputs + memory dumps: Input-P3-0, Input-P4-0, Input-P2-0, Input-P6-0, Input-P7-0, Input-P0-0, Input-P1-0, Input-P5-0; PRESERVED the extract slab (--reuse-extraction success)

@@ -1,0 +1,99 @@
+
+Dataset: n=4577, d=65, mean row L0 = 5.6
+Vertical partition (col counts): [21, 21, 23]
+  party 0: |cols|=21
+  party 1: |cols|=21
+  party 2: |cols|=23
+
+==============================================================================
+  Projection k=17
+==============================================================================
+
+--- Adversary = party 0 (21 known cols of 65) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.34 R=0.20; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.33 R=0.17; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.27 R=0.12; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+--- Adversary = party 1 (21 known cols of 65) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.50 R=0.18; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.48 R=0.19; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.44 R=0.17; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+--- Adversary = party 2 (23 known cols of 65) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.76 R=0.49; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.60 R=0.46; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.53 R=0.48; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+==============================================================================
+  Projection k=35
+==============================================================================
+
+--- Adversary = party 0 (21 known cols of 65) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.38 R=0.14; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.25 R=0.15; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.16 R=0.09; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+--- Adversary = party 1 (21 known cols of 65) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.56 R=0.19; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.35 R=0.19; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.46 R=0.18; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+--- Adversary = party 2 (23 known cols of 65) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.65 R=0.32; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.59 R=0.44; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.54 R=0.45; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+==============================================================================
+  Projection k=65
+==============================================================================
+
+--- Adversary = party 0 (21 known cols of 65) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.19 R=0.07; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.38 R=0.18; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.17 R=0.13; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+--- Adversary = party 1 (21 known cols of 65) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.81 R=0.18; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.89 R=0.18; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.49 R=0.18; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+--- Adversary = party 2 (23 known cols of 65) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.85 R=0.33; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.75 R=0.48; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.71 R=0.27; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00

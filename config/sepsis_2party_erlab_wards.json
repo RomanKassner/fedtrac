@@ -1,0 +1,23 @@
+{
+  "_comment": "Two-party split of Sepsis in which the laboratory joins the emergency line and the wards party holds admission, release and return; a test input of the whole-chain harnesses.",
+  "Party_ER_Lab": [
+    "ER Registration",
+    "ER Triage",
+    "ER Sepsis Triage",
+    "IV Liquid",
+    "IV Antibiotics",
+    "CRP",
+    "LacticAcid",
+    "Leucocytes"
+  ],
+  "Party_Wards": [
+    "Admission NC",
+    "Admission IC",
+    "Release A",
+    "Release B",
+    "Release C",
+    "Release D",
+    "Release E",
+    "Return ER"
+  ]
+}

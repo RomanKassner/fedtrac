@@ -1,0 +1,42 @@
+
+=== uni_ms_rtfm-pc2p_rp_trigram_s42_2026-10-11_04-29-44 (HONEST attack; no X_full leak) ===
+n=1184, d=76, partition=[25, 25, 26]
+
+  k  attack             party     P_unk  R_unk
+----------------------------------------------------------------------
+ 22  trivial-zero       party0     0.00   0.00
+ 22  dist-MDS           party0     0.00   0.00
+ 22  dict-learn         party0     0.00   0.00
+
+ 22  trivial-zero       party1     0.00   0.00
+ 22  dist-MDS           party1     0.00   0.00
+ 22  dict-learn         party1     0.00   0.00
+
+ 22  trivial-zero       party2     0.00   0.00
+ 22  dist-MDS           party2     0.00   0.00
+ 22  dict-learn         party2     0.00   0.00
+
+ 45  trivial-zero       party0     0.00   0.00
+ 45  dist-MDS           party0     0.00   0.00
+ 45  dict-learn         party0     0.00   0.00
+
+ 45  trivial-zero       party1     0.00   0.00
+ 45  dist-MDS           party1     0.00   0.00
+ 45  dict-learn         party1     0.00   0.00
+
+ 45  trivial-zero       party2     0.00   0.00
+ 45  dist-MDS           party2     0.00   0.00
+ 45  dict-learn         party2     0.00   0.00
+
+ 76  trivial-zero       party0     0.00   0.00
+ 76  dist-MDS           party0     0.00   0.00
+ 76  dict-learn         party0     0.00   0.00
+
+ 76  trivial-zero       party1     0.00   0.00
+ 76  dist-MDS           party1     0.00   0.00
+ 76  dict-learn         party1     0.00   0.00
+
+ 76  trivial-zero       party2     0.00   0.00
+ 76  dist-MDS           party2     0.00   0.00
+ 76  dict-learn         party2     0.00   0.00
+

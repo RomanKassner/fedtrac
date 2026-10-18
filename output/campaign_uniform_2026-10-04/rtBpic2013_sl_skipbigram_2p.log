@@ -1,0 +1,925 @@
+    Finished `release` profile [optimized] target(s) in 0.07s
+     Running `target/release/clustering_federated --data-dir data/splits/bpic2013_2party --case-ids config/case_ids/bpic2013_3party_full.txt --encoding skip-bigram --mpc --secure-kmeans --k 6 --reuse-extraction --evaluate-full --fast-eval --run-name uni_rtBpic2013_sl_skipbigram_2p`
+--- Start ---
+Output: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11
+Loaded XES: 51661 events (Party_A.xes), 13872 events (Party_B.xes) from data/splits/bpic2013_2party
+
+--- Phase 0: Case ID Intersection (2 parties) ---
+Phase 0: pinned to 4507 cases from config/case_ids/bpic2013_3party_full.txt
+Phase 0: 4507 common cases in 7.429315ms
+
+--- Phase 1: Activity Dictionary ---
+Phase 1: 4 user activities (7 total with markers) in 3.008667ms
+[Harness] Auto-L reads the joint per-case length distribution across parties; a deployment fixes --max-trace-len by policy instead
+[MPC] Trace length distribution (merged, 2 parties): P50=9, P95=27, P99=45, max=123
+[MPC] Dynamic L = 32 (per-party, bigram coverage 97.1%), truncated = 0.2%
+[Plaintext] Integrated 4507 traces
+[Plaintext] 14 bigrams, 4507 features
+[Auto-kproj] Party 0 sparsity (SkipBigram): 5.8
+[Auto-kproj] Party 1 sparsity (SkipBigram): 1.1
+[Auto-kproj] CS_per_party=65, CS_full=99, CS_binding=65, k_proj=55 (safety=0.8)
+[MPC] Party 0: 4507 cases
+[MPC] Party 1: 4507 cases
+[MPC] --reuse-extraction: creating core slab (full extract + persist encoding) (encoding slab @1248439)
+
+--- Protocol: Secure k-means (2 parties) ---
+  Round 1: encoding + projection (persisted, not revealed)
+  Middle:  Lloyd's k-means (k=6, max_iter=5) on secret Y, then the oblivious small-cluster merge (min 10 cases)
+  Round 2: secure aggregation with secret labels (DFG)
+[SPDZ] Wrote 2-party inputs: N_CASES=4507, PARTIAL_LEN=32, PARTIAL_LENS=32x12
+[SPDZ] Compiling secure_extract with args ["4507", "32", "7", "8", "55", "2", "5", "1", "98", "32x12", "0", "1", "1248439", "0"]...
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ] Compiled secure_extract-4507-32-7-8-55-2-5-1-98-32x12-0-1-1248439-0
+[MPC] compiled secure_extract in 26.5s
+[SPDZ] Running 2 parties...
+[SPDZ-NP] === N-Party Merge Tree Configuration ===
+[SPDZ-NP] MODE: PRODUCTION - Y persisted secret-shared, no per-case reveal
+[SPDZ-NP] CORE_MODE=0 (0=full,2=tail_only)  PERSIST_ENC=1  ENC_OFFSET=1248439  BIGRAM_OFFSET=0
+[SPDZ-NP]   Level 0: 12 reversal, 112 oblivious, 20 static, 6 merge steps
+[SPDZ-NP] === Step 1: Read Inputs (2 parties) ===
+[SPDZ-NP] === Step 2: Merge Tree + Extraction ===
+[SPDZ-NP] === Persist core encoding slab @1248439 (extract-once) ===
+[SPDZ-NP] Saved 4507 x 98 encoding features at offset 1248439
+[SPDZ-NP] === Step 2b: Project Encoding Features (k_proj=55) ===
+[SPDZ-NP] === Step 3: Save Raw Bigram DFG ===
+[SPDZ-NP] Saved 4507 x 49 bigram features to file at offset 0
+[SPDZ-NP] === Step 4 (secure): Persist Projected Features ===
+[SPDZ-NP] Saved 4507 x 55 projected features at offset 220843
+[SPDZ-NP] === Complete ===
+[MPC] Round 1 (secure) completed in 205.454654572s
+[MPC] 4507 cases, Y persisted at offset 220843
+[SPDZ] Compiling secure_kmeans with args ["4507", "55", "6", "5", "8", "1", "220843", "1", "55", "10"]...
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ] Compiled secure_kmeans-4507-55-6-5-8-1-220843-1-55-10
+[MPC] compiled secure_kmeans in 11.4s
+[SPDZ] Running 2 parties...
+[SPDZ-KM] === Secure Lloyd's k-means (integer-scaled centroids) ===
+[SPDZ-KM] MODE: PRODUCTION+EVAL - labels persisted secret-shared AND revealed for --evaluate-full benchmarking
+[SPDZ-KM] Iteration 1 / 5
+[SPDZ-KM] Iteration 2 / 5
+[SPDZ-KM] Iteration 3 / 5
+[SPDZ-KM] Iteration 4 / 5
+[SPDZ-KM] Iteration 5 / 5
+[SPDZ-KM] Persisting labels at offset 468728
+[SPDZ-KM] === Labels (revealed for evaluation) ===
+[SPDZ-KM] === Complete ===
+[MPC] secure_kmeans completed in 73.045233484s (labels at offset 468728)
+[SPDZ] Compiling secure_aggregate with args ["4507", "4507", "49", "6", "1", "468728", "8", "2", "200"]...
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ] Compiled secure_aggregate-4507-4507-49-6-1-468728-8-2-200
+[MPC] compiled secure_aggregate in 0.4s
+[SPDZ] Running 2 parties...
+[SPDZ-R2] === Secure Aggregate ===
+[SPDZ-R2] MODE: PRODUCTION - secret one-hot labels from persistence, no label-side reveal
+[SPDZ-R2] === Step 1: Read Saved Features ===
+[SPDZ-R2] === Step 2: Read Assignments ===
+[SPDZ-R2] === Step 3: Aggregate DFG ===
+[SPDZ-R2] Aggregated 4507 traces into 6 clusters
+[SPDZ-R2] === Step 3b: In-MPC Edge Filter ===
+[SPDZ-R2] Filtered 25 activity cells per cluster
+[SPDZ-R2] === Step 4: Output ===
+[SPDZ-R2] === Complete ===
+[MPC] Round 2 (secure labels) completed in 2.782291155s
+[MPC] Cluster sizes (derived from START rows): [315, 917, 1608, 399, 661, 607]
+MPC completed in 281.330938116s
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_0_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_1_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_2_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_3_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_4_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_5_dfg.json
+Exported 6 DFGs to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/activity_org_map.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_0_traces.json (315 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_1_traces.json (917 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_2_traces.json (1608 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_3_traces.json (399 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_4_traces.json (661 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_5_traces.json (607 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_assignments.json
+
+--- Evaluation: federated (labels revealed for eval only) ---
+[Eval] === Tier: federated ===
+[Eval] Found 6 cluster DFGs, 6 trace files
+[Eval] --- Cluster 0 (315 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_0_tree.ptml
+[Eval] Process tree: ->( *( tau, X( 'Accepted', 'Queued' ) ), *( tau, 'Completed' ) )
+[Eval]     Fitness: 0.9977
+[Eval]     Precision: 0.4984
+[Eval]     Generalization: 0.9682
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.6647
+[Eval] --- Cluster 1 (917 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_1_tree.ptml
+[Eval] Process tree: ->( *( tau, X( 'Accepted', 'Queued' ) ), *( tau, 'Completed' ) )
+[Eval]     Fitness: 0.9975
+[Eval]     Precision: 0.7802
+[Eval]     Generalization: 0.9778
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.8755
+[Eval] --- Cluster 2 (1608 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_2_tree.ptml
+[Eval] Process tree: ->( *( tau, X( 'Accepted', 'Queued' ) ), *( tau, 'Completed' ) )
+[Eval]     Fitness: 0.9990
+[Eval]     Precision: 0.8449
+[Eval]     Generalization: 0.9822
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.9155
+[Eval] --- Cluster 3 (399 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_3_tree.ptml
+[Eval] Process tree: *( tau, X( 'Completed', 'Accepted', 'Queued' ) )
+[Eval]     Fitness: 1.0000
+[Eval]     Precision: 0.6163
+[Eval]     Generalization: 0.9715
+[Eval]     Simplicity: 0.7500
+[Eval]     F-Score: 0.7626
+[Eval] --- Cluster 4 (661 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_4_tree.ptml
+[Eval] Process tree: ->( +( *( tau, 'Accepted' ), *( tau, 'Queued' ) ), *( tau, 'Completed' ) )
+[Eval]     Fitness: 0.9992
+[Eval]     Precision: 0.7996
+[Eval]     Generalization: 0.9694
+[Eval]     Simplicity: 0.7391
+[Eval]     F-Score: 0.8883
+[Eval] --- Cluster 5 (607 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_5_tree.ptml
+[Eval] Process tree: *( tau, X( 'Completed', 'Accepted', 'Queued' ) )
+[Eval]     Fitness: 1.0000
+[Eval]     Precision: 0.6633
+[Eval]     Generalization: 0.9769
+[Eval]     Simplicity: 0.7500
+[Eval]     F-Score: 0.7976
+[Eval] --- Cluster 0 (315 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_0_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]     Fitness: 0.9778
+[Eval]     Precision: 0.8141
+[Eval]     Generalization: 0.9496
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.8884
+[Eval] --- Cluster 1 (917 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_1_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]     Fitness: 0.9500
+[Eval]     Precision: 0.8582
+[Eval]     Generalization: 0.9682
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.9018
+[Eval] --- Cluster 2 (1608 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_2_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]     Fitness: 0.9331
+[Eval]     Precision: 0.8434
+[Eval]     Generalization: 0.9720
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.8860
+[Eval] --- Cluster 3 (399 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_3_hm.pnml
+[Eval] Heuristics Miner: 6 places, 7 transitions
+[Eval]     Fitness: 0.9928
+[Eval]     Precision: 0.7164
+[Eval]     Generalization: 0.9638
+[Eval]     Simplicity: 0.8667
+[Eval]     F-Score: 0.8322
+[Eval] --- Cluster 4 (661 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_4_hm.pnml
+[Eval] Heuristics Miner: 8 places, 8 transitions
+[Eval]     Fitness: 0.8015
+[Eval]     Precision: 0.9849
+[Eval]     Generalization: 0.9191
+[Eval]     Simplicity: 0.7273
+[Eval]     F-Score: 0.8838
+[Eval] --- Cluster 5 (607 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/cluster_5_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]     Fitness: 0.9591
+[Eval]     Precision: 0.8507
+[Eval]     Generalization: 0.9625
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.9016
+[Eval] === Weighted Averages (clustered, IM) ===
+[Eval]   clustered: fitness=0.9989  precision=0.7562  generalization=0.9768  simplicity=0.7799  F=0.8564
+[Eval] === Weighted Averages (clustered, HM) ===
+[Eval]   clustered: fitness=0.9291  precision=0.8549  generalization=0.9599  simplicity=0.7952  F=0.8864
+[Eval] === Single-Model Baseline ===
+[Eval]   Merged 6 DFGs into global DFG
+[Eval]   Discovering global process tree...
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/global_tree.ptml
+[Eval] Process tree: *( tau, X( 'Completed', 'Accepted', 'Queued' ) )
+[Eval]   Computing conformance (all traces)...
+[Eval]     Fitness: 1.0000
+[Eval]     Precision: 0.7665
+[Eval]     Generalization: 0.9910
+[Eval]     Simplicity: 0.7500
+[Eval]     F-Score: 0.8678
+[Eval]   Single-model (IM): fitness=1.0000  precision=0.7665  generalization=0.9910  simplicity=0.7500  F=0.8678
+[Eval] === Global HM Baseline ===
+[Eval]   Discovering global Petri net (Heuristics Miner)...
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/global_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]   Computing conformance (all traces)...
+[Eval]     Fitness: 0.9417
+[Eval]     Precision: 0.9941
+[Eval]     Generalization: 0.9865
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.9672
+[Eval]   Global HM: fitness=0.9417  precision=0.9941  generalization=0.9865  simplicity=0.8000  F=0.9672
+[Eval] (Skipping log-based baseline)
+[Eval] === Per-Cluster Results (IM) ===
+[Eval]  Cluster   Size  Fitness  Precis. General.   Simpl.  F-Score
+[Eval]        0    315   0.9977   0.4984   0.9682   0.8000   0.6647
+[Eval]        1    917   0.9975   0.7802   0.9778   0.8000   0.8755
+[Eval]        2   1608   0.9990   0.8449   0.9822   0.8000   0.9155
+[Eval]        3    399   1.0000   0.6163   0.9715   0.7500   0.7626
+[Eval]        4    661   0.9992   0.7996   0.9694   0.7391   0.8883
+[Eval]        5    607   1.0000   0.6633   0.9769   0.7500   0.7976
+[Eval]    W.AVG          0.9989   0.7562   0.9768   0.7799   0.8564
+[Eval] === Per-Cluster Results (HM) ===
+[Eval]  Cluster   Size  Fitness  Precis. General.   Simpl.  F-Score
+[Eval]        0    315   0.9778   0.8141   0.9496   0.8000   0.8884
+[Eval]        1    917   0.9500   0.8582   0.9682   0.8000   0.9018
+[Eval]        2   1608   0.9331   0.8434   0.9720   0.8000   0.8860
+[Eval]        3    399   0.9928   0.7164   0.9638   0.8667   0.8322
+[Eval]        4    661   0.8015   0.9849   0.9191   0.7273   0.8838
+[Eval]        5    607   0.9591   0.8507   0.9625   0.8000   0.9016
+[Eval]    W.AVG          0.9291   0.8549   0.9599   0.7952   0.8864
+[Eval] === Method Comparison ===
+[Eval] Method                        Fitness  Precision  F-Score    Buijs
+[Eval] --------------------------------------------------------------------
+[Eval] Per-cluster IM                 0.9989     0.7562   0.8564   0.8776
+[Eval] Per-cluster HM                 0.9291     0.8549   0.8864   0.8907
+[Eval] Global IM (no clustering)      1.0000     0.7665   0.8678   0.8821
+[Eval] Global HM (no clustering)      0.9417     0.9941   0.9672   0.9611
+[Eval] === Clustering Quality Metrics ===
+[Eval]   Edge (DFG) Entropy:
+[Eval]     H(global)    = 2.2968 bits
+[Eval]     H(clustered) = 2.2692 bits
+[Eval]     Reduction    = 1.2%
+[Eval]     H(cluster 0) = 2.0258 bits
+[Eval]     H(cluster 1) = 2.1710 bits
+[Eval]     H(cluster 2) = 2.4059 bits
+[Eval]     H(cluster 3) = 1.9497 bits
+[Eval]     H(cluster 4) = 2.3685 bits
+[Eval]     H(cluster 5) = 2.2834 bits
+[Eval]   Trace Variant Entropy (1452 global variants):
+[Eval]     H(global)    = 7.9950 bits
+[Eval]     H(clustered) = 5.6235 bits
+[Eval]     Reduction    = 29.7%
+[Eval]     H(cluster 0) = 8.2929 bits
+[Eval]     H(cluster 1) = 6.3628 bits
+[Eval]     H(cluster 2) = 4.0834 bits
+[Eval]     H(cluster 3) = 8.1686 bits
+[Eval]     H(cluster 4) = 3.1911 bits
+[Eval]     H(cluster 5) = 8.1770 bits
+[Eval]   Entropic Relevance (lower = cluster model encodes log more compactly):
+[Eval]     Weighted avg  = 20.2972 bits/trace
+[Eval]     Cluster 0     = 48.2839 bits/trace (size=315)
+[Eval]     Cluster 1     = 21.0549 bits/trace (size=917)
+[Eval]     Cluster 2     = 14.0251 bits/trace (size=1608)
+[Eval]     Cluster 3     = 30.7354 bits/trace (size=399)
+[Eval]     Cluster 4     = 8.8944 bits/trace (size=661)
+[Eval]     Cluster 5     = 26.8001 bits/trace (size=607)
+[Eval]   Variant Purity (homogeneity by classification scheme):
+[Eval]     Length           homogeneity=0.6690
+[Eval]       Global: {'long': 72, 'mid': 974, 'short': 3461}
+[Eval]       Cluster 0 (315): dominant=77%  [mid:243, long:72]
+[Eval]       Cluster 1 (917): dominant=96%  [short:879, mid:38]
+[Eval]       Cluster 2 (1608): dominant=100%  [short:1608]
+[Eval]       Cluster 3 (399): dominant=87%  [mid:348, short:51]
+[Eval]       Cluster 4 (661): dominant=100%  [short:661]
+[Eval]       Cluster 5 (607): dominant=57%  [mid:345, short:262]
+[Eval]     Activity set     homogeneity=1.0000 *
+[Eval]       Global: {'neither': 4507}
+[Eval]       Cluster 0 (315): dominant=100%  [neither:315]
+[Eval]       Cluster 1 (917): dominant=100%  [neither:917]
+[Eval]       Cluster 2 (1608): dominant=100%  [neither:1608]
+[Eval]       Cluster 3 (399): dominant=100%  [neither:399]
+[Eval]       Cluster 4 (661): dominant=100%  [neither:661]
+[Eval]       Cluster 5 (607): dominant=100%  [neither:607]
+[Eval]     Loop behavior    homogeneity=0.2395
+[Eval]       Global: {'has_loops': 4503, 'no_loops': 4}
+[Eval]       Cluster 0 (315): dominant=100%  [has_loops:315]
+[Eval]       Cluster 1 (917): dominant=100%  [has_loops:917]
+[Eval]       Cluster 2 (1608): dominant=100%  [has_loops:1608]
+[Eval]       Cluster 3 (399): dominant=100%  [has_loops:399]
+[Eval]       Cluster 4 (661): dominant=99%  [has_loops:657, no_loops:4]
+[Eval]       Cluster 5 (607): dominant=100%  [has_loops:607]
+[Eval]   Approach                      F-Score   Edge H    Var H       ER
+[Eval]   ----------------------------------------------------------------
+[Eval]   Global HM (no clustering)      0.9672        -        -        -
+[Eval]   Per-cluster HM                 0.8864     1.2%    29.7%    20.30
+[Eval]   Per-cluster detail (HM):
+[Eval]    Cluster  Size  Fitness  Precis.  F-Score  Edge H      ER  |P|  |T|  |A|  CFC  Sound
+[Eval]   ------------------------------------------------------------------------------------------------
+[Eval]          0   315   0.9778   0.8141   0.8884  2.0258   48.28    7    9   18    4    yes
+[Eval]          1   917   0.9500   0.8582   0.9018  2.1710   21.05    7    9   18    4    yes
+[Eval]          2  1608   0.9331   0.8434   0.8860  2.4059   14.03    7    9   18    4    yes
+[Eval]          3   399   0.9928   0.7164   0.8322  1.9497   30.74    6    7   14    3    yes
+[Eval]          4   661   0.8015   0.9849   0.8838  2.3685    8.89    8    8   19    5     no
+[Eval]          5   607   0.9591   0.8507   0.9016  2.2834   26.80    7    9   18    4    yes
+[Eval] === Headline Diagnostics ===
+[Eval]   HM F-Score (all):              0.8864
+[Eval]   HM F-Score (sound only):       0.8868  (5/6 sound)
+[Eval]   HM Buijs (10·fit+10·prec+gen+simpl)/22: 0.8907
+[Eval]   Entropic relevance (HM, lower=better): 20.30 bits/trace
+[Eval]   Edge entropy reduction:          1.2%  WARNING data-bound
+[Eval]   Cluster size imbalance:          5.1x  (Gini=0.30, sizes=[315, 917, 1608, 399, 661, 607])
+[Eval]   Notice: edge_red < 15% — clustering captures limited flow structure at this k (often data-bound).
+[Eval] Saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/federated/evaluation_results.json
+
+--- Plaintext Baseline ---
+Clustered into 6 groups (kmeans, k=6, max_iter=10, n_init=10)
+
+--- Phase 4: Build Cluster DFGs ---
+  Cluster 0: filtered 5 edges below 200.1 (kept 8)
+  Cluster 1: filtered 3 edges below 8.2 (kept 7)
+  Cluster 2: filtered 3 edges below 25.1 (kept 9)
+  Cluster 3: filtered 2 edges below 94.3 (kept 10)
+  Cluster 4: filtered 4 edges below 47.5 (kept 10)
+  Cluster 5: filtered 2 edges below 10.6 (kept 9)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_0_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_1_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_2_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_3_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_4_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_5_dfg.json
+Exported 6 DFGs to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/activity_org_map.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_0_traces.json (1275 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_1_traces.json (409 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_2_traces.json (510 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_3_traces.json (888 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_4_traces.json (954 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_5_traces.json (471 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_assignments.json
+Exported feature matrix (4507 x 14) to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/features.csv
+
+--- Evaluation: plaintext ---
+[Eval] === Tier: plaintext ===
+[Eval] Found 6 cluster DFGs, 6 trace files
+[Eval] --- Cluster 0 (1275 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_0_tree.ptml
+[Eval] Process tree: ->( *( tau, X( 'Accepted', 'Queued' ) ), *( tau, 'Completed' ) )
+[Eval]     Fitness: 0.9975
+[Eval]     Precision: 0.7534
+[Eval]     Generalization: 0.9822
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.8584
+[Eval] --- Cluster 1 (409 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_1_tree.ptml
+[Eval] Process tree: ->( *( tau, 'Queued' ), *( tau, 'Accepted' ), *( tau, 'Completed' ) )
+[Eval]     Fitness: 0.9993
+[Eval]     Precision: 0.6593
+[Eval]     Generalization: 0.9579
+[Eval]     Simplicity: 0.8182
+[Eval]     F-Score: 0.7945
+[Eval] --- Cluster 2 (510 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_2_tree.ptml
+[Eval] Process tree: ->( *( tau, X( 'Accepted', 'Queued' ) ), *( tau, 'Completed' ) )
+[Eval]     Fitness: 0.9986
+[Eval]     Precision: 0.7480
+[Eval]     Generalization: 0.9696
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.8553
+[Eval] --- Cluster 3 (888 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_3_tree.ptml
+[Eval] Process tree: *( tau, X( 'Completed', 'Accepted', 'Queued' ) )
+[Eval]     Fitness: 1.0000
+[Eval]     Precision: 0.6184
+[Eval]     Generalization: 0.9815
+[Eval]     Simplicity: 0.7500
+[Eval]     F-Score: 0.7642
+[Eval] --- Cluster 4 (954 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_4_tree.ptml
+[Eval] Process tree: *( tau, X( 'Completed', 'Accepted', 'Queued' ) )
+[Eval]     Fitness: 1.0000
+[Eval]     Precision: 0.7571
+[Eval]     Generalization: 0.9784
+[Eval]     Simplicity: 0.7500
+[Eval]     F-Score: 0.8618
+[Eval] --- Cluster 5 (471 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_5_tree.ptml
+[Eval] Process tree: *( tau, X( 'Completed', 'Accepted', 'Queued' ) )
+[Eval]     Fitness: 1.0000
+[Eval]     Precision: 0.7266
+[Eval]     Generalization: 0.9673
+[Eval]     Simplicity: 0.7500
+[Eval]     F-Score: 0.8416
+[Eval] --- Cluster 0 (1275 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_0_hm.pnml
+[Eval] Heuristics Miner: 6 places, 7 transitions
+[Eval]     Fitness: 0.9953
+[Eval]     Precision: 0.7837
+[Eval]     Generalization: 0.9792
+[Eval]     Simplicity: 0.8667
+[Eval]     F-Score: 0.8769
+[Eval] --- Cluster 1 (409 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_1_hm.pnml
+[Eval] Heuristics Miner: 7 places, 6 transitions
+[Eval]     Fitness: 0.8332
+[Eval]     Precision: 0.9899
+[Eval]     Generalization: 0.9535
+[Eval]     Simplicity: 0.7647
+[Eval]     F-Score: 0.9048
+[Eval] --- Cluster 2 (510 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_2_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]     Fitness: 0.9320
+[Eval]     Precision: 0.8822
+[Eval]     Generalization: 0.9594
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.9064
+[Eval] --- Cluster 3 (888 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_3_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]     Fitness: 0.9624
+[Eval]     Precision: 0.8475
+[Eval]     Generalization: 0.9692
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.9013
+[Eval] --- Cluster 4 (954 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_4_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]     Fitness: 0.9360
+[Eval]     Precision: 0.8475
+[Eval]     Generalization: 0.9670
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.8896
+[Eval] --- Cluster 5 (471 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/cluster_5_hm.pnml
+[Eval] Heuristics Miner: 7 places, 8 transitions
+[Eval]     Fitness: 0.9230
+[Eval]     Precision: 0.7682
+[Eval]     Generalization: 0.9604
+[Eval]     Simplicity: 0.8824
+[Eval]     F-Score: 0.8385
+[Eval] === Weighted Averages (clustered, IM) ===
+[Eval]   clustered: fitness=0.9991  precision=0.7156  generalization=0.9761  simplicity=0.7760  F=0.8327
+[Eval] === Weighted Averages (clustered, HM) ===
+[Eval]   clustered: fitness=0.9468  precision=0.8380  generalization=0.9681  simplicity=0.8243  F=0.8863
+[Eval] === Single-Model Baseline ===
+[Eval]   Merged 6 DFGs into global DFG
+[Eval]   Discovering global process tree...
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/global_tree.ptml
+[Eval] Process tree: *( tau, X( 'Completed', 'Accepted', 'Queued' ) )
+[Eval]   Computing conformance (all traces)...
+[Eval]     Fitness: 1.0000
+[Eval]     Precision: 0.7665
+[Eval]     Generalization: 0.9910
+[Eval]     Simplicity: 0.7500
+[Eval]     F-Score: 0.8678
+[Eval]   Single-model (IM): fitness=1.0000  precision=0.7665  generalization=0.9910  simplicity=0.7500  F=0.8678
+[Eval] === Global HM Baseline ===
+[Eval]   Discovering global Petri net (Heuristics Miner)...
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/global_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]   Computing conformance (all traces)...
+[Eval]     Fitness: 0.9417
+[Eval]     Precision: 0.9941
+[Eval]     Generalization: 0.9865
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.9672
+[Eval]   Global HM: fitness=0.9417  precision=0.9941  generalization=0.9865  simplicity=0.8000  F=0.9672
+[Eval] (Skipping log-based baseline)
+[Eval] === Per-Cluster Results (IM) ===
+[Eval]  Cluster   Size  Fitness  Precis. General.   Simpl.  F-Score
+[Eval]        0   1275   0.9975   0.7534   0.9822   0.8000   0.8584
+[Eval]        1    409   0.9993   0.6593   0.9579   0.8182   0.7945
+[Eval]        2    510   0.9986   0.7480   0.9696   0.8000   0.8553
+[Eval]        3    888   1.0000   0.6184   0.9815   0.7500   0.7642
+[Eval]        4    954   1.0000   0.7571   0.9784   0.7500   0.8618
+[Eval]        5    471   1.0000   0.7266   0.9673   0.7500   0.8416
+[Eval]    W.AVG          0.9991   0.7156   0.9761   0.7760   0.8327
+[Eval] === Per-Cluster Results (HM) ===
+[Eval]  Cluster   Size  Fitness  Precis. General.   Simpl.  F-Score
+[Eval]        0   1275   0.9953   0.7837   0.9792   0.8667   0.8769
+[Eval]        1    409   0.8332   0.9899   0.9535   0.7647   0.9048
+[Eval]        2    510   0.9320   0.8822   0.9594   0.8000   0.9064
+[Eval]        3    888   0.9624   0.8475   0.9692   0.8000   0.9013
+[Eval]        4    954   0.9360   0.8475   0.9670   0.8000   0.8896
+[Eval]        5    471   0.9230   0.7682   0.9604   0.8824   0.8385
+[Eval]    W.AVG          0.9468   0.8380   0.9681   0.8243   0.8863
+[Eval] === Method Comparison ===
+[Eval] Method                        Fitness  Precision  F-Score    Buijs
+[Eval] --------------------------------------------------------------------
+[Eval] Per-cluster IM                 0.9991     0.7156   0.8327   0.8591
+[Eval] Per-cluster HM                 0.9468     0.8380   0.8863   0.8928
+[Eval] Global IM (no clustering)      1.0000     0.7665   0.8678   0.8821
+[Eval] Global HM (no clustering)      0.9417     0.9941   0.9672   0.9611
+[Eval] === Clustering Quality Metrics ===
+[Eval]   Edge (DFG) Entropy:
+[Eval]     H(global)    = 2.2968 bits
+[Eval]     H(clustered) = 2.2160 bits
+[Eval]     Reduction    = 3.5%
+[Eval]     H(cluster 0) = 1.9934 bits
+[Eval]     H(cluster 1) = 2.0198 bits
+[Eval]     H(cluster 2) = 2.3671 bits
+[Eval]     H(cluster 3) = 2.2070 bits
+[Eval]     H(cluster 4) = 2.3966 bits
+[Eval]     H(cluster 5) = 2.4766 bits
+[Eval]   Trace Variant Entropy (1452 global variants):
+[Eval]     H(global)    = 7.9950 bits
+[Eval]     H(clustered) = 5.5334 bits
+[Eval]     Reduction    = 30.8%
+[Eval]     H(cluster 0) = 8.0712 bits
+[Eval]     H(cluster 1) = 1.4822 bits
+[Eval]     H(cluster 2) = 3.9054 bits
+[Eval]     H(cluster 3) = 8.5104 bits
+[Eval]     H(cluster 4) = 3.8951 bits
+[Eval]     H(cluster 5) = 1.6497 bits
+[Eval]   Entropic Relevance (lower = cluster model encodes log more compactly):
+[Eval]     Weighted avg  = 20.4559 bits/trace
+[Eval]     Cluster 0     = 29.0123 bits/trace (size=1275)
+[Eval]     Cluster 1     = 5.1021 bits/trace (size=409)
+[Eval]     Cluster 2     = 15.2314 bits/trace (size=510)
+[Eval]     Cluster 3     = 29.7881 bits/trace (size=888)
+[Eval]     Cluster 4     = 14.9146 bits/trace (size=954)
+[Eval]     Cluster 5     = 9.9130 bits/trace (size=471)
+[Eval]   Variant Purity (homogeneity by classification scheme):
+[Eval]     Length           homogeneity=0.3010
+[Eval]       Global: {'long': 72, 'mid': 974, 'short': 3461}
+[Eval]       Cluster 0 (1275): dominant=60%  [short:771, mid:477, long:27]
+[Eval]       Cluster 1 (409): dominant=100%  [short:409]
+[Eval]       Cluster 2 (510): dominant=96%  [short:491, mid:19]
+[Eval]       Cluster 3 (888): dominant=52%  [mid:460, short:383, long:45]
+[Eval]       Cluster 4 (954): dominant=98%  [short:936, mid:18]
+[Eval]       Cluster 5 (471): dominant=100%  [short:471]
+[Eval]     Activity set     homogeneity=1.0000 *
+[Eval]       Global: {'neither': 4507}
+[Eval]       Cluster 0 (1275): dominant=100%  [neither:1275]
+[Eval]       Cluster 1 (409): dominant=100%  [neither:409]
+[Eval]       Cluster 2 (510): dominant=100%  [neither:510]
+[Eval]       Cluster 3 (888): dominant=100%  [neither:888]
+[Eval]       Cluster 4 (954): dominant=100%  [neither:954]
+[Eval]       Cluster 5 (471): dominant=100%  [neither:471]
+[Eval]     Loop behavior    homogeneity=0.2995
+[Eval]       Global: {'has_loops': 4503, 'no_loops': 4}
+[Eval]       Cluster 0 (1275): dominant=100%  [has_loops:1275]
+[Eval]       Cluster 1 (409): dominant=99%  [has_loops:405, no_loops:4]
+[Eval]       Cluster 2 (510): dominant=100%  [has_loops:510]
+[Eval]       Cluster 3 (888): dominant=100%  [has_loops:888]
+[Eval]       Cluster 4 (954): dominant=100%  [has_loops:954]
+[Eval]       Cluster 5 (471): dominant=100%  [has_loops:471]
+[Eval]   Approach                      F-Score   Edge H    Var H       ER
+[Eval]   ----------------------------------------------------------------
+[Eval]   Global HM (no clustering)      0.9672        -        -        -
+[Eval]   Per-cluster HM                 0.8863     3.5%    30.8%    20.46
+[Eval]   Per-cluster detail (HM):
+[Eval]    Cluster  Size  Fitness  Precis.  F-Score  Edge H      ER  |P|  |T|  |A|  CFC  Sound
+[Eval]   ------------------------------------------------------------------------------------------------
+[Eval]          0  1275   0.9953   0.7837   0.8769  1.9934   29.01    6    7   14    3    yes
+[Eval]          1   409   0.8332   0.9899   0.9048  2.0198    5.10    7    6   15    4     no
+[Eval]          2   510   0.9320   0.8822   0.9064  2.3671   15.23    7    9   18    4    yes
+[Eval]          3   888   0.9624   0.8475   0.9013  2.2070   29.79    7    9   18    4    yes
+[Eval]          4   954   0.9360   0.8475   0.8896  2.3966   14.91    7    9   18    4    yes
+[Eval]          5   471   0.9230   0.7682   0.8385  2.4766    9.91    7    8   16    3     no
+[Eval] === Headline Diagnostics ===
+[Eval]   HM F-Score (all):              0.8863
+[Eval]   HM F-Score (sound only):       0.8904  (4/6 sound)
+[Eval]   HM Buijs (10·fit+10·prec+gen+simpl)/22: 0.8928
+[Eval]   Entropic relevance (HM, lower=better): 20.46 bits/trace
+[Eval]   Edge entropy reduction:          3.5%  WARNING data-bound
+[Eval]   Cluster size imbalance:          3.1x  (Gini=0.23, sizes=[1275, 409, 510, 888, 954, 471])
+[Eval]   Notice: edge_red < 15% — clustering captures limited flow structure at this k (often data-bound).
+[Eval] Saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/evaluation_results.json
+
+=== Evaluation ===
+Evaluation completed in 370ns
+
+--- Projected-Plaintext Baseline (JL k_proj=55) ---
+Clustered into 6 groups (kmeans, k=6, max_iter=10, n_init=10)
+
+--- Phase 4: Build Cluster DFGs ---
+  Cluster 0: filtered 2 edges below 7.6 (kept 9)
+  Cluster 1: filtered 6 edges below 213.2 (kept 8)
+  Cluster 2: filtered 2 edges below 47.6 (kept 10)
+  Cluster 3: filtered 2 edges below 86.0 (kept 10)
+  Cluster 4: filtered 3 edges below 13.6 (kept 9)
+  Cluster 5: filtered 3 edges below 19.2 (kept 9)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_0_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_1_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_2_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_3_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_4_dfg.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_5_dfg.json
+Exported 6 DFGs to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/activity_org_map.json
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_0_traces.json (239 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_1_traces.json (1326 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_2_traces.json (902 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_3_traces.json (826 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_4_traces.json (517 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_5_traces.json (697 traces)
+  Written: output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_assignments.json
+Exported feature matrix (4507 x 14) to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/features.csv
+
+--- Evaluation: projected ---
+[Eval] === Tier: projected ===
+[Eval] Found 6 cluster DFGs, 6 trace files
+[Eval] --- Cluster 0 (239 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_0_tree.ptml
+[Eval] Process tree: ->( *( tau, X( 'Accepted', 'Queued' ) ), *( tau, 'Completed' ) )
+[Eval]     Fitness: 0.9989
+[Eval]     Precision: 0.7074
+[Eval]     Generalization: 0.9542
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.8282
+[Eval] --- Cluster 1 (1326 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_1_tree.ptml
+[Eval] Process tree: ->( *( tau, X( 'Accepted', 'Queued' ) ), *( tau, 'Completed' ) )
+[Eval]     Fitness: 0.9975
+[Eval]     Precision: 0.7417
+[Eval]     Generalization: 0.9827
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.8508
+[Eval] --- Cluster 2 (902 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_2_tree.ptml
+[Eval] Process tree: *( tau, X( 'Completed', 'Accepted', 'Queued' ) )
+[Eval]     Fitness: 1.0000
+[Eval]     Precision: 0.7904
+[Eval]     Generalization: 0.9779
+[Eval]     Simplicity: 0.7500
+[Eval]     F-Score: 0.8829
+[Eval] --- Cluster 3 (826 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_3_tree.ptml
+[Eval] Process tree: *( tau, X( 'Completed', 'Accepted', 'Queued' ) )
+[Eval]     Fitness: 1.0000
+[Eval]     Precision: 0.6244
+[Eval]     Generalization: 0.9808
+[Eval]     Simplicity: 0.7500
+[Eval]     F-Score: 0.7688
+[Eval] --- Cluster 4 (517 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_4_tree.ptml
+[Eval] Process tree: ->( +( 'Accepted', *( tau, 'Queued' ) ), *( tau, 'Completed' ) )
+[Eval]     Fitness: 0.9802
+[Eval]     Precision: 0.9754
+[Eval]     Generalization: 0.9637
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.9778
+[Eval] --- Cluster 5 (697 traces, IM) ---
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_5_tree.ptml
+[Eval] Process tree: ->( *( tau, X( 'Accepted', 'Queued' ) ), *( tau, 'Completed' ) )
+[Eval]     Fitness: 0.9988
+[Eval]     Precision: 0.7667
+[Eval]     Generalization: 0.9727
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.8675
+[Eval] --- Cluster 0 (239 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_0_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]     Fitness: 0.9262
+[Eval]     Precision: 0.9428
+[Eval]     Generalization: 0.9242
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.9344
+[Eval] --- Cluster 1 (1326 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_1_hm.pnml
+[Eval] Heuristics Miner: 6 places, 7 transitions
+[Eval]     Fitness: 0.9953
+[Eval]     Precision: 0.7692
+[Eval]     Generalization: 0.9797
+[Eval]     Simplicity: 0.8667
+[Eval]     F-Score: 0.8678
+[Eval] --- Cluster 2 (902 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_2_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]     Fitness: 0.9382
+[Eval]     Precision: 0.8340
+[Eval]     Generalization: 0.9561
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.8830
+[Eval] --- Cluster 3 (826 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_3_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]     Fitness: 0.9604
+[Eval]     Precision: 0.8533
+[Eval]     Generalization: 0.9695
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.9037
+[Eval] --- Cluster 4 (517 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_4_hm.pnml
+[Eval] Heuristics Miner: 6 places, 7 transitions
+[Eval]     Fitness: 0.9252
+[Eval]     Precision: 0.8735
+[Eval]     Generalization: 0.8823
+[Eval]     Simplicity: 0.7647
+[Eval]     F-Score: 0.8986
+[Eval] --- Cluster 5 (697 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/cluster_5_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]     Fitness: 0.9283
+[Eval]     Precision: 0.8118
+[Eval]     Generalization: 0.9223
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.8661
+[Eval] === Weighted Averages (clustered, IM) ===
+[Eval]   clustered: fitness=0.9967  precision=0.7588  generalization=0.9762  simplicity=0.7808  F=0.8581
+[Eval] === Weighted Averages (clustered, HM) ===
+[Eval]   clustered: fitness=0.9554  precision=0.8253  generalization=0.9501  simplicity=0.8156  F=0.8842
+[Eval] === Single-Model Baseline ===
+[Eval]   Merged 6 DFGs into global DFG
+[Eval]   Discovering global process tree...
+[Eval] Process tree saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/global_tree.ptml
+[Eval] Process tree: *( tau, X( 'Completed', 'Accepted', 'Queued' ) )
+[Eval]   Computing conformance (all traces)...
+[Eval]     Fitness: 1.0000
+[Eval]     Precision: 0.7665
+[Eval]     Generalization: 0.9910
+[Eval]     Simplicity: 0.7500
+[Eval]     F-Score: 0.8678
+[Eval]   Single-model (IM): fitness=1.0000  precision=0.7665  generalization=0.9910  simplicity=0.7500  F=0.8678
+[Eval] === Global HM Baseline ===
+[Eval]   Discovering global Petri net (Heuristics Miner)...
+[Eval] Petri net saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/global_hm.pnml
+[Eval] Heuristics Miner: 7 places, 9 transitions
+[Eval]   Computing conformance (all traces)...
+[Eval]     Fitness: 0.9417
+[Eval]     Precision: 0.9941
+[Eval]     Generalization: 0.9865
+[Eval]     Simplicity: 0.8000
+[Eval]     F-Score: 0.9672
+[Eval]   Global HM: fitness=0.9417  precision=0.9941  generalization=0.9865  simplicity=0.8000  F=0.9672
+[Eval] (Skipping log-based baseline)
+[Eval] === Per-Cluster Results (IM) ===
+[Eval]  Cluster   Size  Fitness  Precis. General.   Simpl.  F-Score
+[Eval]        0    239   0.9989   0.7074   0.9542   0.8000   0.8282
+[Eval]        1   1326   0.9975   0.7417   0.9827   0.8000   0.8508
+[Eval]        2    902   1.0000   0.7904   0.9779   0.7500   0.8829
+[Eval]        3    826   1.0000   0.6244   0.9808   0.7500   0.7688
+[Eval]        4    517   0.9802   0.9754   0.9637   0.8000   0.9778
+[Eval]        5    697   0.9988   0.7667   0.9727   0.8000   0.8675
+[Eval]    W.AVG          0.9967   0.7588   0.9762   0.7808   0.8581
+[Eval] === Per-Cluster Results (HM) ===
+[Eval]  Cluster   Size  Fitness  Precis. General.   Simpl.  F-Score
+[Eval]        0    239   0.9262   0.9428   0.9242   0.8000   0.9344
+[Eval]        1   1326   0.9953   0.7692   0.9797   0.8667   0.8678
+[Eval]        2    902   0.9382   0.8340   0.9561   0.8000   0.8830
+[Eval]        3    826   0.9604   0.8533   0.9695   0.8000   0.9037
+[Eval]        4    517   0.9252   0.8735   0.8823   0.7647   0.8986
+[Eval]        5    697   0.9283   0.8118   0.9223   0.8000   0.8661
+[Eval]    W.AVG          0.9554   0.8253   0.9501   0.8156   0.8842
+[Eval] === Method Comparison ===
+[Eval] Method                        Fitness  Precision  F-Score    Buijs
+[Eval] --------------------------------------------------------------------
+[Eval] Per-cluster IM                 0.9967     0.7588   0.8581   0.8778
+[Eval] Per-cluster HM                 0.9554     0.8253   0.8842   0.8897
+[Eval] Global IM (no clustering)      1.0000     0.7665   0.8678   0.8821
+[Eval] Global HM (no clustering)      0.9417     0.9941   0.9672   0.9611
+[Eval] === Clustering Quality Metrics ===
+[Eval]   Edge (DFG) Entropy:
+[Eval]     H(global)    = 2.2968 bits
+[Eval]     H(clustered) = 2.2293 bits
+[Eval]     Reduction    = 2.9%
+[Eval]     H(cluster 0) = 2.5121 bits
+[Eval]     H(cluster 1) = 2.0064 bits
+[Eval]     H(cluster 2) = 2.3497 bits
+[Eval]     H(cluster 3) = 2.2244 bits
+[Eval]     H(cluster 4) = 2.1731 bits
+[Eval]     H(cluster 5) = 2.4482 bits
+[Eval]   Trace Variant Entropy (1452 global variants):
+[Eval]     H(global)    = 7.9950 bits
+[Eval]     H(clustered) = 5.5631 bits
+[Eval]     Reduction    = 30.4%
+[Eval]     H(cluster 0) = 4.4979 bits
+[Eval]     H(cluster 1) = 8.2619 bits
+[Eval]     H(cluster 2) = 3.5218 bits
+[Eval]     H(cluster 3) = 8.4528 bits
+[Eval]     H(cluster 4) = 2.0830 bits
+[Eval]     H(cluster 5) = 2.5925 bits
+[Eval]   Entropic Relevance (lower = cluster model encodes log more compactly):
+[Eval]     Weighted avg  = 20.4528 bits/trace
+[Eval]     Cluster 0     = 13.9704 bits/trace (size=239)
+[Eval]     Cluster 1     = 30.1151 bits/trace (size=1326)
+[Eval]     Cluster 2     = 14.2782 bits/trace (size=902)
+[Eval]     Cluster 3     = 29.3165 bits/trace (size=826)
+[Eval]     Cluster 4     = 6.8012 bits/trace (size=517)
+[Eval]     Cluster 5     = 11.9060 bits/trace (size=697)
+[Eval]   Variant Purity (homogeneity by classification scheme):
+[Eval]     Length           homogeneity=0.3237
+[Eval]       Global: {'short': 3461, 'long': 72, 'mid': 974}
+[Eval]       Cluster 0 (239): dominant=100%  [short:239]
+[Eval]       Cluster 1 (1326): dominant=58%  [short:764, mid:530, long:32]
+[Eval]       Cluster 2 (902): dominant=98%  [short:883, mid:19]
+[Eval]       Cluster 3 (826): dominant=51%  [mid:424, short:362, long:40]
+[Eval]       Cluster 4 (517): dominant=100%  [short:517]
+[Eval]       Cluster 5 (697): dominant=100%  [short:696, mid:1]
+[Eval]     Activity set     homogeneity=1.0000 *
+[Eval]       Global: {'neither': 4507}
+[Eval]       Cluster 0 (239): dominant=100%  [neither:239]
+[Eval]       Cluster 1 (1326): dominant=100%  [neither:1326]
+[Eval]       Cluster 2 (902): dominant=100%  [neither:902]
+[Eval]       Cluster 3 (826): dominant=100%  [neither:826]
+[Eval]       Cluster 4 (517): dominant=100%  [neither:517]
+[Eval]       Cluster 5 (697): dominant=100%  [neither:697]
+[Eval]     Loop behavior    homogeneity=0.2702
+[Eval]       Global: {'has_loops': 4503, 'no_loops': 4}
+[Eval]       Cluster 0 (239): dominant=100%  [has_loops:239]
+[Eval]       Cluster 1 (1326): dominant=100%  [has_loops:1326]
+[Eval]       Cluster 2 (902): dominant=100%  [has_loops:902]
+[Eval]       Cluster 3 (826): dominant=100%  [has_loops:826]
+[Eval]       Cluster 4 (517): dominant=99%  [has_loops:513, no_loops:4]
+[Eval]       Cluster 5 (697): dominant=100%  [has_loops:697]
+[Eval]   Approach                      F-Score   Edge H    Var H       ER
+[Eval]   ----------------------------------------------------------------
+[Eval]   Global HM (no clustering)      0.9672        -        -        -
+[Eval]   Per-cluster HM                 0.8842     2.9%    30.4%    20.45
+[Eval]   Per-cluster detail (HM):
+[Eval]    Cluster  Size  Fitness  Precis.  F-Score  Edge H      ER  |P|  |T|  |A|  CFC  Sound
+[Eval]   ------------------------------------------------------------------------------------------------
+[Eval]          0   239   0.9262   0.9428   0.9344  2.5121   13.97    7    9   18    4    yes
+[Eval]          1  1326   0.9953   0.7692   0.8678  2.0064   30.12    6    7   14    3    yes
+[Eval]          2   902   0.9382   0.8340   0.8830  2.3497   14.28    7    9   18    4    yes
+[Eval]          3   826   0.9604   0.8533   0.9037  2.2244   29.32    7    9   18    4    yes
+[Eval]          4   517   0.9252   0.8735   0.8986  2.1731    6.80    6    7   15    4    yes
+[Eval]          5   697   0.9283   0.8118   0.8661  2.4482   11.91    7    9   18    4    yes
+[Eval] === Headline Diagnostics ===
+[Eval]   HM F-Score (all):              0.8842
+[Eval]   HM F-Score (sound only):       0.8842  (6/6 sound)
+[Eval]   HM Buijs (10·fit+10·prec+gen+simpl)/22: 0.8897
+[Eval]   Entropic relevance (HM, lower=better): 20.45 bits/trace
+[Eval]   Edge entropy reduction:          2.9%  WARNING data-bound
+[Eval]   Cluster size imbalance:          5.5x  (Gini=0.25, sizes=[239, 1326, 902, 826, 517, 697])
+[Eval]   Notice: edge_red < 15% — clustering captures limited flow structure at this k (often data-bound).
+[Eval] Saved to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/projected/evaluation_results.json
+
+=== Evaluation ===
+Evaluation completed in 740ns
+
+--- Tier Comparison ---
+[Compare] === Tier Comparison ===
+[Compare] --- Single-Model vs Clustered (Plaintext) ---
+[Compare]            Metric     Single  Clustered      Delta
+[Compare]           fitness     1.0000     0.9991    -0.0009
+[Compare]         precision     0.7665     0.7156    -0.0509
+[Compare]    generalization     0.9910     0.9761    -0.0149
+[Compare]        simplicity     0.7500     0.7760    +0.0260
+[Compare]           f_score     0.8678     0.8327    -0.0351
+[Compare] --- Plaintext vs Projected (JL Cost) ---
+[Compare]            Metric  Plaintext  Projected      Delta
+[Compare]           fitness     0.9991     0.9967    -0.0024
+[Compare]         precision     0.7156     0.7588    +0.0432
+[Compare]    generalization     0.9761     0.9762    +0.0001
+[Compare]        simplicity     0.7760     0.7808    +0.0048
+[Compare]           f_score     0.8327     0.8581    +0.0254
+[Compare] --- Cluster Assignment Agreement (plaintext vs projected) ---
+[Compare]   ARI = 0.7226
+[Compare]   NMI = 0.7073
+[Compare] --- Plaintext vs Federated (Privacy Cost) ---
+[Compare]            Metric  Plaintext  Federated      Delta
+[Compare]           fitness     0.9991     0.9989    -0.0002
+[Compare]         precision     0.7156     0.7562    +0.0406
+[Compare]    generalization     0.9761     0.9768    +0.0007
+[Compare]        simplicity     0.7760     0.7799    +0.0039
+[Compare]           f_score     0.8327     0.8564    +0.0237
+[Compare] --- Projected vs Federated (MPC Cost) ---
+[Compare]            Metric  Projected  Federated      Delta
+[Compare]           fitness     0.9967     0.9989    +0.0022
+[Compare]         precision     0.7588     0.7562    -0.0026
+[Compare]    generalization     0.9762     0.9768    +0.0006
+[Compare]        simplicity     0.7808     0.7799    -0.0009
+[Compare]           f_score     0.8581     0.8564    -0.0017
+[Compare] --- Cluster Assignment Agreement ---
+[Compare]   ARI = 0.3910
+[Compare]   NMI = 0.5334
+[Compare] --- Per-Cluster DFG L1 Distance ---
+[Compare]   Cluster 0 <-> 2: L1 = 0.5360
+[Compare]   Cluster 1 <-> 3: L1 = 1.3178
+[Compare]   Cluster 2 <-> 5: L1 = 0.3820
+[Compare]   Cluster 3 <-> 4: L1 = 0.9768
+[Compare]   Cluster 4 <-> 1: L1 = 0.2434
+[Compare]   Cluster 5 <-> 0: L1 = 0.8311
+[Compare]   Average L1 = 0.7145
+[Compare]   Global DFG L1 = 0.0169
+[Compare] === Consolidated Results ===
+[Compare]            Metric     Single  Clust(PT)  Clust(JL) Clust(MPC)
+[Compare]           fitness     1.0000     0.9991     0.9967     0.9989
+[Compare]         precision     0.7665     0.7156     0.7588     0.7562
+[Compare]    generalization     0.9910     0.9761     0.9762     0.9768
+[Compare]        simplicity     0.7500     0.7760     0.7808     0.7799
+[Compare]           f_score     0.8678     0.8327     0.8581     0.8564
+[Compare] Saved comparison to output/runs/uni_rtBpic2013_sl_skipbigram_2p_2026-10-11_02-22-11/plaintext/comparison.json
+[SPDZ] Truncated raw inputs + memory dumps: Input-P3-0, Input-P4-0, Input-P2-0, Input-P6-0, Input-P7-0, Input-P0-0, Input-P1-0, Input-P5-0; PRESERVED the extract slab (--reuse-extraction success)

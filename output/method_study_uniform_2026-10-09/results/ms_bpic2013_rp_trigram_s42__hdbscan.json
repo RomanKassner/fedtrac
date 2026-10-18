@@ -1,0 +1,58 @@
+{
+ "cell": "ms_bpic2013_rp_trigram_s42",
+ "method": "hdbscan",
+ "k_requested": 4,
+ "count": 2,
+ "sizes": [
+  5771,
+  1774
+ ],
+ "opened": 6091,
+ "withheld": 1454,
+ "ari_to_run": 0.17638,
+ "seconds": 2.5,
+ "note": "noise rows rehomed 751; own count 2",
+ "summary": {
+  "clusters": 2,
+  "cases": 7545,
+  "models_scored": 2,
+  "pruned_activities": 1,
+  "fitness": 0.9977,
+  "precision": 0.8704,
+  "f_score": 0.9296,
+  "simplicity": 0.6294,
+  "edges": 5.8244,
+  "activities": 2.7649,
+  "rel": 10.8374,
+  "rho": 0.9753
+ },
+ "clusters": [
+  {
+   "size": 5771,
+   "rel": 13.4818,
+   "rho": 0.9712,
+   "pruned_activities": 0,
+   "edges": 7,
+   "activities": 3,
+   "fitness": 0.9979,
+   "precision": 0.8818,
+   "f_score": 0.9363,
+   "simplicity": 0.5714,
+   "cluster_id": 0
+  },
+  {
+   "size": 1774,
+   "rel": 2.2349,
+   "rho": 0.9887,
+   "pruned_activities": 1,
+   "edges": 2,
+   "activities": 2,
+   "fitness": 0.9971,
+   "precision": 0.8334,
+   "f_score": 0.9079,
+   "simplicity": 0.8182,
+   "cluster_id": 1
+  }
+ ],
+ "score_seconds": 84.2
+}

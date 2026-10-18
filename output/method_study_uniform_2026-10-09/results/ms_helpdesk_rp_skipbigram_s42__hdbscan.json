@@ -1,0 +1,58 @@
+{
+ "cell": "ms_helpdesk_rp_skipbigram_s42",
+ "method": "hdbscan",
+ "k_requested": 5,
+ "count": 2,
+ "sizes": [
+  3321,
+  1256
+ ],
+ "opened": 3701,
+ "withheld": 876,
+ "ari_to_run": 0.581748,
+ "seconds": 2.1,
+ "note": "noise rows rehomed 164; own count 2",
+ "summary": {
+  "clusters": 2,
+  "cases": 4577,
+  "models_scored": 2,
+  "pruned_activities": 3,
+  "fitness": 0.9899,
+  "precision": 0.9768,
+  "f_score": 0.9832,
+  "simplicity": 0.5678,
+  "edges": 9.6465,
+  "activities": 5.2744,
+  "rel": 3.9931,
+  "rho": 0.9458
+ },
+ "clusters": [
+  {
+   "size": 3321,
+   "rel": 3.068,
+   "rho": 0.9491,
+   "pruned_activities": 1,
+   "edges": 8,
+   "activities": 5,
+   "fitness": 0.9897,
+   "precision": 0.9936,
+   "f_score": 0.9917,
+   "simplicity": 0.5789,
+   "cluster_id": 0
+  },
+  {
+   "size": 1256,
+   "rel": 6.4392,
+   "rho": 0.9371,
+   "pruned_activities": 2,
+   "edges": 14,
+   "activities": 6,
+   "fitness": 0.9905,
+   "precision": 0.9325,
+   "f_score": 0.9606,
+   "simplicity": 0.5385,
+   "cluster_id": 1
+  }
+ ],
+ "score_seconds": 4.7
+}

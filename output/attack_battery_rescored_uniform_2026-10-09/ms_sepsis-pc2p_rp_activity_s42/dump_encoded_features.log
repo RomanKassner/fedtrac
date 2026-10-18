@@ -1,0 +1,21 @@
+$ /home/roman/projects/federated_clustering/target/release/clustering_federated --data-dir data/splits/sepsis_2party --case-ids config/case_ids/sepsis_3party_full.txt --encoding activity --truncate-baseline --dump-encoded-features --run-name rescore_uni_ms_sepsis-pc2p_rp_activity_s42
+
+--- Start ---
+Output: output/runs/rescore_uni_ms_sepsis-pc2p_rp_activity_s42_2026-10-11_06-32-56
+Loaded XES: 11263 events (Party_A.xes), 3951 events (Party_B.xes) from data/splits/sepsis_2party
+
+--- Phase 0: Case ID Intersection (2 parties) ---
+Phase 0: pinned to 925 cases from config/case_ids/sepsis_3party_full.txt
+Phase 0: 925 common cases in 1.937703ms
+
+--- Phase 1: Activity Dictionary ---
+Phase 1: 16 user activities (19 total with markers) in 1.062273ms
+
+--- Phase 2-3: Plaintext Integration & Clustering ---
+[Harness] Auto-L reads the joint per-case length distribution across parties; a deployment fixes --max-trace-len by policy instead
+[MPC] Trace length distribution (merged, 2 parties): P50=14, P95=31, P99=52, max=185
+[MPC] Dynamic L = 48 (per-party, bigram coverage 97.0%), truncated = 0.3%
+[Plaintext] Integrated 925 traces (truncated, L=48)
+[Plaintext] 124 bigrams, 925 features
+Exported encoded feature matrix (925 x 19) to output/runs/rescore_uni_ms_sepsis-pc2p_rp_activity_s42_2026-10-11_06-32-56/features_encoded.csv (case ids in output/runs/rescore_uni_ms_sepsis-pc2p_rp_activity_s42_2026-10-11_06-32-56/features_encoded_cases.txt)
+Plaintext dump completed in 7.589528ms

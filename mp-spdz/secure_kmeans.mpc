@@ -1,0 +1,289 @@
+"""Secure Lloyd's k-means on the secret projected features: centroids stay exact integer (sums_j, counts_j)."""
+
+from Compiler import floatingpoint
+from Compiler.types import sint, regint
+from Compiler.library import print_ln, for_range_opt_multithread
+from Compiler.util import tree_reduce
+
+
+# Parameters (compile-time Python ints).
+try:
+    N_CASES       = int(program.args[1]) if len(program.args) > 1 else 16
+    K_PROJ        = int(program.args[2]) if len(program.args) > 2 else 4
+    K             = int(program.args[3]) if len(program.args) > 3 else 3
+    MAX_ITER      = int(program.args[4]) if len(program.args) > 4 else 5
+    N_THREADS     = int(program.args[5]) if len(program.args) > 5 else 4
+    INPUT_SOURCE  = int(program.args[6]) if len(program.args) > 6 else 0
+    Y_OFFSET      = int(program.args[7]) if len(program.args) > 7 else 0
+    REVEAL_LABELS = int(program.args[8]) if len(program.args) > 8 else 0
+    ARGMIN_BITS   = int(program.args[9]) if len(program.args) > 9 else 0
+    MIN_CLUSTER   = int(program.args[10]) if len(program.args) > 10 else 0
+except Exception:
+    (N_CASES, K_PROJ, K, MAX_ITER, N_THREADS, INPUT_SOURCE, Y_OFFSET,
+     REVEAL_LABELS, ARGMIN_BITS, MIN_CLUSTER) = (16, 4, 3, 5, 4, 0, 0, 0, 0, 0)
+
+if K > N_CASES:
+    raise ValueError(f"K={K} > N_CASES={N_CASES}; need at least K points for init")
+
+
+def _ceil_log2(x):
+    """Twin of Rust's `x.max(1).next_power_of_two().trailing_zeros()`."""
+    x = max(int(x), 1)
+    return (x - 1).bit_length()
+
+
+# Centroid scale: twinned in parameters.rs and plaintext_kmeans_reference.py, drift rescales the centroids silently.
+FRAC_BITS = 16
+# Reciprocal headroom: the centroid error stays under 1 ulp while |y_d| < 2^CENTROID_YMAX_SLACK_BITS, which
+# parameters.rs::secure_kmeans_argmin_bits refuses to exceed.
+CENTROID_YMAX_SLACK_BITS = 15
+RECIP_BITS = FRAC_BITS + _ceil_log2(N_CASES) + CENTROID_YMAX_SLACK_BITS
+RECIP_SHIFT = RECIP_BITS - FRAC_BITS
+FRAC_SCALE = 1 << FRAC_BITS
+# Width: Trunc at 63 bits adds 2^62 first, so the parameters.rs guard holds |s_j[d] * r_j| strictly below 2^62.
+PROD_BITS = 63
+# Width: restoring-division comparands are below 2*N_CASES, so their difference needs ceil_log2(N)+3 signed bits.
+CNT_CMP_BITS = _ceil_log2(N_CASES) + 3
+# E-step comparison width from parameters.rs::secure_kmeans_argmin_bits; independent of N, which keeps full-N cells
+# on -R 64. 0 or absent means the ring width.
+SCORE_CMP_BITS = (program.bit_length if ARGMIN_BITS <= 0
+                  else min(ARGMIN_BITS, program.bit_length))
+
+print_ln("=== Secure Lloyd's k-means (integer-scaled centroids) ===")
+if INPUT_SOURCE == 0:
+    print_ln("MODE: TESTING - Y read as public input; labels REVEALED for agreement test")
+elif REVEAL_LABELS == 1:
+    print_ln("MODE: PRODUCTION+EVAL - labels persisted secret-shared AND revealed "
+             "for --evaluate-full benchmarking")
+else:
+    print_ln("MODE: PRODUCTION - Y read from persistence; labels persisted, no reveal")
+print_ln("N_CASES=%s K_PROJ=%s K=%s MAX_ITER=%s N_THREADS=%s "
+         "INPUT_SOURCE=%s Y_OFFSET=%s REVEAL_LABELS=%s ARGMIN_BITS=%s "
+         "MIN_CLUSTER=%s",
+         N_CASES, K_PROJ, K, MAX_ITER, N_THREADS, INPUT_SOURCE, Y_OFFSET,
+         REVEAL_LABELS, ARGMIN_BITS, MIN_CLUSTER)
+print_ln("FRAC_BITS=%s RECIP_BITS=%s SCORE_CMP_BITS=%s CNT_CMP_BITS=%s",
+         FRAC_BITS, RECIP_BITS, SCORE_CMP_BITS, CNT_CMP_BITS)
+
+
+def argmin_first(dists):
+    """Tree-reduced argmin, first index on a tie; twin of plaintext_kmeans_reference::argmin_first."""
+    def op(a, b):
+        swap = b[1].less_than(a[1], bit_length=SCORE_CMP_BITS)
+        return (swap.if_else(b[0], a[0]), swap.if_else(b[1], a[1]))
+
+    items = [(j, dists[j]) for j in range(K)]
+    return tree_reduce(op, items)[0]
+
+
+def reciprocals(counts):
+    """r_j = floor(2^RECIP_BITS / n_j), exact, by restoring division of a public numerator."""
+    n = counts.get_vector()
+    rem = sint(0, size=K)
+    quot = sint(0, size=K)
+    for i in range(RECIP_BITS, -1, -1):
+        rem = rem * 2 + (1 if i == RECIP_BITS else 0)
+        ge = rem.greater_equal(n, bit_length=CNT_CMP_BITS)
+        rem = rem - ge * n
+        quot = quot * 2 + ge
+    out = sint.Array(K)
+    out.assign_vector(quot)
+    return out
+
+
+def centroids(sums, counts, chat):
+    """Centroid mean at scale 2^FRAC_BITS, exact and floored like the twin plaintext_kmeans_reference::lloyd_integer."""
+    recip = reciprocals(counts)
+    for j in range(K):
+        prod = sums[j].get_vector() * recip[j].expand_to_vector(K_PROJ)
+        chat[j].assign_vector(
+            floatingpoint.Trunc(prod, PROD_BITS, RECIP_SHIFT, signed=True))
+
+
+def transpose_Y(Y):
+    """Transpose to K_PROJ x N_CASES so the M-step's vector sums see contiguous columns."""
+    Y_T = sint.Matrix(K_PROJ, N_CASES)
+
+    @for_range_opt_multithread(N_THREADS, N_CASES)
+    def _(i):
+        for d in range(K_PROJ):
+            Y_T[d][i] = Y[i][d]
+
+    return Y_T
+
+
+def read_inputs():
+    Y = sint.Matrix(N_CASES, K_PROJ)
+
+    if INPUT_SOURCE == 0:
+        print_ln("Reading Y from party 0 (test mode)")
+        for i in range(N_CASES):
+            for d in range(K_PROJ):
+                Y[i][d] = sint.get_input_from(0)
+    else:
+        print_ln("Reading Y from persistence at offset %s (pipeline mode)", Y_OFFSET)
+        Y.read_from_file(Y_OFFSET)
+
+    return Y
+
+
+def init_centroids(Y):
+    """Evenly-spaced seeds at stride N_CASES // K; first-K picks bunch on a variant-ordered log."""
+    stride = N_CASES // K if K > 0 else 1
+    sums = sint.Matrix(K, K_PROJ)
+    counts = sint.Array(K)
+    for j in range(K):
+        row = j * stride
+        for d in range(K_PROJ):
+            sums[j][d] = Y[row][d]
+        counts[j] = sint(1)
+    return sums, counts
+
+
+def e_step(Y, chat, labels_onehot):
+    """Assign each point to the nearest rounded centroid; pure integer, no truncation."""
+    @for_range_opt_multithread(N_THREADS, N_CASES)
+    def _(i):
+        y_scaled = Y[i].get_vector() * FRAC_SCALE   # public scalar: no triples
+        dists = [None] * K
+        for j in range(K):
+            diff = y_scaled - chat[j].get_vector()
+            dists[j] = (diff * diff).sum()
+
+        min_idx = argmin_first(dists)
+        eq_bits = K.bit_length() + 1   # |min_idx − j| < K
+        for j in range(K):
+            labels_onehot[i][j] = min_idx.equal(regint(j), bit_length=eq_bits)
+
+
+def m_step(Y_T, labels_onehot, sums, counts):
+    """Update (sums_j, counts_j); an empty cluster keeps its previous pair, so the reciprocal never divides by zero."""
+    new_sums = sint.Matrix(K, K_PROJ)
+    new_counts = sint.Array(K)
+
+    for j in range(K):
+        # Column j of the one-hot is the cluster-j mask.
+        mask_vec = labels_onehot.get_column(j)
+        new_counts[j] = mask_vec.sum()
+
+        for d in range(K_PROJ):
+            new_sums[j][d] = (mask_vec * Y_T[d].get_vector()).sum()
+
+    for j in range(K):
+        nonempty = new_counts[j].greater_than(0, bit_length=CNT_CMP_BITS)
+        counts[j] = nonempty.if_else(new_counts[j], counts[j])
+        for d in range(K_PROJ):
+            sums[j][d] = nonempty.if_else(new_sums[j][d], sums[j][d])
+
+
+def argmin_valid_first(vals, valid):
+    """Tree-reduced argmin over the entries whose valid bit is 1, first index on a tie."""
+    def op(a, b):
+        lt = b[1].less_than(a[1], bit_length=SCORE_CMP_BITS)
+        # swap = valid_b AND (NOT valid_a OR b < a)
+        swap = b[2] * (1 - a[2] + a[2] * lt)
+        return (swap.if_else(b[0], a[0]), swap.if_else(b[1], a[1]),
+                swap.if_else(b[2], a[2]))
+
+    items = [(j, vals[j], valid[j]) for j in range(K)]
+    return tree_reduce(op, items)[0]
+
+
+def merge_small_clusters(labels_onehot, sums, counts, chat):
+    """Oblivious twin of clustering.rs::merge_small_clusters: a cluster below MIN_CLUSTER cases moves whole to the
+    nearest cluster of at least MIN_CLUSTER. Nothing is opened: the sizes, the bits and the remap stay secret."""
+    # Sizes of the final labeling; counts keeps a stale value for a cluster the last assignment emptied.
+    sizes = sint.Array(K)
+    for j in range(K):
+        sizes[j] = labels_onehot.get_column(j).sum()
+    small = [sizes[j].less_than(MIN_CLUSTER, bit_length=CNT_CMP_BITS)
+             for j in range(K)]
+    valid = [1 - small[j] for j in range(K)]
+    n_large = sum(valid[j] for j in range(K))
+    survivor = n_large.greater_than(0, bit_length=CNT_CMP_BITS)
+
+    # Centroids of the final labeling.
+    centroids(sums, counts, chat)
+    remap = sint.Matrix(K, K)
+    for j in range(K):
+        dists = [None] * K
+        for l in range(K):
+            diff = chat[j].get_vector() - chat[l].get_vector()
+            dists[l] = (diff * diff).sum()
+        target = argmin_valid_first(dists, valid)
+        move = survivor * small[j]          # this cluster moves whole
+        eq_bits = K.bit_length() + 1
+        for l in range(K):
+            hit = target.equal(regint(l), bit_length=eq_bits)
+            keep = 1 if l == j else 0
+            remap[j][l] = move * (hit - keep) + keep
+
+    # H' = H * remap, into a fresh matrix, so no read-modify-write runs on a runtime address.
+    merged = sint.Matrix(N_CASES, K)
+
+    @for_range_opt_multithread(N_THREADS, N_CASES)
+    def _(i):
+        acc = sint(0, size=K)
+        for j in range(K):
+            acc = acc + labels_onehot[i][j].expand_to_vector(K) * remap[j].get_vector()
+        merged[i].assign_vector(acc)
+
+    return merged
+
+
+def run_lloyd(Y):
+    sums, counts = init_centroids(Y)
+    Y_T = transpose_Y(Y)
+    labels_onehot = sint.Matrix(N_CASES, K)
+    chat = sint.Matrix(K, K_PROJ)
+
+    # Fixed iteration count: stopping early on convergence would leak.
+    for it in range(MAX_ITER):
+        print_ln("Iteration %s / %s", it + 1, MAX_ITER)
+        centroids(sums, counts, chat)
+        e_step(Y, chat, labels_onehot)
+        m_step(Y_T, labels_onehot, sums, counts)
+
+    if MIN_CLUSTER > 0:
+        print_ln("Merging clusters below %s cases (oblivious)", MIN_CLUSTER)
+        labels_onehot = merge_small_clusters(labels_onehot, sums, counts, chat)
+
+    return labels_onehot
+
+
+def emit_output(labels_onehot):
+    if INPUT_SOURCE == 0:
+        print_ln("\n=== Labels ===")
+        for i in range(N_CASES):
+            lab = sint(0)
+            for j in range(K):
+                lab = lab + labels_onehot[i][j] * regint(j)
+            print_ln("LABEL %s %s", i, lab.reveal())
+        return
+
+    label_offset = Y_OFFSET + N_CASES * K_PROJ
+    print_ln("Persisting labels at offset %s", label_offset)
+    labels_onehot.write_to_file(label_offset)
+
+    if REVEAL_LABELS == 1:
+        # Simulator only: --evaluate-full opens the labels beside persisting them, so the evaluation can score them.
+        print_ln("\n=== Labels (revealed for evaluation) ===")
+        labels_int = sint.Array(N_CASES)
+        for i in range(N_CASES):
+            lab = sint(0)
+            for j in range(K):
+                lab = lab + labels_onehot[i][j] * regint(j)
+            labels_int[i] = lab
+        revealed = labels_int.reveal()
+        for i in range(N_CASES):
+            print_ln("LABEL %s %s", i, revealed[i])
+
+
+def main():
+    Y = read_inputs()
+    labels_onehot = run_lloyd(Y)
+    emit_output(labels_onehot)
+    print_ln("=== Complete ===")
+
+
+main()

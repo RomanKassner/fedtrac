@@ -1,0 +1,113 @@
+{
+ "cell": "rtRtfm_sl_ef_3p",
+ "variant": "v6_no_bound",
+ "k_requested": 6,
+ "count": 5,
+ "sizes": [
+  315,
+  282,
+  232,
+  212,
+  143
+ ],
+ "seed_used": "stride",
+ "note": "the rows of the untruncated traces",
+ "ari_to_run": 0.97104,
+ "labels_check": {
+  "identical": false,
+  "differ": 24,
+  "ari": 0.97104,
+  "passed": false,
+  "note": ""
+ },
+ "seconds": 0.7,
+ "summary": {
+  "clusters": 5,
+  "cases": 1184,
+  "models_scored": 5,
+  "pruned_activities": 2,
+  "fitness": 0.9943,
+  "precision": 0.6992,
+  "f_score": 0.8197,
+  "simplicity": 0.5811,
+  "generalization": 0.7971,
+  "edges": 21.0498,
+  "activities": 8.8851,
+  "rel": 7.8852,
+  "rho": 0.9383
+ },
+ "clusters": [
+  {
+   "size": 143,
+   "rel": 11.4997,
+   "rho": 0.9091,
+   "pruned_activities": 0,
+   "edges": 34,
+   "activities": 9,
+   "fitness": 0.9898,
+   "precision": 0.6475,
+   "f_score": 0.7829,
+   "simplicity": 0.48,
+   "generalization": 0.6869,
+   "cluster_id": 0
+  },
+  {
+   "size": 315,
+   "rel": 4.9778,
+   "rho": 0.9841,
+   "pruned_activities": 0,
+   "edges": 15,
+   "activities": 7,
+   "fitness": 0.9977,
+   "precision": 0.6489,
+   "f_score": 0.7864,
+   "simplicity": 0.5833,
+   "generalization": 0.8165,
+   "cluster_id": 1
+  },
+  {
+   "size": 212,
+   "rel": 10.3629,
+   "rho": 0.9009,
+   "pruned_activities": 1,
+   "edges": 24,
+   "activities": 10,
+   "fitness": 0.9926,
+   "precision": 0.7067,
+   "f_score": 0.8256,
+   "simplicity": 0.5652,
+   "generalization": 0.78,
+   "cluster_id": 2
+  },
+  {
+   "size": 282,
+   "rel": 9.2981,
+   "rho": 0.9326,
+   "pruned_activities": 0,
+   "edges": 24,
+   "activities": 10,
+   "fitness": 0.9944,
+   "precision": 0.6859,
+   "f_score": 0.8119,
+   "simplicity": 0.5652,
+   "generalization": 0.8332,
+   "cluster_id": 3
+  },
+  {
+   "size": 232,
+   "rel": 5.6231,
+   "rho": 0.9353,
+   "pruned_activities": 1,
+   "edges": 15,
+   "activities": 9,
+   "fitness": 0.994,
+   "precision": 0.8087,
+   "f_score": 0.8918,
+   "simplicity": 0.6744,
+   "generalization": 0.8103,
+   "cluster_id": 5
+  }
+ ],
+ "score_seconds": 2.3,
+ "instrument": "9644658f3986"
+}

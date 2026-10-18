@@ -1,0 +1,23 @@
+$ /home/roman/projects/federated_clustering/target/release/clustering_federated --data-dir data/splits/3party --n-parties 3 --case-ids config/case_ids/sepsis_3party_full.txt --encoding bigram --truncate-baseline --dump-encoded-features --run-name rescore_uni_ms_sepsis-pc3p_rp_bigram_s101
+
+--- Start ---
+Output: output/runs/rescore_uni_ms_sepsis-pc3p_rp_bigram_s101_2026-10-09_07-37-14
+Loaded party 0: 3152 events (party_a_er.xes)
+Loaded party 1: 8111 events (party_b_lab.xes)
+Loaded party 2: 3951 events (party_c_treatment.xes)
+
+--- Phase 0: Case ID Intersection (3 parties) ---
+Phase 0: pinned to 925 cases from config/case_ids/sepsis_3party_full.txt
+Phase 0: 925 common cases in 1.921137ms
+
+--- Phase 1: Activity Dictionary ---
+Phase 1: 16 user activities (19 total with markers) in 798.285µs
+
+--- Phase 2-3: Plaintext Integration & Clustering ---
+[Harness] Auto-L reads the joint per-case length distribution across parties; a deployment fixes --max-trace-len by policy instead
+[MPC] Trace length distribution (merged, 3 parties): P50=14, P95=31, P99=52, max=185
+[MPC] Dynamic L = 44 (per-party, bigram coverage 97.0%), truncated = 0.2%
+[Plaintext] Integrated 925 traces (truncated, L=44)
+[Plaintext] 124 bigrams, 925 features
+Exported encoded feature matrix (925 x 124) to output/runs/rescore_uni_ms_sepsis-pc3p_rp_bigram_s101_2026-10-09_07-37-14/features_encoded.csv (case ids in output/runs/rescore_uni_ms_sepsis-pc3p_rp_bigram_s101_2026-10-09_07-37-14/features_encoded_cases.txt)
+Plaintext dump completed in 13.675819ms

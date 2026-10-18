@@ -1,0 +1,42 @@
+
+=== uni_ms_bpic2013_rp_skipbigram_s42_2026-10-05_04-24-21 (HONEST attack; no X_full leak) ===
+n=7545, d=15, partition=[5, 5, 5]
+
+  k  attack             party     P_unk  R_unk
+----------------------------------------------------------------------
+ 15  trivial-zero       party0     0.00   0.00
+ 15  dist-MDS           party0     0.33   0.00
+ 15  dict-learn         party0     0.00   0.00
+
+ 15  trivial-zero       party1     0.00   0.00
+ 15  dist-MDS           party1     0.00   0.00
+ 15  dict-learn         party1     0.00   0.00
+
+ 15  trivial-zero       party2     0.00   0.00
+ 15  dist-MDS           party2     0.58   0.01
+ 15  dict-learn         party2     0.00   0.00
+
+ 21  trivial-zero       party0     0.00   0.00
+ 21  dist-MDS           party0     0.00   0.00
+ 21  dict-learn         party0     0.00   0.00
+
+ 21  trivial-zero       party1     0.00   0.00
+ 21  dist-MDS           party1     0.00   0.00
+ 21  dict-learn         party1     0.00   0.00
+
+ 21  trivial-zero       party2     0.00   0.00
+ 21  dist-MDS           party2     0.68   0.01
+ 21  dict-learn         party2     0.00   0.00
+
+ 43  trivial-zero       party0     0.00   0.00
+ 43  dist-MDS           party0     0.00   0.00
+ 43  dict-learn         party0     0.00   0.00
+
+ 43  trivial-zero       party1     0.00   0.00
+ 43  dist-MDS           party1     0.00   0.00
+ 43  dict-learn         party1     0.00   0.00
+
+ 43  trivial-zero       party2     0.00   0.00
+ 43  dist-MDS           party2     0.00   0.00
+ 43  dict-learn         party2     0.00   0.00
+

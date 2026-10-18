@@ -1,0 +1,72 @@
+{
+ "cell": "ms_sepsis_rp_trigram_s42",
+ "method": "kmeans-cos",
+ "k_requested": 3,
+ "count": 3,
+ "sizes": [
+  435,
+  330,
+  162
+ ],
+ "opened": 187,
+ "withheld": 740,
+ "ari_to_run": 0.295091,
+ "seconds": 0.4,
+ "note": "",
+ "summary": {
+  "clusters": 3,
+  "cases": 927,
+  "models_scored": 3,
+  "pruned_activities": 9,
+  "fitness": 0.9718,
+  "precision": 0.5218,
+  "f_score": 0.6752,
+  "simplicity": 0.494,
+  "edges": 32.5049,
+  "activities": 12.288,
+  "rel": 36.6705,
+  "rho": 0.6915
+ },
+ "clusters": [
+  {
+   "size": 435,
+   "rel": 44.1639,
+   "rho": 0.6276,
+   "pruned_activities": 3,
+   "edges": 38,
+   "activities": 13,
+   "fitness": 0.9664,
+   "precision": 0.4463,
+   "f_score": 0.6106,
+   "simplicity": 0.4752,
+   "cluster_id": 0
+  },
+  {
+   "size": 330,
+   "rel": 36.4628,
+   "rho": 0.7152,
+   "pruned_activities": 4,
+   "edges": 26,
+   "activities": 11,
+   "fitness": 0.9752,
+   "precision": 0.5413,
+   "f_score": 0.6962,
+   "simplicity": 0.5158,
+   "cluster_id": 1
+  },
+  {
+   "size": 162,
+   "rel": 16.9727,
+   "rho": 0.8148,
+   "pruned_activities": 2,
+   "edges": 31,
+   "activities": 13,
+   "fitness": 0.9795,
+   "precision": 0.6846,
+   "f_score": 0.806,
+   "simplicity": 0.5,
+   "cluster_id": 2
+  }
+ ],
+ "score_seconds": 63.1
+}

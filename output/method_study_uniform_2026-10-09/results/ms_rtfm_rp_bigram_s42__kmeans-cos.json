@@ -1,0 +1,72 @@
+{
+ "cell": "ms_rtfm_rp_bigram_s42",
+ "method": "kmeans-cos",
+ "k_requested": 3,
+ "count": 3,
+ "sizes": [
+  58372,
+  47099,
+  24514
+ ],
+ "opened": 109777,
+ "withheld": 20208,
+ "ari_to_run": 0.881627,
+ "seconds": 2.1,
+ "note": "",
+ "summary": {
+  "clusters": 3,
+  "cases": 129985,
+  "models_scored": 3,
+  "pruned_activities": 14,
+  "fitness": 0.9923,
+  "precision": 0.8413,
+  "f_score": 0.9062,
+  "simplicity": 0.8106,
+  "edges": 6.3347,
+  "activities": 4.4787,
+  "rel": 1.9082,
+  "rho": 0.9741
+ },
+ "clusters": [
+  {
+   "size": 47099,
+   "rel": 0.394,
+   "rho": 0.9845,
+   "pruned_activities": 6,
+   "edges": 1,
+   "activities": 2,
+   "fitness": 0.9937,
+   "precision": 1.0,
+   "f_score": 0.9969,
+   "simplicity": 1.0,
+   "cluster_id": 0
+  },
+  {
+   "size": 24514,
+   "rel": 5.109,
+   "rho": 0.9697,
+   "pruned_activities": 3,
+   "edges": 15,
+   "activities": 8,
+   "fitness": 0.995,
+   "precision": 0.7548,
+   "f_score": 0.8584,
+   "simplicity": 0.617,
+   "cluster_id": 1
+  },
+  {
+   "size": 58372,
+   "rel": 1.7857,
+   "rho": 0.9676,
+   "pruned_activities": 5,
+   "edges": 7,
+   "activities": 5,
+   "fitness": 0.99,
+   "precision": 0.7495,
+   "f_score": 0.8531,
+   "simplicity": 0.7391,
+   "cluster_id": 2
+  }
+ ],
+ "score_seconds": 7.8
+}

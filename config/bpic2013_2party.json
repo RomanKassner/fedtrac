@@ -1,0 +1,4 @@
+{
+  "Party_A": ["Accepted", "Queued"],
+  "Party_B": ["Completed", "Unmatched"]
+}

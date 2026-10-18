@@ -1,0 +1,41 @@
+Attack battery on uni_ms_bpic2013-pc3p_rp_skipbigram_s42_2026-10-11_02-28-03
+  revealed Y: 3232/4507 rows non-zero (1275 suppressed-tail masked), k_proj=24
+  X (plaintext oracle): n=4507 d=14
+  seed=42  m-list=[5, 20, 50]  blas_threads=1
+  frequency-guessing baseline (top-5 cells for every case, no revealed row read): P=0.97 R=0.70 cols=[5, 10, 3, 7, 2]
+
+
+##############################################################################
+# real_envelope__attack_on_mpc_output
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_on_mpc_output.py --run output/runs/uni_ms_bpic2013-pc3p_rp_skipbigram_s42_2026-10-11_02-28-03 --m-list 5 20 50 --quad-max-rows 3000
+##############################################################################
+
+##############################################################################
+# upper_bound__sim_secret_R
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_sim_secret_R.py --features output/runs/uni_ms_bpic2013-pc3p_rp_skipbigram_s42_2026-10-11_02-28-03/plaintext/features.csv --k 12 14 24 --seed 42
+##############################################################################
+
+##############################################################################
+# upper_bound__vertical_split
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_vertical_split.py --features output/runs/uni_ms_bpic2013-pc3p_rp_skipbigram_s42_2026-10-11_02-28-03/plaintext/features.csv --partition 4,4 --k 12 14 24 --seed 42
+##############################################################################
+
+##############################################################################
+# upper_bound__anchor_mds_honest
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_anchor_mds_honest.py --features output/runs/uni_ms_bpic2013-pc3p_rp_skipbigram_s42_2026-10-11_02-28-03/plaintext/features.csv --partition 4,4 --k 12 14 24 --seed 42
+##############################################################################
+
+============================================================
+REAL ENVELOPE (citable):
+  no-prior pinv                  m=  -  P=0.37  R=0.21
+  FastICA                        m=  -  P=0.84  R=0.76
+  distance+MDS                   m=  -  P=0.77  R=0.71
+  known-sample (norm match)      m=  5  P=0.89  R=0.29
+  known-sample (norm match)      m= 20  P=0.68  R=0.37
+  known-sample (norm match)      m= 50  P=0.61  R=0.39
+  known-sample (dist match)      m=  5  P=0.85  R=0.41
+  known-sample (dist match)      m= 20  P=0.69  R=0.42
+  known-sample (dist match)      m= 50  P=0.69  R=0.39
+  JL distance fidelity: median rel-diff = 0.13, within-25% = 79.6%
+
+wrote: output/attack_battery_uniform_2026-10-09/ms_bpic2013-pc3p_rp_skipbigram_s42/report.txt, battery_summary.json, per-attack logs

@@ -1,0 +1,29 @@
+
+========================================================================
+  Run: uni_ms_sepsis_rp_bigram_s7_2026-10-05_20-12-33
+  X (plaintext reference): n=927 d=123, mean row L0=13
+  scoring = positional (row i of the reconstruction against row i of the reference; NOT the opened row's case, see --truth)
+  Y (revealed, shuffled, normalised): n=187 of 927 rows non-zero (740 suppressed-tail rows masked), k=91, L2 norm range [1.000, 1.000]
+========================================================================
+
+JL distance fidelity: median rel-diff = 0.11, within-25% = 68.4%
+
+attack                            m      P      R  detail
+------------------------------------------------------------------------
+no-prior pinv                     -   0.05   0.01  
+FastICA                           -   0.63   0.54  
+distance+MDS                      -   0.54   0.72  
+known-sample (norm match)         5   0.42   0.09  
+known-sample (norm match)        20   0.31   0.09  
+known-sample (norm match)        50   0.22   0.08  
+known-sample (dist match)         5   0.42   0.09  5/5 paired
+known-sample (dist match)        20   0.28   0.10  0/20 paired
+known-sample (dist match)        50   0.19   0.08  0/50 paired
+
+[stderr]
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/sklearn/decomposition/_fastica.py:132: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
+  warnings.warn(
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/sklearn/manifold/_mds.py:754: FutureWarning: The default value of `init` will change from 'random' to 'classical_mds' in 1.10. To suppress this warning, provide some value of `init`.
+  warnings.warn(
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/sklearn/manifold/_mds.py:771: FutureWarning: The `dissimilarity` parameter is deprecated and will be removed in 1.10. Use `metric` instead.
+  warnings.warn(

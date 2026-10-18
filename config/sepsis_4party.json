@@ -1,0 +1,7 @@
+{
+  "party_a_er": ["ER Registration", "ER Triage", "ER Sepsis Triage"],
+  "party_b_lab": ["CRP", "LacticAcid", "Leucocytes"],
+  "party_c_emergency": ["IV Liquid", "IV Antibiotics"],
+  "party_d_disposition": ["Admission NC", "Admission IC",
+    "Release A", "Release B", "Release C", "Release D", "Release E", "Return ER"]
+}

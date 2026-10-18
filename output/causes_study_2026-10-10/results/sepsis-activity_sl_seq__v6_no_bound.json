@@ -1,0 +1,113 @@
+{
+ "cell": "sepsis-activity_sl_seq",
+ "variant": "v6_no_bound",
+ "k_requested": 6,
+ "count": 5,
+ "sizes": [
+  287,
+  228,
+  211,
+  122,
+  79
+ ],
+ "seed_used": "stride",
+ "note": "the sequence hard-EM at 5 iterations; the rows of the untruncated traces",
+ "ari_to_run": 0.809585,
+ "labels_check": {
+  "identical": false,
+  "differ": 106,
+  "ari": 0.809585,
+  "passed": false,
+  "note": ""
+ },
+ "seconds": 0.6,
+ "summary": {
+  "clusters": 5,
+  "cases": 927,
+  "models_scored": 5,
+  "pruned_activities": 10,
+  "fitness": 0.9763,
+  "precision": 0.5509,
+  "f_score": 0.6951,
+  "simplicity": 0.5199,
+  "generalization": 0.8043,
+  "edges": 29.9417,
+  "activities": 12.1812,
+  "rel": 36.7661,
+  "rho": 0.7195
+ },
+ "clusters": [
+  {
+   "size": 122,
+   "rel": 88.4983,
+   "rho": 0.5082,
+   "pruned_activities": 2,
+   "edges": 31,
+   "activities": 14,
+   "fitness": 0.9713,
+   "precision": 0.3268,
+   "f_score": 0.4891,
+   "simplicity": 0.5327,
+   "generalization": 0.8022,
+   "cluster_id": 0
+  },
+  {
+   "size": 228,
+   "rel": 16.0247,
+   "rho": 0.8202,
+   "pruned_activities": 1,
+   "edges": 30,
+   "activities": 12,
+   "fitness": 0.979,
+   "precision": 0.7373,
+   "f_score": 0.8411,
+   "simplicity": 0.4957,
+   "generalization": 0.7695,
+   "cluster_id": 1
+  },
+  {
+   "size": 211,
+   "rel": 49.8759,
+   "rho": 0.5592,
+   "pruned_activities": 3,
+   "edges": 31,
+   "activities": 13,
+   "fitness": 0.9631,
+   "precision": 0.4845,
+   "f_score": 0.6447,
+   "simplicity": 0.5238,
+   "generalization": 0.8323,
+   "cluster_id": 2
+  },
+  {
+   "size": 79,
+   "rel": 23.155,
+   "rho": 0.8861,
+   "pruned_activities": 1,
+   "edges": 36,
+   "activities": 12,
+   "fitness": 0.9914,
+   "precision": 0.4463,
+   "f_score": 0.6155,
+   "simplicity": 0.5046,
+   "generalization": 0.6763,
+   "cluster_id": 4
+  },
+  {
+   "size": 287,
+   "rel": 25.3612,
+   "rho": 0.8014,
+   "pruned_activities": 3,
+   "edges": 27,
+   "activities": 11,
+   "fitness": 0.9817,
+   "precision": 0.5756,
+   "f_score": 0.7257,
+   "simplicity": 0.5349,
+   "generalization": 0.8475,
+   "cluster_id": 5
+  }
+ ],
+ "score_seconds": 40.7,
+ "instrument": "9644658f3986"
+}

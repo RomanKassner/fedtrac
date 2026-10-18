@@ -1,0 +1,113 @@
+{
+ "cell": "sepsis-activity_sl_km",
+ "variant": "v6_no_bound",
+ "k_requested": 6,
+ "count": 5,
+ "sizes": [
+  298,
+  256,
+  191,
+  94,
+  88
+ ],
+ "seed_used": "stride",
+ "note": "the rows of the untruncated traces",
+ "ari_to_run": 0.9481,
+ "labels_check": {
+  "identical": false,
+  "differ": 50,
+  "ari": 0.9481,
+  "passed": false,
+  "note": ""
+ },
+ "seconds": 0.7,
+ "summary": {
+  "clusters": 5,
+  "cases": 927,
+  "models_scored": 5,
+  "pruned_activities": 14,
+  "fitness": 0.9764,
+  "precision": 0.5409,
+  "f_score": 0.6872,
+  "simplicity": 0.5016,
+  "generalization": 0.7855,
+  "edges": 33.3463,
+  "activities": 12.4261,
+  "rel": 37.8858,
+  "rho": 0.7228
+ },
+ "clusters": [
+  {
+   "size": 88,
+   "rel": 126.9525,
+   "rho": 0.3409,
+   "pruned_activities": 4,
+   "edges": 28,
+   "activities": 12,
+   "fitness": 0.9612,
+   "precision": 0.3202,
+   "f_score": 0.4803,
+   "simplicity": 0.5385,
+   "generalization": 0.8068,
+   "cluster_id": 0
+  },
+  {
+   "size": 256,
+   "rel": 16.5927,
+   "rho": 0.8203,
+   "pruned_activities": 2,
+   "edges": 34,
+   "activities": 12,
+   "fitness": 0.9791,
+   "precision": 0.7082,
+   "f_score": 0.8219,
+   "simplicity": 0.4769,
+   "generalization": 0.743,
+   "cluster_id": 1
+  },
+  {
+   "size": 191,
+   "rel": 50.269,
+   "rho": 0.5812,
+   "pruned_activities": 3,
+   "edges": 34,
+   "activities": 13,
+   "fitness": 0.9686,
+   "precision": 0.4025,
+   "f_score": 0.5687,
+   "simplicity": 0.5135,
+   "generalization": 0.8322,
+   "cluster_id": 2
+  },
+  {
+   "size": 94,
+   "rel": 23.8794,
+   "rho": 0.8404,
+   "pruned_activities": 3,
+   "edges": 30,
+   "activities": 11,
+   "fitness": 0.9787,
+   "precision": 0.4938,
+   "f_score": 0.6565,
+   "simplicity": 0.5281,
+   "generalization": 0.7471,
+   "cluster_id": 4
+  },
+  {
+   "size": 298,
+   "rel": 26.3575,
+   "rho": 0.8054,
+   "pruned_activities": 2,
+   "edges": 35,
+   "activities": 13,
+   "fitness": 0.9829,
+   "precision": 0.5658,
+   "f_score": 0.7182,
+   "simplicity": 0.4959,
+   "generalization": 0.7979,
+   "cluster_id": 5
+  }
+ ],
+ "score_seconds": 41.9,
+ "instrument": "9644658f3986"
+}

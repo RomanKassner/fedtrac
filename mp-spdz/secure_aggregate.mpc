@@ -1,0 +1,250 @@
+"""Round 2: aggregate the secret features by cluster into per-cluster d^2 DFGs, filter and prune them, open them."""
+
+import math
+import sys
+
+sys.path.insert(0, 'Programs/Source')
+
+from Compiler.types import sint, regint
+from Compiler.library import print_ln, for_range_opt, multithread, get_arg, break_point
+
+from mpc_utils.constants import AGG_CELL_BITS, START_ACT, END_ACT
+
+try:
+    TOTAL_N        = int(program.args[1]) if len(program.args) > 1 else 20
+    N_REVEALED     = int(program.args[2]) if len(program.args) > 2 else 10
+    D              = int(program.args[3]) if len(program.args) > 3 else 36
+    K              = int(program.args[4]) if len(program.args) > 4 else 3
+    SECURE_LABELS  = int(program.args[5]) if len(program.args) > 5 else 0
+    LABEL_OFFSET   = int(program.args[6]) if len(program.args) > 6 else 0
+    N_THREADS      = int(program.args[7]) if len(program.args) > 7 else 4
+    EDGE_MIN_COUNT = int(program.args[8]) if len(program.args) > 8 else 0
+    EDGE_FRAC_NUM  = int(program.args[9]) if len(program.args) > 9 else 0
+    PRUNE          = int(program.args[10]) if len(program.args) > 10 else 0
+except Exception:
+    TOTAL_N = 20
+    N_REVEALED = 10
+    D = 36
+    K = 3
+    SECURE_LABELS = 0
+    LABEL_OFFSET = 0
+    N_THREADS = 4
+    EDGE_MIN_COUNT = 0
+    EDGE_FRAC_NUM = 0
+    PRUNE = 0
+
+EDGE_FRAC_DEN = 10 ** 4
+FILTER_ON = EDGE_MIN_COUNT > 0 or EDGE_FRAC_NUM > 0
+
+print_ln("=== Secure Aggregate ===")
+if SECURE_LABELS:
+    print_ln("MODE: PRODUCTION - secret one-hot labels from persistence, no label-side reveal")
+else:
+    print_ln("MODE: LEGACY - labels entered publicly by P0 and revealed")
+print_ln("TOTAL_N=%s N_REVEALED=%s D=%s K=%s SECURE_LABELS=%s LABEL_OFFSET=%s",
+         TOTAL_N, N_REVEALED, D, K, SECURE_LABELS, LABEL_OFFSET)
+print_ln("N_THREADS=%s EDGE_MIN_COUNT=%s EDGE_FRAC_NUM=%s/%s (filter %s)",
+         N_THREADS, EDGE_MIN_COUNT, EDGE_FRAC_NUM, EDGE_FRAC_DEN,
+         "ON" if FILTER_ON else "off")
+print_ln("PRUNE=%s (dead-end pruning %s)", PRUNE, "ON" if PRUNE else "off")
+
+# Step 1: Read saved features
+print_ln("\n=== Step 1: Read Saved Features ===")
+
+features = sint.Matrix(TOTAL_N, D)
+features.read_from_file(0)
+print_ln("Read %s x %s features from file 0", TOTAL_N, D)
+
+# Step 2: Read cluster assignments
+print_ln("\n=== Step 2: Read Assignments ===")
+
+if SECURE_LABELS:
+    labels_onehot = sint.Matrix(N_REVEALED, K)
+    labels_onehot.read_from_file(LABEL_OFFSET)
+    print_ln("Read %s x %s one-hot labels from persistence at offset %s",
+             N_REVEALED, K, LABEL_OFFSET)
+else:
+    assignments = regint.Array(N_REVEALED)
+    for i in range(N_REVEALED):
+        assignments[i] = sint.get_input_from(0).reveal()
+    print_ln("Read %s assignments (revealed public labels)", N_REVEALED)
+
+# Step 3: Aggregate DFG by cluster
+print_ln("\n=== Step 3: Aggregate DFG ===")
+
+output = sint.Matrix(K, D)
+
+if SECURE_LABELS:
+    # One vector mult per (i, j); the per-thread accumulator keeps the multithreaded pass race-free.
+    n_thr = max(1, min(N_THREADS, N_REVEALED))
+    acc = sint.Tensor([n_thr, K, D])
+    acc.assign_all(0)
+
+    def accumulate(base, size, t):
+        @for_range_opt(size)
+        def _(ii):
+            i = base + ii
+            feat_vec = features[i].get_vector()
+            for j in range(K):
+                m = labels_onehot[i][j]
+                prod = m.expand_to_vector(D) * feat_vec
+                # acc[t][j] is addressed at runtime, so its read-modify-write needs a memory scope to stay ordered.
+                program.open_memory_scope("agg_acc")
+                acc[t][j].assign(acc[t][j].get_vector() + prod)
+                program.close_memory_scope()
+
+    if n_thr > 1:
+        @multithread(n_thr, N_REVEALED)
+        def _(base, size):
+            accumulate(base, size, get_arg())
+    else:
+        accumulate(0, N_REVEALED, 0)
+
+    for j in range(K):
+        vec = acc[0][j].get_vector()
+        for t in range(1, n_thr):
+            vec = vec + acc[t][j].get_vector()
+        output[j].assign(vec)
+else:
+    @for_range_opt(N_REVEALED)
+    def _(i):
+        c = assignments[i]
+        for d in range(D):
+            output[c][d] = output[c][d] + features[i][d]
+
+print_ln("Aggregated %s traces into %s clusters", N_REVEALED, K)
+
+# Step 3b: zero sub-cutoff activity cells before the reveal, so a discarded edge is never opened.
+# Integer twin of p4_aggregate.rs::filter_dfg_edges: keep iff w >= EDGE_MIN_COUNT and w*DEN >= EDGE_FRAC_NUM*max.
+if FILTER_ON:
+    print_ln("\n=== Step 3b: In-MPC Edge Filter ===")
+    d_act = math.isqrt(D)
+    assert d_act * d_act == D, "edge filter needs a d^2 DFG slab"
+    # Activity cells only: the START row and END column are exempt from removal and from the max.
+    act_cells = [f for f in range(D)
+                 if f // d_act not in (0, START_ACT)
+                 and f % d_act not in (0, END_ACT)]
+    # Comparison width: cells are pure counts below 2^AGG_CELL_BITS, which the Rust config guard enforces before a run.
+    W_CMP_BITS = AGG_CELL_BITS + 2
+    F_CMP_BITS = AGG_CELL_BITS + EDGE_FRAC_DEN.bit_length() + 2
+    assert F_CMP_BITS <= 63, "edge-filter fraction comparison exceeds the ring"
+
+    n_act = len(act_cells)
+    # Cell-major layout (cell i, cluster c) -> i*K + c, so one vector comparison per level reduces all K maxima.
+    wbuf = sint.Array(n_act * K)
+    for i, f in enumerate(act_cells):
+        wbuf.assign_vector(output.get_column(f), i * K)
+
+    mbuf = sint.Array(n_act * K)
+    mbuf.assign_vector(wbuf.get_vector())
+    n = n_act
+    while n > 1:
+        h = n // 2
+        a = mbuf.get_vector(0, h * K)
+        b = mbuf.get_vector(h * K, h * K)
+        mbuf.assign_vector(
+            a.less_than(b, bit_length=W_CMP_BITS).if_else(b, a), 0)
+        if n % 2:
+            # Carry the odd cell's K values into the next level.
+            mbuf.assign_vector(mbuf.get_vector((n - 1) * K, K), h * K)
+            n = h + 1
+        else:
+            n = h
+
+    # One folded comparison per cell: w*DEN >= max(EDGE_MIN_COUNT*DEN, EDGE_FRAC_NUM*mx), since DEN > 0.
+    min_cut = EDGE_MIN_COUNT * EDGE_FRAC_DEN
+    frac_cut = EDGE_FRAC_NUM * mbuf.get_vector(0, K)   # per-cluster max
+    cutoff = frac_cut.less_than(min_cut, bit_length=F_CMP_BITS).if_else(
+        min_cut, frac_cut)
+    cutbuf = sint.Array(n_act * K)
+    for i in range(n_act):
+        cutbuf.assign_vector(cutoff, i * K)
+    wv = wbuf.get_vector()
+    keep = (wv * EDGE_FRAC_DEN).greater_equal(cutbuf.get_vector(),
+                                              bit_length=F_CMP_BITS)
+    mbuf.assign_vector(keep * wv)
+    for i, f in enumerate(act_cells):
+        output.set_column(f, mbuf.get_vector(i * K, K))
+
+    print_ln("Filtered %s activity cells per cluster", n_act)
+
+# Step 3c: remove before the open every activity on no path from a start to an end activity; twin of
+# bridge/utils.py::prune_to_start_end_paths. Schedule: n-1 secret OR rounds, so it depends on D and K alone.
+if PRUNE:
+    # Break point: get_column/set_column are register-addressed, so without it the reads below may precede the filter.
+    break_point('prune-after-filter')
+    print_ln("\n=== Step 3c: In-MPC Dead-End Pruning ===")
+    d_act = math.isqrt(D)
+    assert d_act * d_act == D, "dead-end pruning needs a d^2 DFG slab"
+    acts = [u for u in range(d_act) if u not in (0, START_ACT, END_ACT)]
+    n = len(acts)
+
+    # Lost-case guard: the START row summed over all clusters is the public N, opened in place of the cluster sizes.
+    start_total = sum(output.get_column(START_ACT * d_act + v).sum()
+                      for v in range(d_act))
+    print_ln("START_TOTAL %s", start_total.reveal())
+    assert n > 0, "dead-end pruning needs at least one user activity"
+
+    # Cell-major (cell i, cluster c) -> i*K + c, as in Step 3b.
+    cells = ([START_ACT * d_act + u for u in acts]
+             + [u * d_act + END_ACT for u in acts]
+             + [u * d_act + v for u in acts for v in acts])
+    cbuf = sint.Array(len(cells) * K)
+    for i, f in enumerate(cells):
+        cbuf.assign_vector(output.get_column(f), i * K)
+    bbuf = sint.Array(len(cells) * K)
+    bbuf.assign_vector(cbuf.get_vector().greater_than(0, bit_length=AGG_CELL_BITS + 2))
+    # Break point: every read of the matrix completes before the first pruning write.
+    break_point('prune-after-read')
+
+    def blk(i):
+        return bbuf.get_vector(i * K, K)
+    fwd = [blk(i) for i in range(n)]                       # nonzero START cell
+    bwd = [blk(n + i) for i in range(n)]                   # nonzero END cell
+    edge = [[blk(2 * n + i * n + j) for j in range(n)] for i in range(n)]
+
+    # Each round sets a bit to "own bit + sum of the bits one edge away > 0", so the OR costs no extra multiplication.
+    R_CMP_BITS = (n + 1).bit_length() + 1                  # a sum of n+1 bits
+    rbuf = sint.Array(2 * n * K)
+    for _ in range(n - 1):
+        for j in range(n):
+            rbuf.assign_vector(fwd[j] + sum(fwd[i] * edge[i][j] for i in range(n)), j * K)
+        for i in range(n):
+            rbuf.assign_vector(bwd[i] + sum(bwd[j] * edge[i][j] for j in range(n)),
+                               (n + i) * K)
+        rbuf.assign_vector(rbuf.get_vector().greater_than(0, bit_length=R_CMP_BITS))
+        fwd = [rbuf.get_vector(i * K, K) for i in range(n)]
+        bwd = [rbuf.get_vector((n + i) * K, K) for i in range(n)]
+
+    keep = [fwd[i] * bwd[i] for i in range(n)]
+    for i, u in enumerate(acts):
+        f = START_ACT * d_act + u
+        output.set_column(f, output.get_column(f) * keep[i])
+        f = u * d_act + END_ACT
+        output.set_column(f, output.get_column(f) * keep[i])
+        for j, v in enumerate(acts):
+            f = u * d_act + v
+            output.set_column(f, output.get_column(f) * (keep[i] * keep[j]))
+
+    print_ln("Pruned dead ends over %s activities per cluster", n)
+    # Break point: Step 4 reads by direct address, which carries no dependency on the set_column writes above.
+    break_point('prune-before-output')
+
+# Step 4: open the K x D matrix. No cluster size is opened: the START-row sum of a published graph counts the cases
+# whose start activity is kept.
+print_ln("\n=== Step 4: Output ===")
+
+flat_output = sint.Array(K * D)
+for c in range(K):
+    for d in range(D):
+        flat_output[c * D + d] = output[c][d]
+
+revealed = flat_output.reveal()
+
+for c in range(K):
+    print_ln("ROW_START %s", c)
+    for d in range(D):
+        print_ln("B %s %s", d, revealed[c * D + d])
+    print_ln("ROW_END")
+
+print_ln("=== Complete ===")

@@ -1,0 +1,47 @@
+Attack battery on uni_ms_rtfm_rp_trigram_s101_2026-10-07_04-03-27
+  revealed Y: 83340/129985 rows non-zero (46645 suppressed-tail masked), k_proj=29
+  X (plaintext oracle): n=129985 d=81
+  seed=42  m-list=[5, 20, 50]  blas_threads=1
+  frequency-guessing baseline (top-5 cells for every case, no revealed row read): P=0.65 R=0.65 cols=[0, 21, 76, 29, 43]
+
+##############################################################################
+# real_envelope__attack_on_mpc_output
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_on_mpc_output.py --run output/runs/uni_ms_rtfm_rp_trigram_s101_2026-10-07_04-03-27 --m-list 5 20 50 --quad-max-rows 3000
+##############################################################################
+
+========================================================================
+  Run: uni_ms_rtfm_rp_trigram_s101_2026-10-07_04-03-27
+  X (plaintext reference): n=129985 d=81, mean row L0=5
+  scoring = positional (row i of the reconstruction against row i of the reference; NOT the opened row's case, see --truth)
+  Y (revealed, shuffled, normalised): n=83340 of 129985 rows non-zero (46645 suppressed-tail rows masked), k=29, L2 norm range [1.000, 1.000]
+========================================================================
+
+[quad-subsample] JL-fidelity and distance+MDS use 3000 of 83340 revealed rows and 3000 of 129985 reference rows (--quad-max-rows 3000); all other attacks run at full N
+
+JL distance fidelity: median rel-diff = 0.09, within-25% = 56.5%
+
+attack                            m      P      R  detail
+------------------------------------------------------------------------
+no-prior pinv                     -   0.01   0.00  
+FastICA                           -   0.47   0.28  
+distance+MDS                      -   0.46   0.56  
+known-sample (norm match)         5   0.66   0.19  
+known-sample (norm match)        20   0.30   0.36  
+known-sample (norm match)        50   0.23   0.26  
+known-sample (dist match)         5   0.50   0.37  5/5 paired
+known-sample (dist match)        20   0.30   0.35  0/20 paired
+known-sample (dist match)        50   0.30   0.21  0/50 paired
+
+[stderr]
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/numpy/lib/function_base.py:2897: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/numpy/lib/function_base.py:2898: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/sklearn/manifold/_mds.py:754: FutureWarning: The default value of `init` will change from 'random' to 'classical_mds' in 1.10. To suppress this warning, provide some value of `init`.
+  warnings.warn(
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/sklearn/manifold/_mds.py:771: FutureWarning: The `dissimilarity` parameter is deprecated and will be removed in 1.10. Use `metric` instead.
+  warnings.warn(
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/numpy/lib/function_base.py:2897: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/numpy/lib/function_base.py:2898: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]

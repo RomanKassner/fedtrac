@@ -1,0 +1,58 @@
+{
+ "cell": "ms_sepsis_rp_bigram_s42",
+ "method": "hdbscan",
+ "k_requested": 3,
+ "count": 2,
+ "sizes": [
+  721,
+  206
+ ],
+ "opened": 187,
+ "withheld": 740,
+ "ari_to_run": 0.676139,
+ "seconds": 0.3,
+ "note": "noise rows rehomed 69; own count 2",
+ "summary": {
+  "clusters": 2,
+  "cases": 927,
+  "models_scored": 2,
+  "pruned_activities": 7,
+  "fitness": 0.9634,
+  "precision": 0.5886,
+  "f_score": 0.7306,
+  "simplicity": 0.4849,
+  "edges": 30.6667,
+  "activities": 11.4444,
+  "rel": 41.901,
+  "rho": 0.6149
+ },
+ "clusters": [
+  {
+   "size": 206,
+   "rel": 36.2908,
+   "rho": 0.6359,
+   "pruned_activities": 2,
+   "edges": 33,
+   "activities": 13,
+   "fitness": 0.9655,
+   "precision": 0.5594,
+   "f_score": 0.7084,
+   "simplicity": 0.4921,
+   "cluster_id": 0
+  },
+  {
+   "size": 721,
+   "rel": 43.5039,
+   "rho": 0.6089,
+   "pruned_activities": 5,
+   "edges": 30,
+   "activities": 11,
+   "fitness": 0.9628,
+   "precision": 0.5969,
+   "f_score": 0.737,
+   "simplicity": 0.4828,
+   "cluster_id": 1
+  }
+ ],
+ "score_seconds": 57.7
+}

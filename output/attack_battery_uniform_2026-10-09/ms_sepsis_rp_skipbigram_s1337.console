@@ -1,0 +1,41 @@
+Attack battery on uni_ms_sepsis_rp_skipbigram_s1337_2026-10-05_20-36-14
+  revealed Y: 187/927 rows non-zero (740 suppressed-tail masked), k_proj=177
+  X (plaintext oracle): n=927 d=123
+  seed=42  m-list=[5, 20, 50]  blas_threads=1
+  frequency-guessing baseline (top-5 cells for every case, no revealed row read): P=0.90 R=0.34 cols=[1, 41, 89, 32, 55]
+
+
+##############################################################################
+# real_envelope__attack_on_mpc_output
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_on_mpc_output.py --run output/runs/uni_ms_sepsis_rp_skipbigram_s1337_2026-10-05_20-36-14 --m-list 5 20 50 --quad-max-rows 3000
+##############################################################################
+
+##############################################################################
+# upper_bound__sim_secret_R
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_sim_secret_R.py --features output/runs/uni_ms_sepsis_rp_skipbigram_s1337_2026-10-05_20-36-14/plaintext/features.csv --k 88 123 177 --seed 42
+##############################################################################
+
+##############################################################################
+# upper_bound__vertical_split
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_vertical_split.py --features output/runs/uni_ms_sepsis_rp_skipbigram_s1337_2026-10-05_20-36-14/plaintext/features.csv --partition 41,41 --k 88 123 177 --seed 42
+##############################################################################
+
+##############################################################################
+# upper_bound__anchor_mds_honest
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_anchor_mds_honest.py --features output/runs/uni_ms_sepsis_rp_skipbigram_s1337_2026-10-05_20-36-14/plaintext/features.csv --partition 41,41 --k 88 123 177 --seed 42
+##############################################################################
+
+============================================================
+REAL ENVELOPE (citable):
+  no-prior pinv                  m=  -  P=0.07  R=0.02
+  FastICA                        m=  -  P=0.51  R=0.75
+  distance+MDS                   m=  -  P=0.54  R=0.72
+  known-sample (norm match)      m=  5  P=0.44  R=0.10
+  known-sample (norm match)      m= 20  P=0.28  R=0.08
+  known-sample (norm match)      m= 50  P=0.22  R=0.08
+  known-sample (dist match)      m=  5  P=0.39  R=0.09
+  known-sample (dist match)      m= 20  P=0.30  R=0.09
+  known-sample (dist match)      m= 50  P=0.20  R=0.08
+  JL distance fidelity: median rel-diff = 0.10, within-25% = 67.3%
+
+wrote: output/attack_battery_uniform_2026-10-09/ms_sepsis_rp_skipbigram_s1337/report.txt, battery_summary.json, per-attack logs

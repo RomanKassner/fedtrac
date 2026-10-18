@@ -1,0 +1,28 @@
+$ /home/roman/projects/federated_clustering/.venv/bin/python /home/roman/projects/federated_clustering/scripts/attacks/attack_on_mpc_output.py --run /home/roman/projects/federated_clustering/output/runs/uni_ms_bpic2013_rp_trigram_s7_2026-10-06_02-05-04 --truth /home/roman/projects/federated_clustering/output/runs/rescore_uni_ms_bpic2013_rp_trigram_s7_2026-10-09_16-14-08/features_encoded.csv --k-priv 6 --m-list 5 20 50 --quad-max-rows 3000 --oracle-max-rows 3000
+
+
+========================================================================
+  Run: uni_ms_bpic2013_rp_trigram_s7_2026-10-06_02-05-04
+  X (truth features_encoded.csv, k_priv=6): all rows 7545 d=29, anonymous set |A|=6091 against 6091 opened rows -> OK; scoring = ORACLE ROW ALIGNMENT (max 3000 rows)
+  Y (revealed, shuffled, normalised): n=6091 of 7545 rows non-zero (1454 suppressed-tail rows masked), k=25, L2 norm range [1.000, 1.000]
+========================================================================
+
+[quad-subsample] JL-fidelity and distance+MDS use 3000 of 6091 revealed rows and 3000 of 6091 reference rows (--quad-max-rows 3000); all other attacks run at full N
+
+JL distance fidelity: median rel-diff = 0.08, within-25% = 81.3%
+
+FastICA and distance+MDS are not scored on the opened rows: their column alignment needs the row pairing; the geometry bound is upper_bound__sim_secret_R at the run's width
+
+attack                            m      P      R  detail
+------------------------------------------------------------------------
+no-prior pinv                     -   0.17   0.28  oracle-aligned on 3000 rows
+known-sample (norm match)         5   0.43   0.39  oracle-aligned on 3000 rows
+known-sample (norm match)        20   0.41   0.46  oracle-aligned on 3000 rows
+known-sample (norm match)        50   0.42   0.44  oracle-aligned on 3000 rows
+known-sample (dist match)         5   0.54   0.58  oracle-aligned on 3000 rows
+known-sample (dist match)        20   0.42   0.34  oracle-aligned on 3000 rows
+known-sample (dist match)        50   0.39   0.43  oracle-aligned on 3000 rows
+frequency match (oracle table)    -   0.98   0.66  oracle-aligned on 3000 rows
+frequency match: 114 opened classes over 6091 opened rows, class sizes equal the counts of the opened profiles: OK; 85 classes (1260 rows) in size ties
+frequency match: class_acc = 0.2544, row_acc = 0.7931 (certain: a tied class counts as a miss); expected over R (lexicographic tie rule, 200 antithetic draws): class_acc_exp = 0.4152, row_acc_exp = 0.8643
+frequency match: oracle-aligned P = 0.9775, R = 0.6598 on 3000 rows (the rebuilt multiset equals the true one whenever the sizes match, so the oracle scores it 1 on the opened rows below the row cap)

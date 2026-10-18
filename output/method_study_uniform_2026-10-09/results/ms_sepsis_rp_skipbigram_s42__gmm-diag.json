@@ -1,0 +1,58 @@
+{
+ "cell": "ms_sepsis_rp_skipbigram_s42",
+ "method": "gmm-diag",
+ "k_requested": 3,
+ "count": 2,
+ "sizes": [
+  707,
+  220
+ ],
+ "opened": 187,
+ "withheld": 740,
+ "ari_to_run": 0.373763,
+ "seconds": 0.3,
+ "note": "1 clusters below 10 merged",
+ "summary": {
+  "clusters": 2,
+  "cases": 927,
+  "models_scored": 2,
+  "pruned_activities": 7,
+  "fitness": 0.9644,
+  "precision": 0.5825,
+  "f_score": 0.7262,
+  "simplicity": 0.485,
+  "edges": 30.712,
+  "activities": 11.4746,
+  "rel": 41.6232,
+  "rho": 0.6203
+ },
+ "clusters": [
+  {
+   "size": 220,
+   "rel": 37.812,
+   "rho": 0.6091,
+   "pruned_activities": 2,
+   "edges": 33,
+   "activities": 13,
+   "fitness": 0.9626,
+   "precision": 0.5579,
+   "f_score": 0.7064,
+   "simplicity": 0.4921,
+   "cluster_id": 0
+  },
+  {
+   "size": 707,
+   "rel": 42.8092,
+   "rho": 0.6238,
+   "pruned_activities": 5,
+   "edges": 30,
+   "activities": 11,
+   "fitness": 0.9649,
+   "precision": 0.5902,
+   "f_score": 0.7324,
+   "simplicity": 0.4828,
+   "cluster_id": 1
+  }
+ ],
+ "score_seconds": 54.9
+}

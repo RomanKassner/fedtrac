@@ -1,0 +1,23 @@
+$ /home/roman/projects/federated_clustering/target/release/clustering_federated --data-dir data/splits/bpic2013_3party --n-parties 3 --case-ids config/case_ids/bpic2013_3party_full.txt --encoding bigram --truncate-baseline --dump-encoded-features --run-name rescore_uni_ms_bpic2013-pc3p_rp_bigram_s101
+
+--- Start ---
+Output: output/runs/rescore_uni_ms_bpic2013-pc3p_rp_bigram_s101_2026-10-09_16-11-05
+Loaded party 0: 40117 events (party_a_acceptance.xes)
+Loaded party 1: 11544 events (party_b_queueing.xes)
+Loaded party 2: 13872 events (party_c_completion.xes)
+
+--- Phase 0: Case ID Intersection (3 parties) ---
+Phase 0: pinned to 4507 cases from config/case_ids/bpic2013_3party_full.txt
+Phase 0: 4507 common cases in 6.948984ms
+
+--- Phase 1: Activity Dictionary ---
+Phase 1: 4 user activities (7 total with markers) in 2.993057ms
+
+--- Phase 2-3: Plaintext Integration & Clustering ---
+[Harness] Auto-L reads the joint per-case length distribution across parties; a deployment fixes --max-trace-len by policy instead
+[MPC] Trace length distribution (merged, 3 parties): P50=9, P95=27, P99=45, max=123
+[MPC] Dynamic L = 24 (per-party, bigram coverage 97.3%), truncated = 0.1%
+[Plaintext] Integrated 4507 traces (truncated, L=24)
+[Plaintext] 14 bigrams, 4507 features
+Exported encoded feature matrix (4507 x 14) to output/runs/rescore_uni_ms_bpic2013-pc3p_rp_bigram_s101_2026-10-09_16-11-05/features_encoded.csv (case ids in output/runs/rescore_uni_ms_bpic2013-pc3p_rp_bigram_s101_2026-10-09_16-11-05/features_encoded_cases.txt)
+Plaintext dump completed in 33.390306ms

@@ -1,0 +1,4 @@
+{
+  "Party_A": ["Assign seriousness", "Take in charge ticket", "Insert ticket", "Require upgrade", "Schedule intervention"],
+  "Party_B": ["Resolve ticket", "Closed", "Wait", "Create SW anomaly", "Resolve SW anomaly", "RESOLVED", "VERIFIED", "INVALID", "DUPLICATE"]
+}

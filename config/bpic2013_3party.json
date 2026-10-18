@@ -1,0 +1,6 @@
+{
+  "_comment": "Role-derived three-party split of BPIC 2013 incidents. It refines config/bpic2013_2party.json: Party_A of that split is divided into acceptance and queueing, Party_B stays as completion.",
+  "party_a_acceptance": ["Accepted"],
+  "party_b_queueing": ["Queued"],
+  "party_c_completion": ["Completed", "Unmatched"]
+}

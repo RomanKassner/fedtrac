@@ -1,0 +1,42 @@
+
+=== uni_ms_helpdesk-pc2p_rp_ef_s42_2026-10-10_20-59-27 (HONEST attack; no X_full leak) ===
+n=4221, d=62, partition=[20, 20, 22]
+
+  k  attack             party     P_unk  R_unk
+----------------------------------------------------------------------
+ 15  trivial-zero       party0     0.00   0.00
+ 15  dist-MDS           party0     0.10   0.00
+ 15  dict-learn         party0     0.00   0.00
+
+ 15  trivial-zero       party1     0.00   0.00
+ 15  dist-MDS           party1     0.09   0.00
+ 15  dict-learn         party1     0.00   0.00
+
+ 15  trivial-zero       party2     0.00   0.00
+ 15  dist-MDS           party2     0.05   0.00
+ 15  dict-learn         party2     0.00   0.00
+
+ 30  trivial-zero       party0     0.00   0.00
+ 30  dist-MDS           party0     0.35   0.00
+ 30  dict-learn         party0     0.00   0.00
+
+ 30  trivial-zero       party1     0.00   0.00
+ 30  dist-MDS           party1     0.00   0.00
+ 30  dict-learn         party1     0.00   0.00
+
+ 30  trivial-zero       party2     0.00   0.00
+ 30  dist-MDS           party2     0.07   0.00
+ 30  dict-learn         party2     0.00   0.00
+
+ 60  trivial-zero       party0     0.00   0.00
+ 60  dist-MDS           party0     0.00   0.00
+ 60  dict-learn         party0     0.00   0.00
+
+ 60  trivial-zero       party1     0.00   0.00
+ 60  dist-MDS           party1     0.06   0.00
+ 60  dict-learn         party1     0.00   0.00
+
+ 60  trivial-zero       party2     0.00   0.00
+ 60  dist-MDS           party2     0.00   0.00
+ 60  dict-learn         party2     0.00   0.00
+

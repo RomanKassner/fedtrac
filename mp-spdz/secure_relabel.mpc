@@ -1,0 +1,130 @@
+"""Un-shuffle the public cluster labels through the secret pi, assign the withheld rows, persist a one-hot."""
+
+import sys
+
+sys.path.insert(0, 'Programs/Source')
+
+from Compiler.types import sint, cint, regint
+from Compiler.library import (
+    print_ln, for_range_opt, for_range_opt_multithread, for_range_parallel,
+)
+from Compiler.util import tree_reduce
+
+from mpc_utils.perfect_sort import reveal_sort_checked
+
+
+try:
+    N             = int(program.args[1]) if len(program.args) > 1 else 10
+    PI_OFFSET     = int(program.args[2]) if len(program.args) > 2 else 0
+    N_THREADS     = int(program.args[3]) if len(program.args) > 3 else 8
+    K             = int(program.args[4]) if len(program.args) > 4 else 0
+    LABEL_OFFSET  = int(program.args[5]) if len(program.args) > 5 else 0
+    REVEAL_LABELS = int(program.args[6]) if len(program.args) > 6 else 0
+    K_PROJ        = int(program.args[7]) if len(program.args) > 7 else 0
+    Y_OFFSET      = int(program.args[8]) if len(program.args) > 8 else 0
+    BB_OFFSET     = int(program.args[9]) if len(program.args) > 9 else 0
+    CMP_BITS_arg  = int(program.args[10]) if len(program.args) > 10 else 0
+except Exception:
+    N, PI_OFFSET, N_THREADS = 10, 0, 8
+    K, LABEL_OFFSET, REVEAL_LABELS = 0, 0, 0
+    K_PROJ, Y_OFFSET, BB_OFFSET = 0, 0, 0
+    CMP_BITS_arg = 0
+
+
+# Hybrid reveal, active only when the extract step persisted the withheld rows and a one-hot is written.
+HYBRID = (Y_OFFSET > 0) and (K_PROJ > 0) and (K > 0)
+
+# Tail-argmin block width: the tail count is a runtime input, so this many rows share one set of rounds; power of two.
+TAIL_PARALLEL = 64
+# Width of the tail score comparison, derived by rounds.rs::relabel_tail_cmp_bits from the normalisation headroom
+# parameters.rs::rsec_norm_preshift enforces; 0 means the ring width.
+TAIL_CMP_BITS = (program.bit_length if CMP_BITS_arg <= 0
+                 else min(CMP_BITS_arg, program.bit_length))
+
+# K=0 writes no one-hot and has nothing else to emit, so the reveal is forced on.
+if K == 0:
+    REVEAL_LABELS = 1
+
+
+print_ln("=== Secure Relabel ===")
+if K > 0:
+    print_ln("MODE: PRODUCTION - shuffle-then-open un-shuffle, secret one-hot at offset %s", LABEL_OFFSET)
+else:
+    print_ln("MODE: LEGACY - shuffle-then-open un-shuffle, ASSIGN reveal only")
+print_ln("N=%s PI_OFFSET=%s N_THREADS=%s K=%s LABEL_OFFSET=%s REVEAL_LABELS=%s",
+         N, PI_OFFSET, N_THREADS, K, LABEL_OFFSET, REVEAL_LABELS)
+print_ln("HYBRID=%s K_PROJ=%s Y_OFFSET=%s BB_OFFSET=%s TAIL_CMP_BITS=%s",
+         int(HYBRID), K_PROJ, Y_OFFSET, BB_OFFSET, TAIL_CMP_BITS)
+
+
+def main():
+    pi = sint.Array(N)
+    pi.read_from_file(PI_OFFSET)
+
+    # Per-shuffled-position label from the clustering in the clear; tail positions carry a sentinel.
+    label_in = sint.Array(N)
+
+    @for_range_opt(N)
+    def _(i):
+        label_in[i] = sint.get_input_from(0)
+
+    if HYBRID:
+        # Withheld unit-norm rows persisted by the extract step, at the scale of the centroids below.
+        y = sint.Matrix(N, K_PROJ)
+        y.read_from_file(Y_OFFSET)
+
+        # Public centroids, scaled by NORM_SCALE to match the persisted Y, so every score term is triple-free.
+        centroids = cint.Matrix(K, K_PROJ)
+        for j in range(K):
+            for a in range(K_PROJ):
+                centroids[j][a] = sint.get_input_from(0).reveal()
+        cnorm = [sum(centroids[j][a] * centroids[j][a] for a in range(K_PROJ))
+                 for j in range(K)]
+
+        # Leakage: which rows are tail is already public, the zero rows of the revealed Y, so the count and the
+        # indices arrive as opened inputs and a backbone row keeps its public label.
+        n_tail = regint(sint.get_input_from(0).reveal())
+
+        def _argmin_first(a, b):
+            """Keep a on a score tie, so the smallest cluster index wins, as in the sequential scan."""
+            swap = b[1].less_than(a[1], bit_length=TAIL_CMP_BITS)
+            return (swap.if_else(b[0], a[0]), swap.if_else(b[1], a[1]))
+
+        @for_range_parallel(TAIL_PARALLEL, n_tail)
+        def _(t):
+            idx = regint(sint.get_input_from(0).reveal())
+            y_vec = y[idx].get_vector()
+            # The score is the squared distance minus the per-row constant |y|^2, so it ranks as the distance does.
+            scores = [cnorm[j] - 2 * (y_vec * centroids[j].get_vector()).sum()
+                      for j in range(K)]
+            best = tree_reduce(_argmin_first,
+                               [(j, scores[j]) for j in range(K)])[0]
+            label_in[idx] = sint.conv(best)
+
+    # Un-shuffle by the perfect key: pi is the shuffle image of the identity, hence a permutation of 0..N-1, so one
+    # shuffle-then-open suffices and the key is never bit-decomposed. Afterwards label_in[j] is the label of case j.
+    reveal_sort_checked(pi, label_in)
+
+    # Build the secret one-hot and persist it for secure_aggregate.mpc under SECURE_LABELS=1.
+    if K > 0:
+        labels_onehot = sint.Matrix(N, K)
+        eq_bits = K.bit_length() + 1
+
+        @for_range_opt_multithread(N_THREADS, N)
+        def _(i):
+            for j in range(K):
+                labels_onehot[i][j] = label_in[i].equal(j, bit_length=eq_bits)
+
+        labels_onehot.write_to_file(LABEL_OFFSET)
+        print_ln("Persisted %s x %s one-hot labels at offset %s",
+                 N, K, LABEL_OFFSET)
+
+    # Simulator only: REVEAL_LABELS=1 opens the per-case label for the tests and for --evaluate-full.
+    if REVEAL_LABELS:
+        for j in range(N):
+            print_ln("ASSIGN %s %s", j, label_in[j].reveal())
+
+    print_ln("=== Complete ===")
+
+
+main()

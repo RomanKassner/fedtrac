@@ -1,0 +1,23 @@
+$ /home/roman/projects/federated_clustering/target/release/clustering_federated --data-dir data/splits/helpdesk_3party --n-parties 3 --case-ids config/case_ids/helpdesk_3party_full.txt --encoding activity --truncate-baseline --dump-encoded-features --run-name rescore_uni_ms_helpdesk-pc3p_rp_activity_s42
+
+--- Start ---
+Output: output/runs/rescore_uni_ms_helpdesk-pc3p_rp_activity_s42_2026-10-11_06-31-46
+Loaded party 0: 5056 events (party_a_intake.xes)
+Loaded party 1: 5184 events (party_b_handling.xes)
+Loaded party 2: 11108 events (party_c_resolution.xes)
+
+--- Phase 0: Case ID Intersection (3 parties) ---
+Phase 0: pinned to 4221 cases from config/case_ids/helpdesk_3party_full.txt
+Phase 0: 4221 common cases in 3.518608ms
+
+--- Phase 1: Activity Dictionary ---
+Phase 1: 14 user activities (17 total with markers) in 1.251748ms
+
+--- Phase 2-3: Plaintext Integration & Clustering ---
+[Harness] Auto-L reads the joint per-case length distribution across parties; a deployment fixes --max-trace-len by policy instead
+[MPC] Trace length distribution (merged, 3 parties): P50=4, P95=7, P99=9, max=15
+[MPC] Dynamic L = 8 (per-party, bigram coverage 99.3%), truncated = 0.0%
+[Plaintext] Integrated 4221 traces (truncated, L=8)
+[Plaintext] 62 bigrams, 4221 features
+Exported encoded feature matrix (4221 x 17) to output/runs/rescore_uni_ms_helpdesk-pc3p_rp_activity_s42_2026-10-11_06-31-46/features_encoded.csv (case ids in output/runs/rescore_uni_ms_helpdesk-pc3p_rp_activity_s42_2026-10-11_06-31-46/features_encoded_cases.txt)
+Plaintext dump completed in 17.195632ms

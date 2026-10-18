@@ -1,0 +1,42 @@
+
+=== uni_ms_sepsis_rp_activity_s1337_2026-10-05_20-04-47 (HONEST attack; no X_full leak) ===
+n=927, d=123, partition=[41, 41, 41]
+
+  k  attack             party     P_unk  R_unk
+----------------------------------------------------------------------
+ 10  trivial-zero       party0     0.00   0.00
+ 10  dist-MDS           party0     0.00   0.00
+ 10  dict-learn         party0     0.00   0.00
+
+ 10  trivial-zero       party1     0.00   0.00
+ 10  dist-MDS           party1     0.00   0.00
+ 10  dict-learn         party1     0.00   0.00
+
+ 10  trivial-zero       party2     0.00   0.00
+ 10  dist-MDS           party2     0.00   0.00
+ 10  dict-learn         party2     0.00   0.00
+
+ 19  trivial-zero       party0     0.00   0.00
+ 19  dist-MDS           party0     0.00   0.00
+ 19  dict-learn         party0     0.00   0.00
+
+ 19  trivial-zero       party1     0.00   0.00
+ 19  dist-MDS           party1     0.00   0.00
+ 19  dict-learn         party1     0.00   0.00
+
+ 19  trivial-zero       party2     0.00   0.00
+ 19  dist-MDS           party2     0.00   0.00
+ 19  dict-learn         party2     0.00   0.00
+
+ 38  trivial-zero       party0     0.00   0.00
+ 38  dist-MDS           party0     0.00   0.00
+ 38  dict-learn         party0     0.00   0.00
+
+ 38  trivial-zero       party1     0.00   0.00
+ 38  dist-MDS           party1     0.00   0.00
+ 38  dict-learn         party1     0.00   0.00
+
+ 38  trivial-zero       party2     0.00   0.00
+ 38  dist-MDS           party2     0.00   0.00
+ 38  dict-learn         party2     0.00   0.00
+

@@ -1,0 +1,37 @@
+
+========================================================================
+  Run: uni_ms_bpic2013-pc3p_rp_bigram_s1337_2026-10-05_10-12-25
+  X (plaintext reference): n=4507 d=14, mean row L0=6
+  scoring = positional (row i of the reconstruction against row i of the reference; NOT the opened row's case, see --truth)
+  Y (revealed, shuffled, normalised): n=3542 of 4507 rows non-zero (965 suppressed-tail rows masked), k=20, L2 norm range [1.000, 1.000]
+========================================================================
+
+[quad-subsample] JL-fidelity and distance+MDS use 3000 of 3542 revealed rows and 3000 of 4507 reference rows (--quad-max-rows 3000); all other attacks run at full N
+
+JL distance fidelity: median rel-diff = 0.06, within-25% = 84.1%
+
+attack                            m      P      R  detail
+------------------------------------------------------------------------
+no-prior pinv                     -   0.59   0.41  
+FastICA                           -   0.88   0.76  
+distance+MDS                      -   0.77   0.73  
+known-sample (norm match)         5   0.76   0.39  
+known-sample (norm match)        20   0.81   0.39  
+known-sample (norm match)        50   0.57   0.41  
+known-sample (dist match)         5   0.81   0.38  5/5 paired
+known-sample (dist match)        20   0.79   0.47  0/20 paired
+known-sample (dist match)        50   0.73   0.37  1/50 paired
+
+[stderr]
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/numpy/lib/function_base.py:2897: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/numpy/lib/function_base.py:2898: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/sklearn/manifold/_mds.py:754: FutureWarning: The default value of `init` will change from 'random' to 'classical_mds' in 1.10. To suppress this warning, provide some value of `init`.
+  warnings.warn(
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/sklearn/manifold/_mds.py:771: FutureWarning: The `dissimilarity` parameter is deprecated and will be removed in 1.10. Use `metric` instead.
+  warnings.warn(
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/numpy/lib/function_base.py:2897: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/numpy/lib/function_base.py:2898: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]

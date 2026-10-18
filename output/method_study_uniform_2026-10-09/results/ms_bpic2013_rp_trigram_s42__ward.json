@@ -1,0 +1,86 @@
+{
+ "cell": "ms_bpic2013_rp_trigram_s42",
+ "method": "ward",
+ "k_requested": 4,
+ "count": 4,
+ "sizes": [
+  3555,
+  2361,
+  1074,
+  555
+ ],
+ "opened": 6091,
+ "withheld": 1454,
+ "ari_to_run": 0.565585,
+ "seconds": 1.6,
+ "note": "",
+ "summary": {
+  "clusters": 4,
+  "cases": 7545,
+  "models_scored": 4,
+  "pruned_activities": 1,
+  "fitness": 0.9951,
+  "precision": 0.8567,
+  "f_score": 0.9203,
+  "simplicity": 0.6161,
+  "edges": 5.5213,
+  "activities": 2.6871,
+  "rel": 11.0646,
+  "rho": 0.9398
+ },
+ "clusters": [
+  {
+   "size": 3555,
+   "rel": 16.3353,
+   "rho": 0.8987,
+   "pruned_activities": 0,
+   "edges": 6,
+   "activities": 3,
+   "fitness": 0.9918,
+   "precision": 0.8888,
+   "f_score": 0.9375,
+   "simplicity": 0.6,
+   "cluster_id": 0
+  },
+  {
+   "size": 2361,
+   "rel": 3.272,
+   "rho": 0.9953,
+   "pruned_activities": 1,
+   "edges": 4,
+   "activities": 2,
+   "fitness": 0.9991,
+   "precision": 0.8443,
+   "f_score": 0.9152,
+   "simplicity": 0.6471,
+   "cluster_id": 1
+  },
+  {
+   "size": 1074,
+   "rel": 13.7257,
+   "rho": 0.9311,
+   "pruned_activities": 0,
+   "edges": 6,
+   "activities": 3,
+   "fitness": 0.9954,
+   "precision": 0.8124,
+   "f_score": 0.8946,
+   "simplicity": 0.6364,
+   "cluster_id": 2
+  },
+  {
+   "size": 555,
+   "rel": 5.3041,
+   "rho": 0.9838,
+   "pruned_activities": 0,
+   "edges": 8,
+   "activities": 3,
+   "fitness": 0.9981,
+   "precision": 0.7891,
+   "f_score": 0.8814,
+   "simplicity": 0.5484,
+   "cluster_id": 3
+  }
+ ],
+ "score_seconds": 78.8
+}

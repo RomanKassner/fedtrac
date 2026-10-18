@@ -1,0 +1,25 @@
+    Finished `release` profile [optimized] target(s) in 0.02s
+     Running `target/release/clustering_federated --data-dir data/splits/sepsis_2party --case-ids config/case_ids/sepsis_2party_full.txt --encoding ef --mpc --secure-kmeans --secure-clustering sequence --k 6 --reuse-extraction --evaluate-full --fast-eval --run-name uni_sepsis-ef_sl_seq`
+--- Start ---
+Output: output/runs/uni_sepsis-ef_sl_seq_2026-10-05_20-16-41
+Loaded XES: 11263 events (Party_A.xes), 3951 events (Party_B.xes) from data/splits/sepsis_2party
+
+--- Phase 0: Case ID Intersection (2 parties) ---
+Phase 0: pinned to 927 cases from config/case_ids/sepsis_2party_full.txt
+Phase 0: 927 common cases in 1.138422ms
+
+--- Phase 1: Activity Dictionary ---
+Phase 1: 16 user activities (19 total with markers) in 832.565µs
+[Harness] Auto-L reads the joint per-case length distribution across parties; a deployment fixes --max-trace-len by policy instead
+[MPC] Trace length distribution (merged, 2 parties): P50=14, P95=31, P99=52, max=185
+[MPC] Dynamic L = 48 (per-party, bigram coverage 97.0%), truncated = 0.3%
+[Plaintext] Integrated 927 traces
+[Plaintext] 123 bigrams, 927 features
+[Auto-kproj] Party 0 sparsity (Ef): 18.2
+[Auto-kproj] Party 1 sparsity (Ef): 6.6
+[Auto-kproj] CS_per_party=218, CS_full=334, CS_binding=218, k_proj=184 (safety=0.8)
+[MPC] Party 0: 927 cases
+[MPC] Party 1: 927 cases
+[MPC] --reuse-extraction: creating core slab (full extract + persist encoding) (encoding slab @789804)
+[SPDZ] Cleaned per-run secret material: Input-P0-0, Input-P1-0, Input-P2-0, Input-P3-0, Input-P4-0, Input-P5-0, Input-P6-0, Input-P7-0
+Error: Mpc("--secure-kmeans can overflow the 64-bit ring: worst-case width 65 bits > 63 (N=927, K_PROJ=184, encoding Ef, y_max bound 1891). Lower --max-trace-len or --projection-dim (the width no longer depends on N).")

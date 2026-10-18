@@ -1,0 +1,26 @@
+Attack battery on uni_ms_rtfm_rp_ef_s42_2026-10-07_10-10-16
+  revealed Y: 109777/129985 rows non-zero (20208 suppressed-tail masked), k_proj=50
+  X (plaintext oracle): n=129985 d=81
+  seed=42  m-list=[5, 20, 50]  blas_threads=1
+  frequency-guessing baseline (top-5 cells for every case, no revealed row read): P=0.65 R=0.65 cols=[0, 21, 76, 29, 43]
+
+
+##############################################################################
+# real_envelope__attack_on_mpc_output
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_on_mpc_output.py --run output/runs/uni_ms_rtfm_rp_ef_s42_2026-10-07_10-10-16 --m-list 5 20 50 --quad-max-rows 3000
+##############################################################################
+
+============================================================
+REAL ENVELOPE (citable):
+  no-prior pinv                  m=  -  P=0.06  R=0.09
+  FastICA                        m=  -  P=0.46  R=0.28
+  distance+MDS                   m=  -  P=0.45  R=0.54
+  known-sample (norm match)      m=  5  P=0.53  R=0.41
+  known-sample (norm match)      m= 20  P=0.43  R=0.40
+  known-sample (norm match)      m= 50  P=0.43  R=0.46
+  known-sample (dist match)      m=  5  P=0.55  R=0.51
+  known-sample (dist match)      m= 20  P=0.41  R=0.44
+  known-sample (dist match)      m= 50  P=0.42  R=0.58
+  JL distance fidelity: median rel-diff = 0.42, within-25% = 46.3%
+
+wrote: output/attack_battery_uniform_2026-10-09/ms_rtfm_rp_ef_s42/report.txt, battery_summary.json, per-attack logs

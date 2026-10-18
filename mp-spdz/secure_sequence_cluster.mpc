@@ -1,0 +1,334 @@
+"""Secure sequence clustering: hard-EM over a mixture of first-order Markov chains, one count matrix per cluster."""
+
+import math
+import sys
+sys.path.insert(0, 'Programs/Source')
+
+from Compiler.types import sint, sfix, regint
+from Compiler.library import (print_ln, for_range_opt, for_range_opt_multithread,
+                              multithread, get_arg)
+from Compiler.util import tree_reduce
+from Compiler import floatingpoint, mpc_math
+from mpc_utils.constants import AGG_CELL_BITS, START_ACT, END_ACT
+from mpc_utils.utils import profile_timers
+
+
+# Parameters (compile-time Python ints).
+try:
+    N_CASES       = int(program.args[1]) if len(program.args) > 1 else 24
+    D             = int(program.args[2]) if len(program.args) > 2 else 49
+    K             = int(program.args[3]) if len(program.args) > 3 else 3
+    MAX_ITER      = int(program.args[4]) if len(program.args) > 4 else 5
+    N_THREADS     = int(program.args[5]) if len(program.args) > 5 else 4
+    INPUT_SOURCE  = int(program.args[6]) if len(program.args) > 6 else 0
+    LABEL_OFFSET  = int(program.args[7]) if len(program.args) > 7 else 0
+    REVEAL_LABELS = int(program.args[8]) if len(program.args) > 8 else 0
+    INIT_MODE     = int(program.args[9]) if len(program.args) > 9 else 0
+    PROFILE       = int(program.args[10]) if len(program.args) > 10 else 0
+    MIN_CLUSTER   = int(program.args[11]) if len(program.args) > 11 else 0
+except Exception:
+    N_CASES, D, K, MAX_ITER, N_THREADS, INPUT_SOURCE, LABEL_OFFSET, REVEAL_LABELS = (
+        24, 49, 3, 5, 4, 0, 0, 0
+    )
+    INIT_MODE = 0
+    PROFILE = 0
+    MIN_CLUSTER = 0
+
+DH = math.isqrt(D)
+assert DH * DH == D, "sequence clustering needs a d^2 directly-follows slab"
+if K > N_CASES:
+    raise ValueError(f"K={K} > N_CASES={N_CASES}; need at least K rows for the seeds")
+
+F_BITS = 16
+sfix.set_precision(F_BITS, 31)
+# Width: a score is bounded by the row mass times 2^F_BITS times log2 of the total mass, below 2^40 at every
+# population of the campaign.
+SCORE_CMP_BITS = 48
+# Width: the merge compares sums of per-case scores over up to N_CASES cases.
+MERGE_CMP_BITS = min(SCORE_CMP_BITS + (max(N_CASES, 1) - 1).bit_length(),
+                     program.bit_length)
+# Width: cluster sizes lie in [0, N_CASES].
+CNT_CMP_BITS = (max(N_CASES, 1) - 1).bit_length() + 3
+
+# Structural cells: PAD never occurs, START is never a target and END never a source.
+ACT_SRC = [a for a in range(DH) if a not in (0, END_ACT)]
+ACT_TGT = [b for b in range(DH) if b not in (0, START_ACT)]
+DH_EFF = len(ACT_TGT)
+CELLS = [a * DH + b for a in ACT_SRC for b in ACT_TGT]
+N_CELL = len(CELLS)
+# Packed index: cell (a, b) sits at ACT_SRC.index(a) * DH_EFF + ACT_TGT.index(b), so a row sum is one contiguous block.
+
+# Width: every value the log sees is a cell or row sum plus Laplace slack, and the Rust config guard keeps a cluster's
+# mass below 2^AGG_CELL_BITS.
+COUNT_BITS = AGG_CELL_BITS + 1
+assert COUNT_BITS < 63, "count width must fit the ring with a sign bit"
+
+print_ln("=== Secure Sequence Clustering (Markov-chain hard-EM, prototype) ===")
+if INPUT_SOURCE == 0:
+    print_ln("MODE: TESTING - rows read as party-0 input; labels REVEALED for agreement test")
+elif REVEAL_LABELS == 1:
+    print_ln("MODE: PRODUCTION+EVAL - labels persisted secret-shared AND revealed "
+             "for --evaluate-full benchmarking")
+else:
+    print_ln("MODE: PRODUCTION - rows read from persistence; labels persisted, no reveal")
+print_ln("N_CASES=%s D=%s (DH=%s) K=%s MAX_ITER=%s N_THREADS=%s INPUT_SOURCE=%s "
+         "LABEL_OFFSET=%s REVEAL_LABELS=%s INIT_MODE=%s cells=%s d_eff=%s "
+         "MIN_CLUSTER=%s",
+         N_CASES, D, DH, K, MAX_ITER, N_THREADS, INPUT_SOURCE, LABEL_OFFSET,
+         REVEAL_LABELS, INIT_MODE, len(CELLS), DH_EFF, MIN_CLUSTER)
+if PROFILE:
+    print_ln("PROFILE: on - per-step timers 1=init 2=log-weight 3=E-step 4=M-step")
+
+
+def log2_count(x):
+    """log2 of a positive sint below 2^COUNT_BITS: mpc_math.log2_fx's sfix branch over the public integer width."""
+    v, p, _, _ = floatingpoint.Int2FL(x, COUNT_BITS, F_BITS)
+    mant = sfix._new(v)
+    approx = (mpc_math.p_eval(mpc_math.p_2524, mant)
+              / mpc_math.p_eval(mpc_math.q_2524, mant))
+    return approx + (p + F_BITS)
+
+
+def argmax_first(scores):
+    """Tree-reduced argmax, first index on a tie."""
+    def op(a, b):
+        swap = b[1].greater_than(a[1], bit_length=SCORE_CMP_BITS)
+        return (swap.if_else(b[0], a[0]), swap.if_else(b[1], a[1]))
+
+    return tree_reduce(op, [(j, scores[j]) for j in range(K)])[0]
+
+
+def read_rows():
+    """The d^2 count rows, re-indexed onto the packed cells by a public strided copy; the dropped cells are zero."""
+    raw = sint.Matrix(N_CASES, D)
+    if INPUT_SOURCE == 0:
+        print_ln("Reading %s x %s count rows from party 0 (test mode)", N_CASES, D)
+        raw.input_from(0)
+    else:
+        print_ln("Reading %s x %s count rows from persistence offset 0", N_CASES, D)
+        raw.read_from_file(0)
+    X = sint.Matrix(N_CASES, N_CELL)
+    for t, ab in enumerate(CELLS):
+        X.set_column(t, raw.get_column(ab))
+    return X
+
+
+def init_models(X):
+    """Evenly-spaced seed rows, as in secure_kmeans.mpc: model j is the count matrix of case j * floor(N/K)."""
+    stride = N_CASES // K
+    C = sint.Matrix(K, N_CELL)
+    for j in range(K):
+        C[j].assign(X[j * stride].get_vector())
+    return C
+
+
+def log_weights(C, W):
+    """Laplace-smoothed log-weight per packed cell; every model's cells and row sums go through one log2_count call."""
+    n_src = len(ACT_SRC)
+    stride = N_CELL + n_src
+    args = sint.Array(K * stride)
+    for j in range(K):
+        base = j * stride
+        for t in range(N_CELL):
+            args[base + t] = C[j][t] + 1
+        for si in range(n_src):
+            args[base + N_CELL + si] = (
+                C[j].get_vector(base=si * DH_EFF, size=DH_EFF).sum() + DH_EFF)
+    logs = sfix.Array(K * stride)
+    logs.assign_vector(log2_count(args.get_vector()))
+    for j in range(K):
+        base = j * stride
+        for t in range(N_CELL):
+            W[j][t] = (logs[base + t]
+                       - logs[base + N_CELL + t // DH_EFF]).v
+
+
+def e_step(X, W, H, S=None):
+    """Assign each case to the model of highest log-likelihood; S keeps the per-case scores the merge needs."""
+    @for_range_opt_multithread(N_THREADS, N_CASES)
+    def _(i):
+        x_vec = X[i].get_vector()
+        scores = [(x_vec * W[j].get_vector()).sum() for j in range(K)]
+        best = argmax_first(scores)
+        eq_bits = K.bit_length() + 1
+        for j in range(K):
+            H[i][j] = best.equal(regint(j), bit_length=eq_bits)
+        if S is not None:
+            for j in range(K):
+                S[i][j] = scores[j]
+
+
+def argmax_valid_first(vals, valid):
+    """Tree-reduced argmax over the entries whose valid bit is 1, first index on a tie."""
+    def op(a, b):
+        gt = b[1].greater_than(a[1], bit_length=MERGE_CMP_BITS)
+        swap = b[2] * (1 - a[2] + a[2] * gt)
+        return (swap.if_else(b[0], a[0]), swap.if_else(b[1], a[1]),
+                swap.if_else(b[2], a[2]))
+
+    return tree_reduce(op, [(j, vals[j], valid[j]) for j in range(K)])[0]
+
+
+def merge_small_clusters(H, S):
+    """Oblivious twin of clustering.rs::merge_small_clusters: a cluster below MIN_CLUSTER cases moves whole to the
+    cluster of at least MIN_CLUSTER under whose model its cases score highest jointly. Nothing is opened."""
+    sizes = sint.Array(K)
+    for j in range(K):
+        sizes[j] = H.get_column(j).sum()
+    small = [sizes[j].less_than(MIN_CLUSTER, bit_length=CNT_CMP_BITS)
+             for j in range(K)]
+    valid = [1 - small[j] for j in range(K)]
+    n_large = sum(valid[j] for j in range(K))
+    survivor = n_large.greater_than(0, bit_length=CNT_CMP_BITS)
+
+    remap = sint.Matrix(K, K)
+    eq_bits = K.bit_length() + 1
+    for j in range(K):
+        col = H.get_column(j)
+        joint = [(col * S.get_column(l)).sum() for l in range(K)]
+        target = argmax_valid_first(joint, valid)
+        move = survivor * small[j]
+        for l in range(K):
+            hit = target.equal(regint(l), bit_length=eq_bits)
+            keep = 1 if l == j else 0
+            remap[j][l] = move * (hit - keep) + keep
+
+    merged = sint.Matrix(N_CASES, K)
+
+    @for_range_opt_multithread(N_THREADS, N_CASES)
+    def _(i):
+        acc = sint(0, size=K)
+        for j in range(K):
+            acc = acc + H[i][j].expand_to_vector(K) * remap[j].get_vector()
+        merged[i].assign_vector(acc)
+
+    return merged
+
+
+def m_step(X, H, C):
+    """C_j := sum_i H_ij x_i; an empty cluster keeps its previous model, selected by one secret bit on its count."""
+    n_thr = max(1, min(N_THREADS, N_CASES))
+    acc = sint.Tensor([n_thr, K, N_CELL])
+    acc.assign_all(0)
+
+    def accumulate(base, size, t):
+        @for_range_opt(size)
+        def _(ii):
+            i = base + ii
+            x_vec = X[i].get_vector()
+            for j in range(K):
+                m = H[i][j]
+                prod = m.expand_to_vector(N_CELL) * x_vec
+                # acc[t][j] is addressed at runtime, so its read-modify-write needs a memory scope to stay ordered.
+                program.open_memory_scope("seq_acc")
+                acc[t][j].assign(acc[t][j].get_vector() + prod)
+                program.close_memory_scope()
+
+    if n_thr > 1:
+        @multithread(n_thr, N_CASES)
+        def _(base, size):
+            accumulate(base, size, get_arg())
+    else:
+        accumulate(0, N_CASES, 0)
+
+    counts = sint.Array(K)
+    for j in range(K):
+        mask = sint.Array(N_CASES)
+
+        @for_range_opt_multithread(N_THREADS, N_CASES)
+        def _(i):
+            mask[i] = H[i][j]
+
+        counts[j] = mask.get_vector().sum()
+
+    for j in range(K):
+        vec = acc[0][j].get_vector()
+        for t in range(1, n_thr):
+            vec = vec + acc[t][j].get_vector()
+        nonempty = (counts[j] > 0)
+        sel = nonempty.expand_to_vector(N_CELL)
+        old = C[j].get_vector()
+        C[j].assign(sel * (vec - old) + old)
+    return C
+
+
+def init_from_partition(X):
+    """Models := per-cluster sums of a supplied initial one-hot partition."""
+    H0 = sint.Matrix(N_CASES, K)
+    if INPUT_SOURCE == 0:
+        print_ln("Reading %s x %s initial one-hot labels from party 0 (test mode)", N_CASES, K)
+        H0.input_from(0)
+    else:
+        print_ln("Reading initial one-hot labels from persistence offset %s", LABEL_OFFSET)
+        H0.read_from_file(LABEL_OFFSET)
+    C = sint.Matrix(K, N_CELL)
+    C.assign_all(0)
+    m_step(X, H0, C)
+    return C
+
+
+# Profile timers, emitted only under PROFILE=1: a timer splits the basic block around it.
+TIMER_INIT, TIMER_LOG, TIMER_E, TIMER_M = 1, 2, 3, 4
+
+
+tick, tock = profile_timers(PROFILE)
+
+
+def run_hard_em(X):
+    tick(TIMER_INIT)
+    C = init_from_partition(X) if INIT_MODE == 1 else init_models(X)
+    tock(TIMER_INIT)
+    W = sint.Matrix(K, N_CELL)
+    H = sint.Matrix(N_CASES, K)
+    S = sint.Matrix(N_CASES, K) if MIN_CLUSTER > 0 else None
+    # Fixed iteration count: stopping early on convergence would leak.
+    for it in range(MAX_ITER):
+        print_ln("Iteration %s / %s", it + 1, MAX_ITER)
+        tick(TIMER_LOG)
+        log_weights(C, W)
+        tock(TIMER_LOG)
+        tick(TIMER_E)
+        e_step(X, W, H, S if it == MAX_ITER - 1 else None)
+        tock(TIMER_E)
+        if it < MAX_ITER - 1:
+            tick(TIMER_M)
+            m_step(X, H, C)
+            tock(TIMER_M)
+    if MIN_CLUSTER > 0:
+        print_ln("Merging clusters below %s cases (oblivious)", MIN_CLUSTER)
+        H = merge_small_clusters(H, S)
+    return H
+
+
+def emit_output(H):
+    if INPUT_SOURCE == 0 or REVEAL_LABELS == 1:
+        if INPUT_SOURCE != 0:
+            print_ln("Persisting labels at offset %s", LABEL_OFFSET)
+            H.write_to_file(LABEL_OFFSET)
+        print_ln("\n=== Labels (revealed) ===")
+        labels_int = sint.Array(N_CASES)
+
+        @for_range_opt(N_CASES)
+        def _(i):
+            lab = sint(0)
+            for j in range(K):
+                lab = lab + H[i][j] * regint(j)
+            labels_int[i] = lab
+
+        revealed = labels_int.reveal()
+        for i in range(N_CASES):
+            print_ln("LABEL %s %s", i, revealed[i])
+        return
+
+    print_ln("Persisting labels at offset %s", LABEL_OFFSET)
+    H.write_to_file(LABEL_OFFSET)
+
+
+def main():
+    X = read_rows()
+    H = run_hard_em(X)
+    emit_output(H)
+    print_ln("=== Complete ===")
+
+
+main()

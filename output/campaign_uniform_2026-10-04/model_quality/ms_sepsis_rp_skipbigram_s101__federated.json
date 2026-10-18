@@ -1,0 +1,180 @@
+{
+ "instrument": "dfm-2026-10-15",
+ "clusters": [
+  {
+   "size": 495,
+   "rel": 32.9196,
+   "rho": 0.7131,
+   "pruned_activities": 4,
+   "edges": 27,
+   "activities": 12,
+   "fitness": 0.9717,
+   "precision": 0.6116,
+   "f_score": 0.7507,
+   "simplicity": 0.5094,
+   "cluster_id": 0,
+   "generalization": 0.8404
+  },
+  {
+   "size": 0,
+   "cluster_id": 1
+  },
+  {
+   "size": 432,
+   "rel": 45.4336,
+   "rho": 0.6435,
+   "pruned_activities": 3,
+   "edges": 39,
+   "activities": 13,
+   "fitness": 0.9707,
+   "precision": 0.4725,
+   "f_score": 0.6357,
+   "simplicity": 0.4722,
+   "cluster_id": 2,
+   "generalization": 0.8522
+  }
+ ],
+ "summary": {
+  "clusters": 2,
+  "cases": 927,
+  "models_scored": 2,
+  "pruned_activities": 7,
+  "fitness": 0.9712,
+  "precision": 0.5468,
+  "f_score": 0.6971,
+  "simplicity": 0.4921,
+  "edges": 32.5922,
+  "activities": 12.466,
+  "rel": 38.7514,
+  "rho": 0.6807,
+  "generalization": 0.8459
+ },
+ "whole": {
+  "size": 927,
+  "rel": 39.3181,
+  "rho": 0.6936,
+  "pruned_activities": 3,
+  "edges": 37,
+  "activities": 13,
+  "fitness": 0.9742,
+  "precision": 0.5208,
+  "f_score": 0.6787,
+  "simplicity": 0.4752,
+  "generalization": 0.8719
+ },
+ "random": {
+  "seeds": [
+   {
+    "clusters": 2,
+    "cases": 927,
+    "models_scored": 2,
+    "pruned_activities": 7,
+    "fitness": 0.9726,
+    "precision": 0.5024,
+    "f_score": 0.6623,
+    "simplicity": 0.4758,
+    "edges": 36.0,
+    "activities": 12.466,
+    "rel": 40.6663,
+    "rho": 0.6742,
+    "seed": 1,
+    "generalization": 0.8491
+   },
+   {
+    "clusters": 2,
+    "cases": 927,
+    "models_scored": 2,
+    "pruned_activities": 7,
+    "fitness": 0.9734,
+    "precision": 0.4975,
+    "f_score": 0.6583,
+    "simplicity": 0.4747,
+    "edges": 36.534,
+    "activities": 12.534,
+    "rel": 40.1688,
+    "rho": 0.6829,
+    "seed": 2,
+    "generalization": 0.8431
+   },
+   {
+    "clusters": 2,
+    "cases": 927,
+    "models_scored": 2,
+    "pruned_activities": 7,
+    "fitness": 0.9734,
+    "precision": 0.4893,
+    "f_score": 0.6512,
+    "simplicity": 0.476,
+    "edges": 36.534,
+    "activities": 12.534,
+    "rel": 40.1008,
+    "rho": 0.6839,
+    "seed": 3,
+    "generalization": 0.8467
+   },
+   {
+    "clusters": 2,
+    "cases": 927,
+    "models_scored": 2,
+    "pruned_activities": 6,
+    "fitness": 0.9723,
+    "precision": 0.4922,
+    "f_score": 0.6535,
+    "simplicity": 0.4798,
+    "edges": 36.534,
+    "activities": 13.0,
+    "rel": 39.5689,
+    "rho": 0.685,
+    "seed": 4,
+    "generalization": 0.8568
+   },
+   {
+    "clusters": 2,
+    "cases": 927,
+    "models_scored": 2,
+    "pruned_activities": 6,
+    "fitness": 0.9715,
+    "precision": 0.5045,
+    "f_score": 0.663,
+    "simplicity": 0.4797,
+    "edges": 36.068,
+    "activities": 13.0,
+    "rel": 39.9539,
+    "rho": 0.6775,
+    "seed": 5,
+    "generalization": 0.8446
+   }
+  ],
+  "mean": {
+   "fitness": 0.9726,
+   "precision": 0.4972,
+   "f_score": 0.6577,
+   "simplicity": 0.4772,
+   "edges": 36.334,
+   "rel": 40.0917,
+   "generalization": 0.8481
+  },
+  "min": {
+   "fitness": 0.9715,
+   "precision": 0.4893,
+   "f_score": 0.6512,
+   "simplicity": 0.4747,
+   "edges": 36.0,
+   "rel": 39.5689,
+   "generalization": 0.8431
+  },
+  "max": {
+   "fitness": 0.9734,
+   "precision": 0.5045,
+   "f_score": 0.663,
+   "simplicity": 0.4798,
+   "edges": 36.534,
+   "rel": 40.6663,
+   "generalization": 0.8568
+  }
+ },
+ "cell": "ms_sepsis_rp_skipbigram_s101",
+ "tier": "federated",
+ "run_dir": "uni_ms_sepsis_rp_skipbigram_s101_2026-10-05_20-45-29",
+ "extended_from": "dfm-2026-10-10"
+}

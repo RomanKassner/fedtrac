@@ -1,0 +1,42 @@
+
+=== uni_ms_helpdesk_rp_bigram_s7_2026-10-05_23-15-29 (HONEST attack; no X_full leak) ===
+n=4577, d=65, partition=[21, 21, 23]
+
+  k  attack             party     P_unk  R_unk
+----------------------------------------------------------------------
+ 12  trivial-zero       party0     0.00   0.00
+ 12  dist-MDS           party0     0.00   0.00
+ 12  dict-learn         party0     0.00   0.00
+
+ 12  trivial-zero       party1     0.00   0.00
+ 12  dist-MDS           party1     0.12   0.00
+ 12  dict-learn         party1     0.00   0.00
+
+ 12  trivial-zero       party2     0.00   0.00
+ 12  dist-MDS           party2     0.00   0.00
+ 12  dict-learn         party2     0.00   0.00
+
+ 25  trivial-zero       party0     0.00   0.00
+ 25  dist-MDS           party0     0.00   0.00
+ 25  dict-learn         party0     0.00   0.00
+
+ 25  trivial-zero       party1     0.00   0.00
+ 25  dist-MDS           party1     0.03   0.00
+ 25  dict-learn         party1     0.00   0.00
+
+ 25  trivial-zero       party2     0.00   0.00
+ 25  dist-MDS           party2     0.00   0.00
+ 25  dict-learn         party2     0.00   0.00
+
+ 50  trivial-zero       party0     0.00   0.00
+ 50  dist-MDS           party0     0.00   0.00
+ 50  dict-learn         party0     0.00   0.00
+
+ 50  trivial-zero       party1     0.00   0.00
+ 50  dist-MDS           party1     0.12   0.00
+ 50  dict-learn         party1     0.00   0.00
+
+ 50  trivial-zero       party2     0.00   0.00
+ 50  dist-MDS           party2     0.02   0.00
+ 50  dict-learn         party2     0.00   0.00
+

@@ -1,0 +1,4 @@
+{
+  "Party_A": ["Create Fine", "Insert Fine Notification", "Add penalty", "Send Fine"],
+  "Party_B": ["Payment", "Send for Credit Collection", "Insert Date Appeal to Prefecture", "Send Appeal to Prefecture", "Receive Result Appeal from Prefecture", "Notify Result Appeal to Offender", "Appeal to Judge"]
+}

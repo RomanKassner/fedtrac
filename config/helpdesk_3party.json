@@ -1,0 +1,6 @@
+{
+  "_comment": "Role-derived three-party split of Helpdesk. It refines config/helpdesk_2party.json: Party_A of that split is divided into intake and handling, Party_B stays as resolution.",
+  "party_a_intake": ["Insert ticket", "Assign seriousness"],
+  "party_b_handling": ["Take in charge ticket", "Require upgrade", "Schedule intervention"],
+  "party_c_resolution": ["Resolve ticket", "Closed", "Wait", "Create SW anomaly", "Resolve SW anomaly", "RESOLVED", "VERIFIED", "INVALID", "DUPLICATE"]
+}

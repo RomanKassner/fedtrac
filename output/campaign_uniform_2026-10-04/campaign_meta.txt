@@ -1,0 +1,748 @@
+launch: 2026-10-04T22:17:13+02:00
+commit: 1613a25
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b0
+cells: enc_sepsis_sl_activity ms_sepsis_rp_activity_s42 sepsis-activity_sl_km sepsis-activity_sl_seq ms_sepsis_rp_activity_s1337 ms_sepsis_rp_activity_s7 ms_sepsis_rp_activity_s101 ms_sepsis_rp_activity_s202 
+
+slab after builder sepsis-activity_sl_km:
+-rw-rw-r-- 1 roman roman 3923081 Oct  4 22:20 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 3923081 Oct  4 22:20 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   58G  899G   7% /
+
+launch: 2026-10-04T22:23:41+02:00
+commit: 1613a25
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b1
+cells: ms_sepsis_rp_bigram_s42 sepsis-bigram_sl_km sepsis-bigram_sl_seq ms_sepsis_rp_bigram_s1337 ms_sepsis_rp_bigram_s7 ms_sepsis_rp_bigram_s101 ms_sepsis_rp_bigram_s202 ms_sepsis_rp_ef_s42 sepsis-ef_sl_km sepsis-ef_sl_seq ms_sepsis_rp_ef_s1337 ms_sepsis_rp_ef_s7 ms_sepsis_rp_ef_s101 ms_sepsis_rp_ef_s202 ms_sepsis_rp_skipbigram_s42 sepsis-skipbigram_sl_km sepsis-skipbigram_sl_seq ms_sepsis_rp_skipbigram_s1337 ms_sepsis_rp_skipbigram_s7 ms_sepsis_rp_skipbigram_s101 ms_sepsis_rp_skipbigram_s202 ms_sepsis_rp_trigram_s42 sepsis-trigram_sl_km sepsis-trigram_sl_seq ms_sepsis_rp_trigram_s1337 ms_sepsis_rp_trigram_s7 ms_sepsis_rp_trigram_s101 ms_sepsis_rp_trigram_s202 
+
+slab after builder sepsis-bigram_sl_km:
+-rw-rw-r-- 1 roman roman 8995625 Oct  4 22:27 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 8995625 Oct  4 22:27 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   58G  899G   7% /
+
+slab after builder sepsis-skipbigram_sl_km:
+-rw-rw-r-- 1 roman roman 14349977 Oct  4 22:56 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 14349977 Oct  4 22:56 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   58G  898G   7% /
+
+slab after builder sepsis-trigram_sl_km:
+-rw-rw-r-- 1 roman roman 64393145 Oct  4 23:54 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 64393145 Oct  4 23:54 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   58G  898G   7% /
+
+launch: 2026-10-05T01:02:43+02:00
+commit: 1613a25
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b2
+cells: ms_helpdesk_rp_activity_s42 helpdesk-activity_sl_km helpdesk-activity_sl_seq ms_helpdesk_rp_activity_s1337 ms_helpdesk_rp_activity_s7 ms_helpdesk_rp_activity_s101 ms_helpdesk_rp_activity_s202 ms_helpdesk_rp_bigram_s42 helpdesk-bigram_sl_km helpdesk-bigram_sl_seq ms_helpdesk_rp_bigram_s1337 ms_helpdesk_rp_bigram_s7 ms_helpdesk_rp_bigram_s101 ms_helpdesk_rp_bigram_s202 ms_helpdesk_rp_ef_s42 helpdesk-ef_sl_km helpdesk-ef_sl_seq ms_helpdesk_rp_ef_s1337 ms_helpdesk_rp_ef_s7 ms_helpdesk_rp_ef_s101 ms_helpdesk_rp_ef_s202 ms_helpdesk_rp_skipbigram_s42 helpdesk-skipbigram_sl_km helpdesk-skipbigram_sl_seq ms_helpdesk_rp_skipbigram_s1337 ms_helpdesk_rp_skipbigram_s7 ms_helpdesk_rp_skipbigram_s101 ms_helpdesk_rp_skipbigram_s202 ms_helpdesk_rp_trigram_s42 helpdesk-trigram_sl_km helpdesk-trigram_sl_seq ms_helpdesk_rp_trigram_s1337 ms_helpdesk_rp_trigram_s7 ms_helpdesk_rp_trigram_s101 ms_helpdesk_rp_trigram_s202 
+
+slab after builder helpdesk-activity_sl_km:
+-rw-rw-r-- 1 roman roman 16587065 Oct  5 01:09 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 16587065 Oct  5 01:09 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   58G  898G   7% /
+
+slab after builder helpdesk-bigram_sl_km:
+-rw-rw-r-- 1 roman roman 36506169 Oct  5 01:36 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 36506169 Oct  5 01:36 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   59G  898G   7% /
+
+slab after builder helpdesk-ef_sl_km:
+-rw-rw-r-- 1 roman roman 36506169 Oct  5 02:10 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 36506169 Oct  5 02:10 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   59G  898G   7% /
+
+slab after builder helpdesk-skipbigram_sl_km:
+-rw-rw-r-- 1 roman roman 57670217 Oct  5 02:56 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 57670217 Oct  5 02:56 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   59G  898G   7% /
+
+slab after builder helpdesk-trigram_sl_km:
+-rw-rw-r-- 1 roman roman 216290729 Oct  5 03:52 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 216290729 Oct  5 03:52 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   59G  897G   7% /
+
+launch: 2026-10-05T04:41:44+02:00
+commit: 1613a25
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b3
+cells: ms_bpic2013_rp_activity_s42 bpic2013-activity_sl_km bpic2013-activity_sl_seq ms_bpic2013_rp_activity_s1337 ms_bpic2013_rp_activity_s7 ms_bpic2013_rp_activity_s101 ms_bpic2013_rp_activity_s202 ms_bpic2013_rp_bigram_s42 bpic2013-bigram_sl_km bpic2013-bigram_sl_seq ms_bpic2013_rp_bigram_s1337 ms_bpic2013_rp_bigram_s7 ms_bpic2013_rp_bigram_s101 ms_bpic2013_rp_bigram_s202 ms_bpic2013_rp_ef_s42 bpic2013-ef_sl_km bpic2013-ef_sl_seq ms_bpic2013_rp_ef_s1337 ms_bpic2013_rp_ef_s7 ms_bpic2013_rp_ef_s101 ms_bpic2013_rp_ef_s202 ms_bpic2013_rp_skipbigram_s42 bpic2013-skipbigram_sl_km bpic2013-skipbigram_sl_seq ms_bpic2013_rp_skipbigram_s1337 ms_bpic2013_rp_skipbigram_s7 ms_bpic2013_rp_skipbigram_s101 ms_bpic2013_rp_skipbigram_s202 ms_bpic2013_rp_trigram_s42 bpic2013-trigram_sl_km bpic2013-trigram_sl_seq ms_bpic2013_rp_trigram_s1337 ms_bpic2013_rp_trigram_s7 ms_bpic2013_rp_trigram_s101 ms_bpic2013_rp_trigram_s202 
+
+slab after builder bpic2013-activity_sl_km:
+-rw-rw-r-- 1 roman roman 11649497 Oct  5 04:50 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 11649497 Oct  5 04:50 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   59G  898G   7% /
+
+slab after builder bpic2013-bigram_sl_km:
+-rw-rw-r-- 1 roman roman 16719737 Oct  5 05:21 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 16719737 Oct  5 05:21 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   59G  898G   7% /
+
+slab after builder bpic2013-ef_sl_km:
+-rw-rw-r-- 1 roman roman 16719737 Oct  5 05:58 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 16719737 Oct  5 05:58 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   59G  897G   7% /
+
+slab after builder bpic2013-skipbigram_sl_km:
+-rw-rw-r-- 1 roman roman 22635017 Oct  5 06:44 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 22635017 Oct  5 06:44 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   59G  897G   7% /
+
+launch: 2026-10-05T07:51:43+02:00
+commit: 08f57e8
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b3
+cells: ms_bpic2013_rp_activity_s42 bpic2013-activity_sl_km bpic2013-activity_sl_seq ms_bpic2013_rp_activity_s1337 ms_bpic2013_rp_activity_s7 ms_bpic2013_rp_activity_s101 ms_bpic2013_rp_activity_s202 ms_bpic2013_rp_bigram_s42 bpic2013-bigram_sl_km bpic2013-bigram_sl_seq ms_bpic2013_rp_bigram_s1337 ms_bpic2013_rp_bigram_s7 ms_bpic2013_rp_bigram_s101 ms_bpic2013_rp_bigram_s202 ms_bpic2013_rp_ef_s42 bpic2013-ef_sl_km bpic2013-ef_sl_seq ms_bpic2013_rp_ef_s1337 ms_bpic2013_rp_ef_s7 ms_bpic2013_rp_ef_s101 ms_bpic2013_rp_ef_s202 ms_bpic2013_rp_skipbigram_s42 bpic2013-skipbigram_sl_km bpic2013-skipbigram_sl_seq ms_bpic2013_rp_skipbigram_s1337 ms_bpic2013_rp_skipbigram_s7 ms_bpic2013_rp_skipbigram_s101 ms_bpic2013_rp_skipbigram_s202 ms_bpic2013_rp_trigram_s42 bpic2013-trigram_sl_km bpic2013-trigram_sl_seq ms_bpic2013_rp_trigram_s1337 ms_bpic2013_rp_trigram_s7 ms_bpic2013_rp_trigram_s101 ms_bpic2013_rp_trigram_s202 
+
+slab after builder bpic2013-trigram_sl_km:
+-rw-rw-r-- 1 roman roman 18530537 Oct  5 07:55 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 18530537 Oct  5 07:55 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   60G  897G   7% /
+
+launch: 2026-10-05T08:22:13+02:00
+commit: 08f57e8
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family parties
+cells: ms_sepsis-pc2p_rp_bigram_s42 rtSepsis_sl_bigram_2p ms_sepsis-pc2p_rp_bigram_s1337 ms_sepsis-pc2p_rp_bigram_s7 ms_sepsis-pc2p_rp_bigram_s101 ms_sepsis-pc2p_rp_bigram_s202 ms_sepsis-pc3p_rp_bigram_s42 rtSepsis_sl_bigram_3p ms_sepsis-pc3p_rp_bigram_s1337 ms_sepsis-pc3p_rp_bigram_s7 ms_sepsis-pc3p_rp_bigram_s101 ms_sepsis-pc3p_rp_bigram_s202 ms_rtfm-pc2p_rp_bigram_s42 rtRtfm_sl_bigram_2p ms_rtfm-pc2p_rp_bigram_s1337 ms_rtfm-pc2p_rp_bigram_s7 ms_rtfm-pc2p_rp_bigram_s101 ms_rtfm-pc2p_rp_bigram_s202 ms_rtfm-pc3p_rp_bigram_s42 rtRtfm_sl_bigram_3p ms_rtfm-pc3p_rp_bigram_s1337 ms_rtfm-pc3p_rp_bigram_s7 ms_rtfm-pc3p_rp_bigram_s101 ms_rtfm-pc3p_rp_bigram_s202 ms_helpdesk-pc2p_rp_bigram_s42 rtHelpdesk_sl_bigram_2p ms_helpdesk-pc2p_rp_bigram_s1337 ms_helpdesk-pc2p_rp_bigram_s7 ms_helpdesk-pc2p_rp_bigram_s101 ms_helpdesk-pc2p_rp_bigram_s202 ms_helpdesk-pc3p_rp_bigram_s42 rtHelpdesk_sl_bigram_3p ms_helpdesk-pc3p_rp_bigram_s1337 ms_helpdesk-pc3p_rp_bigram_s7 ms_helpdesk-pc3p_rp_bigram_s101 ms_helpdesk-pc3p_rp_bigram_s202 ms_bpic2013-pc2p_rp_bigram_s42 rtBpic2013_sl_bigram_2p ms_bpic2013-pc2p_rp_bigram_s1337 ms_bpic2013-pc2p_rp_bigram_s7 ms_bpic2013-pc2p_rp_bigram_s101 ms_bpic2013-pc2p_rp_bigram_s202 ms_bpic2013-pc3p_rp_bigram_s42 rtBpic2013_sl_bigram_3p ms_bpic2013-pc3p_rp_bigram_s1337 ms_bpic2013-pc3p_rp_bigram_s7 ms_bpic2013-pc3p_rp_bigram_s101 ms_bpic2013-pc3p_rp_bigram_s202 
+
+slab after builder rtSepsis_sl_bigram_2p:
+-rw-rw-r-- 1 roman roman 8976217 Oct  5 08:26 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 8976217 Oct  5 08:26 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   60G  897G   7% /
+
+slab after builder rtSepsis_sl_bigram_3p:
+-rw-rw-r-- 1 roman roman 8976217 Oct  5 08:41 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 8976217 Oct  5 08:41 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 8976217 Oct  5 08:41 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G   60G  897G   7% /
+
+slab after builder rtRtfm_sl_bigram_2p:
+-rw-rw-r-- 1 roman roman 6800913 Oct  5 08:56 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 6800913 Oct  5 08:56 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   60G  897G   7% /
+
+slab after builder rtRtfm_sl_bigram_3p:
+-rw-rw-r-- 1 roman roman 6800913 Oct  5 09:11 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 6800913 Oct  5 09:11 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 6800913 Oct  5 09:11 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G   60G  897G   7% /
+
+slab after builder rtHelpdesk_sl_bigram_2p:
+-rw-rw-r-- 1 roman roman 33666713 Oct  5 09:37 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 33666713 Oct  5 09:37 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   60G  897G   7% /
+
+slab after builder rtHelpdesk_sl_bigram_3p:
+-rw-rw-r-- 1 roman roman 33666713 Oct  5 10:20 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 33666713 Oct  5 10:20 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 33666713 Oct  5 10:20 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G   60G  897G   7% /
+
+slab after builder rtBpic2013_sl_bigram_2p:
+-rw-rw-r-- 1 roman roman 9987529 Oct  5 11:28 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 9987529 Oct  5 11:28 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G   60G  897G   7% /
+
+slab after builder rtBpic2013_sl_bigram_3p:
+-rw-rw-r-- 1 roman roman 9987529 Oct  5 12:11 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 9987529 Oct  5 12:11 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 9987529 Oct  5 12:11 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G   60G  896G   7% /
+
+launch: 2026-10-05T21:59:50+02:00
+commit: 5dcf13f
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b0
+cells: enc_sepsis_sl_activity ms_sepsis_rp_activity_s42 sepsis-activity_sl_km sepsis-activity_sl_seq ms_sepsis_rp_activity_s1337 ms_sepsis_rp_activity_s7 ms_sepsis_rp_activity_s101 ms_sepsis_rp_activity_s202 
+
+slab after builder sepsis-activity_sl_km:
+-rw-rw-r-- 1 roman roman 3923081 Oct  5 22:03 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 3923081 Oct  5 22:03 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  156G  800G  17% /
+
+launch: 2026-10-05T22:06:13+02:00
+commit: 5dcf13f
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b1
+cells: ms_sepsis_rp_bigram_s42 sepsis-bigram_sl_km sepsis-bigram_sl_seq ms_sepsis_rp_bigram_s1337 ms_sepsis_rp_bigram_s7 ms_sepsis_rp_bigram_s101 ms_sepsis_rp_bigram_s202 ms_sepsis_rp_ef_s42 sepsis-ef_sl_km sepsis-ef_sl_seq ms_sepsis_rp_ef_s1337 ms_sepsis_rp_ef_s7 ms_sepsis_rp_ef_s101 ms_sepsis_rp_ef_s202 ms_sepsis_rp_skipbigram_s42 sepsis-skipbigram_sl_km sepsis-skipbigram_sl_seq ms_sepsis_rp_skipbigram_s1337 ms_sepsis_rp_skipbigram_s7 ms_sepsis_rp_skipbigram_s101 ms_sepsis_rp_skipbigram_s202 ms_sepsis_rp_trigram_s42 sepsis-trigram_sl_km sepsis-trigram_sl_seq ms_sepsis_rp_trigram_s1337 ms_sepsis_rp_trigram_s7 ms_sepsis_rp_trigram_s101 ms_sepsis_rp_trigram_s202 
+
+slab after builder sepsis-bigram_sl_km:
+-rw-rw-r-- 1 roman roman 8995625 Oct  5 22:09 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 8995625 Oct  5 22:09 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  157G  800G  17% /
+
+slab after builder sepsis-skipbigram_sl_km:
+-rw-rw-r-- 1 roman roman 14349977 Oct  5 22:34 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 14349977 Oct  5 22:34 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  157G  800G  17% /
+
+slab after builder sepsis-trigram_sl_km:
+-rw-rw-r-- 1 roman roman 64393145 Oct  5 23:25 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 64393145 Oct  5 23:25 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  157G  800G  17% /
+
+launch: 2026-10-06T00:34:46+02:00
+commit: 5dcf13f
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b2
+cells: ms_helpdesk_rp_activity_s42 helpdesk-activity_sl_km helpdesk-activity_sl_seq ms_helpdesk_rp_activity_s1337 ms_helpdesk_rp_activity_s7 ms_helpdesk_rp_activity_s101 ms_helpdesk_rp_activity_s202 ms_helpdesk_rp_bigram_s42 helpdesk-bigram_sl_km helpdesk-bigram_sl_seq ms_helpdesk_rp_bigram_s1337 ms_helpdesk_rp_bigram_s7 ms_helpdesk_rp_bigram_s101 ms_helpdesk_rp_bigram_s202 ms_helpdesk_rp_ef_s42 helpdesk-ef_sl_km helpdesk-ef_sl_seq ms_helpdesk_rp_ef_s1337 ms_helpdesk_rp_ef_s7 ms_helpdesk_rp_ef_s101 ms_helpdesk_rp_ef_s202 ms_helpdesk_rp_skipbigram_s42 helpdesk-skipbigram_sl_km helpdesk-skipbigram_sl_seq ms_helpdesk_rp_skipbigram_s1337 ms_helpdesk_rp_skipbigram_s7 ms_helpdesk_rp_skipbigram_s101 ms_helpdesk_rp_skipbigram_s202 ms_helpdesk_rp_trigram_s42 helpdesk-trigram_sl_km helpdesk-trigram_sl_seq ms_helpdesk_rp_trigram_s1337 ms_helpdesk_rp_trigram_s7 ms_helpdesk_rp_trigram_s101 ms_helpdesk_rp_trigram_s202 
+
+slab after builder helpdesk-activity_sl_km:
+-rw-rw-r-- 1 roman roman 16587065 Oct  6 00:40 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 16587065 Oct  6 00:40 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  157G  800G  17% /
+
+slab after builder helpdesk-bigram_sl_km:
+-rw-rw-r-- 1 roman roman 36506169 Oct  6 01:07 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 36506169 Oct  6 01:07 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  157G  800G  17% /
+
+slab after builder helpdesk-ef_sl_km:
+-rw-rw-r-- 1 roman roman 36506169 Oct  6 01:39 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 36506169 Oct  6 01:39 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  157G  800G  17% /
+
+slab after builder helpdesk-skipbigram_sl_km:
+-rw-rw-r-- 1 roman roman 57670217 Oct  6 02:23 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 57670217 Oct  6 02:23 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  157G  800G  17% /
+
+slab after builder helpdesk-trigram_sl_km:
+-rw-rw-r-- 1 roman roman 216290729 Oct  6 03:19 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 216290729 Oct  6 03:19 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  157G  799G  17% /
+
+launch: 2026-10-06T03:45:26+02:00
+commit: 5dcf13f
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b3
+cells: ms_bpic2013_rp_activity_s42 bpic2013-activity_sl_km bpic2013-activity_sl_seq ms_bpic2013_rp_activity_s1337 ms_bpic2013_rp_activity_s7 ms_bpic2013_rp_activity_s101 ms_bpic2013_rp_activity_s202 ms_bpic2013_rp_bigram_s42 bpic2013-bigram_sl_km bpic2013-bigram_sl_seq ms_bpic2013_rp_bigram_s1337 ms_bpic2013_rp_bigram_s7 ms_bpic2013_rp_bigram_s101 ms_bpic2013_rp_bigram_s202 ms_bpic2013_rp_ef_s42 bpic2013-ef_sl_km bpic2013-ef_sl_seq ms_bpic2013_rp_ef_s1337 ms_bpic2013_rp_ef_s7 ms_bpic2013_rp_ef_s101 ms_bpic2013_rp_ef_s202 ms_bpic2013_rp_skipbigram_s42 bpic2013-skipbigram_sl_km bpic2013-skipbigram_sl_seq ms_bpic2013_rp_skipbigram_s1337 ms_bpic2013_rp_skipbigram_s7 ms_bpic2013_rp_skipbigram_s101 ms_bpic2013_rp_skipbigram_s202 ms_bpic2013_rp_trigram_s42 bpic2013-trigram_sl_km bpic2013-trigram_sl_seq ms_bpic2013_rp_trigram_s1337 ms_bpic2013_rp_trigram_s7 ms_bpic2013_rp_trigram_s101 ms_bpic2013_rp_trigram_s202 
+
+slab after builder bpic2013-trigram_sl_km:
+-rw-rw-r-- 1 roman roman 18530537 Oct  6 03:55 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 18530537 Oct  6 03:55 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  157G  800G  17% /
+
+launch: 2026-10-06T04:21:46+02:00
+commit: 5dcf13f
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b4
+cells: ms_rtfm_rp_activity_s42 rtfm-activity_sl_km rtfm-activity_sl_seq ms_rtfm_rp_activity_s1337 ms_rtfm_rp_activity_s7 ms_rtfm_rp_activity_s101 ms_rtfm_rp_activity_s202 
+
+slab after builder rtfm-activity_sl_km:
+-rw-rw-r-- 1 roman roman 368117537 Oct  6 05:41 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 368117537 Oct  6 05:41 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  158G  798G  17% /
+
+launch: 2026-10-06T08:41:01+02:00
+commit: 5dcf13f
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b5
+cells: ms_rtfm_rp_bigram_s42 rtfm-bigram_sl_km rtfm-bigram_sl_seq ms_rtfm_rp_bigram_s1337 ms_rtfm_rp_bigram_s7 ms_rtfm_rp_bigram_s101 ms_rtfm_rp_bigram_s202 
+
+slab after builder rtfm-bigram_sl_km:
+-rw-rw-r-- 1 roman roman 746633857 Oct  6 10:50 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 746633857 Oct  6 10:50 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  161G  796G  17% /
+
+launch: 2026-10-06T16:15:00+02:00
+commit: 5dcf13f
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b6
+cells: ms_rtfm_rp_trigram_s42 rtfm-trigram_sl_km rtfm-trigram_sl_seq ms_rtfm_rp_trigram_s1337 ms_rtfm_rp_trigram_s7 ms_rtfm_rp_trigram_s101 ms_rtfm_rp_trigram_s202 
+
+slab after builder rtfm-trigram_sl_km:
+-rw-rw-r-- 1 roman roman 3107161457 Oct  6 22:34 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 3107161457 Oct  6 22:34 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  167G  790G  18% /
+
+launch: 2026-10-07T12:10:16+02:00
+commit: 5dcf13f
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b7
+cells: ms_rtfm_rp_ef_s42 rtfm-ef_sl_km rtfm-ef_sl_seq ms_rtfm_rp_ef_s1337 ms_rtfm_rp_ef_s7 ms_rtfm_rp_ef_s101 ms_rtfm_rp_ef_s202 
+
+slab after builder rtfm-ef_sl_km:
+-rw-rw-r-- 1 roman roman 746633857 Oct  7 16:59 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 746633857 Oct  7 16:59 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  165G  792G  18% /
+
+launch: 2026-10-08T02:23:40+02:00
+commit: 5dcf13f
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family b8
+cells: ms_rtfm_rp_skipbigram_s42 rtfm-skipbigram_sl_km rtfm-skipbigram_sl_seq ms_rtfm_rp_skipbigram_s1337 ms_rtfm_rp_skipbigram_s7 ms_rtfm_rp_skipbigram_s101 ms_rtfm_rp_skipbigram_s202 
+
+slab after builder rtfm-skipbigram_sl_km:
+-rw-rw-r-- 1 roman roman 1154266817 Oct  8 09:54 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 1154266817 Oct  8 09:54 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  168G  789G  18% /
+
+launch: 2026-10-10T19:11:19+02:00
+commit: 5a45b81
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family c0
+cells: ms_sepsis-pc2p_rp_activity_s42 rtSepsis_sl_activity_2p ms_sepsis-pc3p_rp_activity_s42 rtSepsis_sl_activity_3p ms_sepsis-pc2p_rp_ef_s42 rtSepsis_sl_ef_2p ms_sepsis-pc3p_rp_ef_s42 rtSepsis_sl_ef_3p ms_sepsis-pc2p_rp_skipbigram_s42 rtSepsis_sl_skipbigram_2p ms_sepsis-pc3p_rp_skipbigram_s42 rtSepsis_sl_skipbigram_3p ms_sepsis-pc2p_rp_trigram_s42 rtSepsis_sl_trigram_2p ms_sepsis-pc3p_rp_trigram_s42 rtSepsis_sl_trigram_3p 
+ M docs/CONTRACTS.md
+ M scripts/evaluate_campaign.py
+ M scripts/run_uniform_campaign.sh
+ M scripts/test_evaluate_campaign.py
+ M scripts/variant_suppression_sweep.py
+?? scripts/attacks/rescore_battery_uniform.py
+?? scripts/causes_study_uniform.py
+?? scripts/cluster_scatter_uniform.py
+?? scripts/method_study_uniform.py
+?? scripts/models_figure_uniform.py
+?? scripts/test_causes_study_uniform.py
+?? scripts/test_uniform_campaign_family_c.py
+?? scripts/uniform_figures.py
+
+slab after builder rtSepsis_sl_activity_2p:
+-rw-rw-r-- 1 roman roman 3914617 Oct 10 19:14 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 3914617 Oct 10 19:14 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  171G  785G  18% /
+
+slab after builder rtSepsis_sl_activity_3p:
+-rw-rw-r-- 1 roman roman 3914617 Oct 10 19:22 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 3914617 Oct 10 19:22 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 3914617 Oct 10 19:22 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  171G  785G  18% /
+
+slab after builder rtSepsis_sl_skipbigram_2p:
+-rw-rw-r-- 1 roman roman 14319017 Oct 10 19:44 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 14319017 Oct 10 19:44 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  171G  785G  18% /
+
+slab after builder rtSepsis_sl_skipbigram_3p:
+-rw-rw-r-- 1 roman roman 14319017 Oct 10 20:30 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 14319017 Oct 10 20:30 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 14319017 Oct 10 20:30 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  172G  785G  18% /
+
+slab after builder rtSepsis_sl_trigram_2p:
+-rw-rw-r-- 1 roman roman 64254217 Oct 10 21:07 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 64254217 Oct 10 21:07 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  172G  785G  18% /
+
+slab after builder rtSepsis_sl_trigram_3p:
+-rw-rw-r-- 1 roman roman 64254217 Oct 10 22:28 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 64254217 Oct 10 22:28 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 64254217 Oct 10 22:28 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  172G  785G  18% /
+
+launch: 2026-10-10T22:29:07+02:00
+commit: 5a45b81
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family c1
+cells: ms_helpdesk-pc2p_rp_activity_s42 rtHelpdesk_sl_activity_2p ms_helpdesk-pc3p_rp_activity_s42 rtHelpdesk_sl_activity_3p ms_helpdesk-pc2p_rp_ef_s42 rtHelpdesk_sl_ef_2p ms_helpdesk-pc3p_rp_ef_s42 rtHelpdesk_sl_ef_3p ms_helpdesk-pc2p_rp_skipbigram_s42 rtHelpdesk_sl_skipbigram_2p ms_helpdesk-pc3p_rp_skipbigram_s42 rtHelpdesk_sl_skipbigram_3p ms_helpdesk-pc2p_rp_trigram_s42 rtHelpdesk_sl_trigram_2p ms_helpdesk-pc3p_rp_trigram_s42 rtHelpdesk_sl_trigram_3p 
+ M docs/CONTRACTS.md
+ M scripts/evaluate_campaign.py
+ M scripts/run_uniform_campaign.sh
+ M scripts/test_evaluate_campaign.py
+ M scripts/variant_suppression_sweep.py
+?? scripts/attacks/rescore_battery_uniform.py
+?? scripts/causes_study_uniform.py
+?? scripts/cluster_scatter_uniform.py
+?? scripts/method_study_uniform.py
+?? scripts/models_figure_uniform.py
+?? scripts/test_causes_study_uniform.py
+?? scripts/test_uniform_campaign_family_c.py
+?? scripts/uniform_figures.py
+
+slab after builder rtHelpdesk_sl_activity_2p:
+-rw-rw-r-- 1 roman roman 15296921 Oct 10 22:35 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 15296921 Oct 10 22:35 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  172G  785G  18% /
+
+slab after builder rtHelpdesk_sl_activity_3p:
+-rw-rw-r-- 1 roman roman 15296921 Oct 10 22:58 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 15296921 Oct 10 22:58 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 15296921 Oct 10 22:58 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  172G  785G  18% /
+
+slab after builder rtHelpdesk_sl_ef_2p:
+-rw-rw-r-- 1 roman roman 33666713 Oct 10 23:09 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 33666713 Oct 10 23:09 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  172G  785G  18% /
+
+slab after builder rtHelpdesk_sl_ef_3p:
+-rw-rw-r-- 1 roman roman 33666713 Oct 10 23:42 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 33666713 Oct 10 23:42 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 33666713 Oct 10 23:42 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  172G  785G  18% /
+
+slab after builder rtHelpdesk_sl_skipbigram_2p:
+-rw-rw-r-- 1 roman roman 53184617 Oct 11 00:03 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 53184617 Oct 11 00:03 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  172G  785G  18% /
+
+slab after builder rtHelpdesk_sl_skipbigram_3p:
+-rw-rw-r-- 1 roman roman 53184617 Oct 11 01:13 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 53184617 Oct 11 01:13 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 53184617 Oct 11 01:13 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  172G  784G  18% /
+
+slab after builder rtHelpdesk_sl_trigram_2p:
+-rw-rw-r-- 1 roman roman 199467593 Oct 11 01:37 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 199467593 Oct 11 01:37 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  172G  784G  18% /
+
+slab after builder rtHelpdesk_sl_trigram_3p:
+-rw-rw-r-- 1 roman roman 199467593 Oct 11 03:01 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 199467593 Oct 11 03:01 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 199467593 Oct 11 03:01 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  173G  784G  19% /
+
+launch: 2026-10-11T03:02:27+02:00
+commit: 5a45b81
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family c2
+cells: ms_bpic2013-pc2p_rp_activity_s42 rtBpic2013_sl_activity_2p ms_bpic2013-pc3p_rp_activity_s42 rtBpic2013_sl_activity_3p ms_bpic2013-pc2p_rp_ef_s42 rtBpic2013_sl_ef_2p ms_bpic2013-pc3p_rp_ef_s42 rtBpic2013_sl_ef_3p ms_bpic2013-pc2p_rp_skipbigram_s42 rtBpic2013_sl_skipbigram_2p ms_bpic2013-pc3p_rp_skipbigram_s42 rtBpic2013_sl_skipbigram_3p ms_bpic2013-pc2p_rp_trigram_s42 rtBpic2013_sl_trigram_2p ms_bpic2013-pc3p_rp_trigram_s42 rtBpic2013_sl_trigram_3p 
+ M docs/CONTRACTS.md
+ M scripts/evaluate_campaign.py
+ M scripts/run_uniform_campaign.sh
+ M scripts/test_evaluate_campaign.py
+ M scripts/variant_suppression_sweep.py
+?? scripts/attacks/rescore_battery_uniform.py
+?? scripts/causes_study_uniform.py
+?? scripts/cluster_scatter_uniform.py
+?? scripts/method_study_uniform.py
+?? scripts/models_figure_uniform.py
+?? scripts/test_causes_study_uniform.py
+?? scripts/test_uniform_campaign_family_c.py
+?? scripts/uniform_figures.py
+
+slab after builder rtBpic2013_sl_activity_2p:
+-rw-rw-r-- 1 roman roman 6958825 Oct 11 03:09 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 6958825 Oct 11 03:09 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  172G  784G  18% /
+
+slab after builder rtBpic2013_sl_activity_3p:
+-rw-rw-r-- 1 roman roman 6958825 Oct 11 03:32 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 6958825 Oct 11 03:32 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 6958825 Oct 11 03:32 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  172G  784G  18% /
+
+slab after builder rtBpic2013_sl_ef_2p:
+-rw-rw-r-- 1 roman roman 9987529 Oct 11 03:43 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 9987529 Oct 11 03:43 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  172G  784G  18% /
+
+slab after builder rtBpic2013_sl_ef_3p:
+-rw-rw-r-- 1 roman roman 9987529 Oct 11 04:10 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 9987529 Oct 11 04:10 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 9987529 Oct 11 04:10 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  172G  784G  18% /
+
+slab after builder rtBpic2013_sl_skipbigram_2p:
+-rw-rw-r-- 1 roman roman 13521017 Oct 11 04:26 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 13521017 Oct 11 04:26 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  172G  784G  18% /
+
+slab after builder rtBpic2013_sl_skipbigram_3p:
+-rw-rw-r-- 1 roman roman 13521017 Oct 11 05:12 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 13521017 Oct 11 05:12 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 13521017 Oct 11 05:12 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  173G  784G  19% /
+
+slab after builder rtBpic2013_sl_trigram_2p:
+-rw-rw-r-- 1 roman roman 11069209 Oct 11 05:22 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 11069209 Oct 11 05:22 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  173G  784G  19% /
+
+slab after builder rtBpic2013_sl_trigram_3p:
+-rw-rw-r-- 1 roman roman 11069209 Oct 11 05:48 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 11069209 Oct 11 05:48 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 11069209 Oct 11 05:48 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  173G  784G  19% /
+
+launch: 2026-10-11T05:50:12+02:00
+commit: 5a45b81
+generation: 4
+campaign_z: 1
+party_flags: -o softspoken=6
+extra_compile_flags: -D --budget 4000
+protocol: semi2k-party.x
+threads: 8
+ring: 64 (128 on the cells whose ring column says so)
+ring_escape: 0
+argmin_c3: 1
+ring_overflow_bypass: never
+case_universe: intersection
+sepsis_dir: data/splits/sepsis_2party
+sepsis_pin: config/case_ids/sepsis_2party_full.txt
+driver: scripts/run_uniform_campaign.sh --family c3
+cells: ms_rtfm-pc2p_rp_activity_s42 rtRtfm_sl_activity_2p ms_rtfm-pc3p_rp_activity_s42 rtRtfm_sl_activity_3p ms_rtfm-pc2p_rp_ef_s42 rtRtfm_sl_ef_2p ms_rtfm-pc3p_rp_ef_s42 rtRtfm_sl_ef_3p ms_rtfm-pc2p_rp_skipbigram_s42 rtRtfm_sl_skipbigram_2p ms_rtfm-pc3p_rp_skipbigram_s42 rtRtfm_sl_skipbigram_3p ms_rtfm-pc2p_rp_trigram_s42 rtRtfm_sl_trigram_2p ms_rtfm-pc3p_rp_trigram_s42 rtRtfm_sl_trigram_3p 
+ M docs/CONTRACTS.md
+ M scripts/evaluate_campaign.py
+ M scripts/run_uniform_campaign.sh
+ M scripts/test_evaluate_campaign.py
+ M scripts/variant_suppression_sweep.py
+?? scripts/attacks/rescore_battery_uniform.py
+?? scripts/causes_study_uniform.py
+?? scripts/cluster_scatter_uniform.py
+?? scripts/method_study_uniform.py
+?? scripts/models_figure_uniform.py
+?? scripts/test_causes_study_uniform.py
+?? scripts/test_uniform_campaign_family_c.py
+?? scripts/uniform_figures.py
+
+slab after builder rtRtfm_sl_activity_2p:
+-rw-rw-r-- 1 roman roman 3353105 Oct 11 05:51 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 3353105 Oct 11 05:51 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  173G  784G  19% /
+
+slab after builder rtRtfm_sl_activity_3p:
+-rw-rw-r-- 1 roman roman 3353105 Oct 11 05:55 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 3353105 Oct 11 05:55 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 3353105 Oct 11 05:55 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  173G  784G  19% /
+
+slab after builder rtRtfm_sl_ef_2p:
+-rw-rw-r-- 1 roman roman 6800913 Oct 11 05:59 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 6800913 Oct 11 05:59 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  173G  784G  19% /
+
+slab after builder rtRtfm_sl_ef_3p:
+-rw-rw-r-- 1 roman roman 6800913 Oct 11 06:08 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 6800913 Oct 11 06:08 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 6800913 Oct 11 06:08 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  173G  784G  19% /
+
+slab after builder rtRtfm_sl_skipbigram_2p:
+-rw-rw-r-- 1 roman roman 10513937 Oct 11 06:13 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 10513937 Oct 11 06:13 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  173G  784G  19% /
+
+slab after builder rtRtfm_sl_skipbigram_3p:
+-rw-rw-r-- 1 roman roman 10513937 Oct 11 06:29 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 10513937 Oct 11 06:29 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 10513937 Oct 11 06:29 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  173G  784G  19% /
+
+slab after builder rtRtfm_sl_trigram_2p:
+-rw-rw-r-- 1 roman roman 28302353 Oct 11 06:35 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 28302353 Oct 11 06:35 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+/dev/sdc       1007G  173G  784G  19% /
+
+slab after builder rtRtfm_sl_trigram_3p:
+-rw-rw-r-- 1 roman roman 28302353 Oct 11 06:51 /home/roman/MP-SPDZ/Persistence/Transactions-P0.data
+-rw-rw-r-- 1 roman roman 28302353 Oct 11 06:51 /home/roman/MP-SPDZ/Persistence/Transactions-P1.data
+-rw-rw-r-- 1 roman roman 28302353 Oct 11 06:51 /home/roman/MP-SPDZ/Persistence/Transactions-P2.data
+/dev/sdc       1007G  173G  784G  19% /
+

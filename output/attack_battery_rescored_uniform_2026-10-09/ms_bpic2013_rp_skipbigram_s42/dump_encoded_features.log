@@ -1,0 +1,21 @@
+$ /home/roman/projects/federated_clustering/target/release/clustering_federated --data-dir data/splits/bpic2013_2party --case-ids config/case_ids/bpic2013_role_full.txt --encoding skip-bigram --truncate-baseline --dump-encoded-features --run-name rescore_uni_ms_bpic2013_rp_skipbigram_s42
+
+--- Start ---
+Output: output/runs/rescore_uni_ms_bpic2013_rp_skipbigram_s42_2026-10-09_16-13-45
+Loaded XES: 51661 events (Party_A.xes), 13872 events (Party_B.xes) from data/splits/bpic2013_2party
+
+--- Phase 0: Case ID Intersection (2 parties) ---
+Phase 0: pinned to 7545 cases from config/case_ids/bpic2013_role_full.txt
+Phase 0: 7545 common cases in 7.216996ms
+
+--- Phase 1: Activity Dictionary ---
+Phase 1: 4 user activities (7 total with markers) in 3.277892ms
+
+--- Phase 2-3: Plaintext Integration & Clustering ---
+[Harness] Auto-L reads the joint per-case length distribution across parties; a deployment fixes --max-trace-len by policy instead
+[MPC] Trace length distribution (merged, 2 parties): P50=6, P95=23, P99=39, max=123
+[MPC] Dynamic L = 32 (per-party, bigram coverage 97.1%), truncated = 0.1%
+[Plaintext] Integrated 7545 traces (truncated, L=32)
+[Plaintext] 15 bigrams, 7545 features
+Exported encoded feature matrix (7545 x 98) to output/runs/rescore_uni_ms_bpic2013_rp_skipbigram_s42_2026-10-09_16-13-45/features_encoded.csv (case ids in output/runs/rescore_uni_ms_bpic2013_rp_skipbigram_s42_2026-10-09_16-13-45/features_encoded_cases.txt)
+Plaintext dump completed in 90.802445ms

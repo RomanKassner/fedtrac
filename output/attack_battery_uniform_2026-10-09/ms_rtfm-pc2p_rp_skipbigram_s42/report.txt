@@ -1,0 +1,225 @@
+Attack battery on uni_ms_rtfm-pc2p_rp_skipbigram_s42_2026-10-11_04-08-23
+  revealed Y: 974/1184 rows non-zero (210 suppressed-tail masked), k_proj=75
+  X (plaintext oracle): n=1184 d=76
+  seed=42  m-list=[5, 20, 50]  blas_threads=1
+  frequency-guessing baseline (top-5 cells for every case, no revealed row read): P=0.81 R=0.45 cols=[0, 20, 71, 42, 55]
+
+##############################################################################
+# real_envelope__attack_on_mpc_output
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_on_mpc_output.py --run output/runs/uni_ms_rtfm-pc2p_rp_skipbigram_s42_2026-10-11_04-08-23 --m-list 5 20 50 --quad-max-rows 3000
+##############################################################################
+
+========================================================================
+  Run: uni_ms_rtfm-pc2p_rp_skipbigram_s42_2026-10-11_04-08-23
+  X (plaintext reference): n=1184 d=76, mean row L0=9
+  scoring = positional (row i of the reconstruction against row i of the reference; NOT the opened row's case, see --truth)
+  Y (revealed, shuffled, normalised): n=974 of 1184 rows non-zero (210 suppressed-tail rows masked), k=75, L2 norm range [1.000, 1.000]
+========================================================================
+
+JL distance fidelity: median rel-diff = 0.04, within-25% = 92.8%
+
+attack                            m      P      R  detail
+------------------------------------------------------------------------
+no-prior pinv                     -   0.13   0.40  
+FastICA                           -   0.43   0.55  
+distance+MDS                      -   0.43   0.55  
+known-sample (norm match)         5   0.46   0.33  
+known-sample (norm match)        20   0.31   0.40  
+known-sample (norm match)        50   0.30   0.40  
+known-sample (dist match)         5   0.43   0.35  5/5 paired
+known-sample (dist match)        20   0.29   0.40  0/20 paired
+known-sample (dist match)        50   0.27   0.42  0/50 paired
+
+[stderr]
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/sklearn/decomposition/_fastica.py:132: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
+  warnings.warn(
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/numpy/lib/function_base.py:2897: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/numpy/lib/function_base.py:2898: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/sklearn/manifold/_mds.py:754: FutureWarning: The default value of `init` will change from 'random' to 'classical_mds' in 1.10. To suppress this warning, provide some value of `init`.
+  warnings.warn(
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/sklearn/manifold/_mds.py:771: FutureWarning: The `dissimilarity` parameter is deprecated and will be removed in 1.10. Use `metric` instead.
+  warnings.warn(
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/numpy/lib/function_base.py:2897: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+/home/roman/projects/federated_clustering/.venv/lib/python3.12/site-packages/numpy/lib/function_base.py:2898: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+
+##############################################################################
+# upper_bound__sim_secret_R
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_sim_secret_R.py --features output/runs/uni_ms_rtfm-pc2p_rp_skipbigram_s42_2026-10-11_04-08-23/plaintext/features.csv --k 37 75 76 --seed 42
+##############################################################################
+
+== output/runs/uni_ms_rtfm-pc2p_rp_skipbigram_s42_2026-10-11_04-08-23/plaintext/features.csv ==
+  k  attack             m      P      R
+ 37  pinv-random-R      -   0.12   0.05
+ 37  known-sample       5   0.64   0.68
+ 37  known-sample      40   0.86   0.92
+ 37  known-sample     100   0.87   0.96
+ 37  known-sample     140   0.89   0.99
+ 37  FastICA            -   0.64   0.30
+ 37  dist+MDS           -   0.64   0.84
+ 75  pinv-random-R      -   0.13   0.44
+ 75  known-sample       5   0.66   0.70
+ 75  known-sample      40   0.90   0.94
+ 75  known-sample     100   0.94   0.97
+ 75  known-sample     140   0.94   0.99
+ 75  FastICA            -   0.62   0.81
+ 76  pinv-random-R      -   0.13   0.53
+ 76  known-sample       5   0.66   0.70
+ 76  known-sample      40   0.88   0.94
+ 76  known-sample     100   0.93   0.97
+ 76  known-sample     140   0.94   0.99
+ 76  FastICA            -   0.61   0.82
+
+##############################################################################
+# upper_bound__vertical_split
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_vertical_split.py --features output/runs/uni_ms_rtfm-pc2p_rp_skipbigram_s42_2026-10-11_04-08-23/plaintext/features.csv --partition 25,25 --k 37 75 76 --seed 42
+##############################################################################
+
+Dataset: n=1184, d=76, mean row L0 = 9.1
+Vertical partition (col counts): [25, 25, 26]
+  party 0: |cols|=25
+  party 1: |cols|=25
+  party 2: |cols|=26
+
+==============================================================================
+  Projection k=37
+==============================================================================
+
+--- Adversary = party 0 (25 known cols of 76) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.46 R=0.19; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.37 R=0.22; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.24 R=0.21; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+--- Adversary = party 1 (25 known cols of 76) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 1/100 (1.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.46 R=0.17; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.32 R=0.17; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.21 R=0.13; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+--- Adversary = party 2 (26 known cols of 76) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.40 R=0.18; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.35 R=0.20; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.23 R=0.16; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+==============================================================================
+  Projection k=75
+==============================================================================
+
+--- Adversary = party 0 (25 known cols of 76) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.48 R=0.24; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.34 R=0.22; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.27 R=0.20; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+--- Adversary = party 1 (25 known cols of 76) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.52 R=0.16; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.35 R=0.18; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.20 R=0.12; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+--- Adversary = party 2 (26 known cols of 76) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.43 R=0.21; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.45 R=0.23; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.38 R=0.20; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+==============================================================================
+  Projection k=76
+==============================================================================
+
+--- Adversary = party 0 (25 known cols of 76) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.53 R=0.20; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.35 R=0.21; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.31 R=0.19; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+--- Adversary = party 1 (25 known cols of 76) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.43 R=0.16; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.31 R=0.15; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.26 R=0.16; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+--- Adversary = party 2 (26 known cols of 76) ---
+  align by dist-fp (m=10): 0/10 (0.0%) rows pinned correctly
+  align by dist-fp (m=30): 0/30 (0.0%) rows pinned correctly
+  align by dist-fp (m=100): 0/100 (0.0%) rows pinned correctly
+  Guo-Wu w/mask (perfect align, m=10): all P=0.43 R=0.15; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=30): all P=0.37 R=0.20; unknown-cells P=0.00 R=0.00
+  Guo-Wu w/mask (perfect align, m=100): all P=0.35 R=0.21; unknown-cells P=0.00 R=0.00
+  column-only inversion (lower bound): unknown-cells P=0.00 R=0.00
+
+##############################################################################
+# upper_bound__anchor_mds_honest
+# $ /home/roman/projects/federated_clustering/scripts/attacks/attack_anchor_mds_honest.py --features output/runs/uni_ms_rtfm-pc2p_rp_skipbigram_s42_2026-10-11_04-08-23/plaintext/features.csv --partition 25,25 --k 37 75 76 --seed 42
+##############################################################################
+
+=== uni_ms_rtfm-pc2p_rp_skipbigram_s42_2026-10-11_04-08-23 (HONEST attack; no X_full leak) ===
+n=1184, d=76, partition=[25, 25, 26]
+
+  k  attack             party     P_unk  R_unk
+----------------------------------------------------------------------
+ 37  trivial-zero       party0     0.00   0.00
+ 37  dist-MDS           party0     0.00   0.00
+ 37  dict-learn         party0     0.00   0.00
+
+ 37  trivial-zero       party1     0.00   0.00
+ 37  dist-MDS           party1     0.00   0.00
+ 37  dict-learn         party1     0.00   0.00
+
+ 37  trivial-zero       party2     0.00   0.00
+ 37  dist-MDS           party2     0.00   0.00
+ 37  dict-learn         party2     0.00   0.00
+
+ 75  trivial-zero       party0     0.00   0.00
+ 75  dist-MDS           party0     0.00   0.00
+ 75  dict-learn         party0     0.00   0.00
+
+ 75  trivial-zero       party1     0.00   0.00
+ 75  dist-MDS           party1     0.00   0.00
+ 75  dict-learn         party1     0.00   0.00
+
+ 75  trivial-zero       party2     0.00   0.00
+ 75  dist-MDS           party2     0.00   0.00
+ 75  dict-learn         party2     0.00   0.00
+
+ 76  trivial-zero       party0     0.00   0.00
+ 76  dist-MDS           party0     0.00   0.00
+ 76  dict-learn         party0     0.00   0.00
+
+ 76  trivial-zero       party1     0.00   0.00
+ 76  dist-MDS           party1     0.00   0.00
+ 76  dict-learn         party1     0.00   0.00
+
+ 76  trivial-zero       party2     0.00   0.00
+ 76  dist-MDS           party2     0.00   0.00
+ 76  dict-learn         party2     0.00   0.00
+

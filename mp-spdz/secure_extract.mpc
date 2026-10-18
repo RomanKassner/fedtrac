@@ -1,0 +1,286 @@
+"""Round 1 with a public projection matrix: n-party merge tree -> bigram DFG payload plus the encoded, projected Y."""
+
+import sys
+import math
+
+sys.path.insert(0, 'Programs/Source')
+
+from Compiler.types import sint
+from Compiler.library import print_ln, for_range_opt_multithread
+
+from mpc_utils import (
+    build_pruned_merge_schedule,
+    encoding_activity,
+    encoding_bigram,
+    encoding_ef,
+    encoding_skip_bigram,
+    encoding_trigram,
+    expected_enc_dim,
+    merge_and_extract,
+    next_pow2,
+    profile_timers,
+    read_party_inputs,
+)
+
+# Sort key = ts*DICT_SIZE + act, bounded below 2^40 by input_encoding.rs, so the pad sentinel sorts after every real
+# key and CMP_BITS=48 keeps it positive at -R 64 (a pad at 2^(B-1) would sort to the front).
+PAD_COMPOSITE = 2**40
+CMP_BITS = 48
+
+# Parameters (compile-time Python ints).
+try:
+    N_CASES     = int(program.args[1]) if len(program.args) > 1 else 3
+    PARTIAL_LEN = int(program.args[2]) if len(program.args) > 2 else 3
+    DICT_SIZE   = int(program.args[3]) if len(program.args) > 3 else 6
+    N_THREADS   = int(program.args[4]) if len(program.args) > 4 else 8
+    K_PROJ      = int(program.args[5]) if len(program.args) > 5 else 50
+    N_PARTIES   = int(program.args[6]) if len(program.args) > 6 else 3
+    ENCODING    = int(program.args[7]) if len(program.args) > 7 else 0
+    SECURE_Y    = int(program.args[8]) if len(program.args) > 8 else 0
+    ENC_DIM_arg = int(program.args[9]) if len(program.args) > 9 else 0
+    PLENS_arg   = program.args[10] if len(program.args) > 10 else ""
+    # Extract-once reuse: CORE_MODE 2 = tail_only, reading the slab a PERSIST_ENC=1 run wrote.
+    CORE_MODE     = int(program.args[11]) if len(program.args) > 11 else 0
+    PERSIST_ENC   = int(program.args[12]) if len(program.args) > 12 else 0
+    ENC_OFFSET    = int(program.args[13]) if len(program.args) > 13 else 0
+    BIGRAM_OFFSET = int(program.args[14]) if len(program.args) > 14 else 0
+    PROFILE       = int(program.args[15]) if len(program.args) > 15 else 0
+except Exception:
+    N_CASES     = 3
+    PARTIAL_LEN = 3
+    DICT_SIZE   = 6
+    N_THREADS   = 8
+    K_PROJ      = 50
+    N_PARTIES   = 3
+    ENCODING    = 0
+    SECURE_Y    = 0
+    ENC_DIM_arg = 0
+    PLENS_arg   = ""
+    CORE_MODE     = 0
+    PERSIST_ENC   = 0
+    ENC_OFFSET    = 0
+    BIGRAM_OFFSET = 0
+    PROFILE       = 0
+
+tick, tock = profile_timers(PROFILE)
+
+# Per-party slice lengths: public compile metadata, aligned Rust-side to TRACE_LEN_ALIGNMENT, the disclosure class of L.
+if PLENS_arg and PLENS_arg != "0":
+    PARTIAL_LENS = [int(x) for x in PLENS_arg.split("x")]
+    assert len(PARTIAL_LENS) == N_PARTIES, (PARTIAL_LENS, N_PARTIES)
+    assert max(PARTIAL_LENS) == PARTIAL_LEN, (PARTIAL_LENS, PARTIAL_LEN)
+else:
+    PARTIAL_LENS = [PARTIAL_LEN] * N_PARTIES
+
+# Clustering-encoding width: d^2 for bigram and EF; activity, trigram and skip-bigram pass ENC_DIM so R agrees.
+ENC_DIM = ENC_DIM_arg if ENC_DIM_arg > 0 else DICT_SIZE * DICT_SIZE
+
+# ENCODING: 0=bigram 1=EF 3=activity 4=trigram 5=skip-bigram. An over-wide ENC_DIM is silent, hence a compile error.
+assert ENCODING != 2, "encoding flag 2 is not defined"
+assert ENC_DIM == expected_enc_dim(ENCODING, DICT_SIZE), (
+    "ENC_DIM %d != expected %d for ENCODING=%d at DICT_SIZE=%d"
+    % (ENC_DIM, expected_enc_dim(ENCODING, DICT_SIZE), ENCODING, DICT_SIZE))
+ENCODING_IS_BIGRAM = (ENCODING == 0)
+if ENCODING == 1:
+    encoding_extract = encoding_ef.extract_features
+elif ENCODING == 3:
+    encoding_extract = encoding_activity.extract_features
+elif ENCODING == 4:
+    encoding_extract = encoding_trigram.extract_features
+elif ENCODING == 5:
+    encoding_extract = encoding_skip_bigram.extract_features
+else:
+    encoding_extract = encoding_bigram.extract_features
+
+# Derived constants: slots are padded to powers of two for clean bitonic merge sizes.
+N_PARTIES_PADDED = next_pow2(N_PARTIES)
+N_LEVELS = int(math.log2(N_PARTIES_PADDED))
+
+PARTY_SLOTS = next_pow2(PARTIAL_LEN)
+TOTAL_SLOTS = PARTY_SLOTS * N_PARTIES_PADDED
+
+# Upper bound on non-PAD events after the merge; the dominant extraction term scales with it.
+MAX_REAL = sum(PARTIAL_LENS)
+
+ACTUAL_BIGRAMS = DICT_SIZE * DICT_SIZE
+DEMUX_BITS = math.ceil(math.log2(ACTUAL_BIGRAMS)) if ACTUAL_BIGRAMS > 1 else 1
+NUM_BIGRAMS = 1 + (MAX_REAL - 1) + MAX_REAL
+
+# Sparse projection matrix, bucketed per output column so the projection loop uses a register accumulator.
+_plus_for_j = [[] for _ in range(K_PROJ)]
+_minus_for_j = [[] for _ in range(K_PROJ)]
+_nnz = 0
+
+if K_PROJ > 0:
+    with open('Programs/Source/projection_matrix.txt', 'r') as _f:
+        _header = _f.readline().split()
+        _k_file = int(_header[0])
+        for _j in range(_k_file):
+            _vals = list(map(int, _f.readline().split()))
+            for _l, _v in enumerate(_vals):
+                if _v == 1:
+                    _plus_for_j[_j].append(_l)
+                    _nnz += 1
+                elif _v == -1:
+                    _minus_for_j[_j].append(_l)
+                    _nnz += 1
+
+# Compile-time merge tree schedule, shared with secure_extract_rsecret.mpc through mpc_utils.merge_and_extract.
+_all_level_schedules, _totals = build_pruned_merge_schedule(N_PARTIES, PARTIAL_LENS)
+_total_reversal_all = _totals["reversal"]
+_total_oblivious_all = _totals["oblivious"]
+_total_static_all = _totals["static"]
+
+# Configuration summary.
+print_ln("=== N-Party Merge Tree Configuration ===")
+if SECURE_Y:
+    print_ln("MODE: PRODUCTION - Y persisted secret-shared, no per-case reveal")
+else:
+    print_ln("MODE: TESTING - Y revealed per case for projection-correctness checks")
+print_ln("N_PARTIES=%s  N_CASES=%s  PARTIAL_LEN=%s  DICT_SIZE=%s  K_PROJ=%s",
+         N_PARTIES, N_CASES, PARTIAL_LEN, DICT_SIZE, K_PROJ)
+print_ln("PARTIAL_LENS=%s", "x".join(str(l) for l in PARTIAL_LENS))
+print_ln("N_PARTIES_PADDED=%s  N_LEVELS=%s  PARTY_SLOTS=%s  TOTAL_SLOTS=%s",
+         N_PARTIES_PADDED, N_LEVELS, PARTY_SLOTS, TOTAL_SLOTS)
+print_ln("MAX_REAL=%s  ACTUAL_BIGRAMS=%s  DEMUX_BITS=%s  NUM_BIGRAMS=%s",
+         MAX_REAL, ACTUAL_BIGRAMS, DEMUX_BITS, NUM_BIGRAMS)
+print_ln("ENCODING=%s  ENC_DIM=%s", ENCODING, ENC_DIM)
+print_ln("CORE_MODE=%s (0=full,2=tail_only)  PERSIST_ENC=%s  ENC_OFFSET=%s  BIGRAM_OFFSET=%s",
+         CORE_MODE, PERSIST_ENC, ENC_OFFSET, BIGRAM_OFFSET)
+print_ln("Merge tree: %s reversal + %s oblivious + %s static swaps",
+         _total_reversal_all, _total_oblivious_all, _total_static_all)
+if PROFILE:
+    print_ln("PROFILE: on - timers 1=read 2=merge+extract 3=enc-slab "
+             "4=projection 5=bigram-persist 6=Y-out")
+if K_PROJ > 0:
+    _nnz_plus = sum(len(c) for c in _plus_for_j)
+    _nnz_minus = sum(len(c) for c in _minus_for_j)
+    print_ln("Projection: %s nonzero entries (%s plus, %s minus)",
+             _nnz, _nnz_plus, _nnz_minus)
+
+for _lv in range(N_LEVELS):
+    _rev, _steps = _all_level_schedules[_lv]
+    _obs = sum(len(o) for _, o in _steps)
+    _sta = sum(len(s) for s, _ in _steps)
+    print_ln("  Level %s: %s reversal, %s oblivious, %s static, %s merge steps",
+             _lv, len(_rev), _obs, _sta, len(_steps))
+
+
+def main():
+    _saved_bits = program.bit_length
+    program.set_bit_length(CMP_BITS)
+
+    if CORE_MODE == 2:
+        # Steps 1-2 (tail_only): read the persisted slab; merge and extraction are RNG-free, so it reconstructs exactly.
+        print_ln("\n=== Steps 1-2 (tail_only): read core slab from persistence ===")
+        print_ln("bigram@%s (%s x %s), encoding@%s (%s x %s)",
+                 BIGRAM_OFFSET, N_CASES, ACTUAL_BIGRAMS, ENC_OFFSET, N_CASES, ENC_DIM)
+        tick(2)
+        bigram_matrix = sint.Matrix(N_CASES, ACTUAL_BIGRAMS)
+        bigram_matrix.read_from_file(BIGRAM_OFFSET)
+        encoding_matrix = sint.Matrix(N_CASES, ENC_DIM)
+        encoding_matrix.read_from_file(ENC_OFFSET)
+        tock(2)
+    else:
+        # Step 1: read the per-party event streams.
+        print_ln("\n=== Step 1: Read Inputs (%s parties) ===", N_PARTIES)
+        tick(1)
+        activities, timestamps = read_party_inputs(N_PARTIES, N_CASES, PARTIAL_LENS)
+        tock(1)
+        print_ln("Read %s parties, %s events total", N_PARTIES, N_CASES * MAX_REAL)
+
+        # Step 2: merge and extract; at ENCODING=0 the two matrices alias, one pure-count extraction serving both.
+        print_ln("\n=== Step 2: Merge Tree + Extraction ===")
+        tick(2)
+        bigram_matrix, encoding_matrix = merge_and_extract(
+            activities, timestamps,
+            N_PARTIES, N_CASES, PARTIAL_LENS, DICT_SIZE, N_THREADS,
+            ENCODING_IS_BIGRAM, encoding_extract, ENC_DIM,
+            PAD_COMPOSITE, _all_level_schedules,
+        )
+        tock(2)
+
+        if PERSIST_ENC:
+            # ENC_OFFSET rides above every mode's write range, so bigram@0 and the Y, pi and label slabs keep theirs.
+            print_ln("\n=== Persist core encoding slab @%s (extract-once) ===", ENC_OFFSET)
+            tick(3)
+            encoding_matrix.write_to_file(ENC_OFFSET)
+            tock(3)
+            print_ln("Saved %s x %s encoding features at offset %s",
+                     N_CASES, ENC_DIM, ENC_OFFSET)
+
+    if ENCODING == 1:
+        _enc_name = "EF"
+    elif ENCODING == 3:
+        _enc_name = "activity"
+    elif ENCODING == 4:
+        _enc_name = "trigram"
+    elif ENCODING == 5:
+        _enc_name = "skip-bigram"
+    else:
+        _enc_name = "bigram"
+    print_ln("Extracted %s features for %s cases", _enc_name, N_CASES)
+
+    # Step 2b: project the encoding matrix only; the DFG payload must reach Round 2 unprojected.
+    print_ln("\n=== Step 2b: Project Encoding Features (k_proj=%s) ===", K_PROJ)
+
+    feature_matrix = sint.Matrix(N_CASES, K_PROJ)
+
+    tick(4)
+
+    @for_range_opt_multithread(N_THREADS, N_CASES)
+    def _(i):
+        for j in range(K_PROJ):
+            acc = sint(0)
+            for l in _plus_for_j[j]:
+                acc = acc + encoding_matrix[i][l]
+            for l in _minus_for_j[j]:
+                acc = acc - encoding_matrix[i][l]
+            feature_matrix[i][j] = acc
+
+    tock(4)
+    print_ln("Projected to %s-dim vectors (%s nnz entries)", K_PROJ, _nnz)
+
+    # Step 3: persist the raw bigrams at offset 0 whatever the encoding; Round 2 aggregates them per cluster.
+    print_ln("\n=== Step 3: Save Raw Bigram DFG ===")
+    tick(5)
+    bigram_matrix.write_to_file(0)
+    tock(5)
+    print_ln("Saved %s x %s bigram features to file at offset 0", N_CASES, ACTUAL_BIGRAMS)
+
+    if SECURE_Y:
+        y_offset = N_CASES * ACTUAL_BIGRAMS
+        print_ln("\n=== Step 4 (secure): Persist Projected Features ===")
+        tick(6)
+        feature_matrix.write_to_file(y_offset)
+        tock(6)
+        print_ln("Saved %s x %s projected features at offset %s",
+                 N_CASES, K_PROJ, y_offset)
+    else:
+        # Simulator only: SECURE_Y=0 reveals Y per case so test_secure_extract.py can compare it to the clear twin.
+        print_ln("\n=== Step 4 (testing): Reveal Projected Features ===")
+
+        flat_output = sint.Array(N_CASES * K_PROJ)
+
+        tick(6)
+
+        @for_range_opt_multithread(N_THREADS, N_CASES)
+        def _(i):
+            for a in range(K_PROJ):
+                flat_output[i * K_PROJ + a] = feature_matrix[i][a]
+
+        revealed = flat_output.reveal()
+        tock(6)
+
+        for row_idx in range(N_CASES):
+            print_ln("ROW_START %s", row_idx)
+            for a in range(K_PROJ):
+                print_ln("B %s %s", a, revealed[row_idx * K_PROJ + a])
+            print_ln("ROW_END")
+
+    print_ln("=== Complete ===")
+
+    program.set_bit_length(_saved_bits)
+
+
+main()

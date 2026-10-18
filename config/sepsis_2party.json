@@ -1,0 +1,4 @@
+{
+  "Party_A": ["ER Registration", "ER Triage", "ER Sepsis Triage", "CRP", "LacticAcid", "Leucocytes"],
+  "Party_B": ["IV Liquid", "IV Antibiotics", "Admission NC", "Admission IC", "Release A", "Release B", "Release C", "Release D", "Release E", "Return ER"]
+}

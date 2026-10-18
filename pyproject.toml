@@ -1,0 +1,19 @@
+[tool.pytest.ini_options]
+testpaths = ["bridge", "scripts"]
+python_files = ["test_*.py"]
+addopts = "--strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+# E = pycodestyle errors, F = pyflakes (real bugs), I = import sorting.
+# Matches the Rust side's "clippy gates on warnings" posture: blocking in CI,
+# limited ruleset to keep signal-to-noise high.
+select = ["E", "F", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+# MP-SPDZ integration tests are standalone scripts (not in a package) and
+# need sys.path.insert(...) before importing from bridge/scripts.
+"mp-spdz/test_*.py" = ["E402"]

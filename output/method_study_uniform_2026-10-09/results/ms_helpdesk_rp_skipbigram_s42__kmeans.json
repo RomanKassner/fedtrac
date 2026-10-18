@@ -1,0 +1,100 @@
+{
+ "cell": "ms_helpdesk_rp_skipbigram_s42",
+ "method": "kmeans",
+ "k_requested": 5,
+ "count": 5,
+ "sizes": [
+  2634,
+  823,
+  462,
+  358,
+  300
+ ],
+ "opened": 3701,
+ "withheld": 876,
+ "ari_to_run": 0.852918,
+ "seconds": 3.7,
+ "note": "",
+ "summary": {
+  "clusters": 5,
+  "cases": 4577,
+  "models_scored": 5,
+  "pruned_activities": 5,
+  "fitness": 0.993,
+  "precision": 0.9709,
+  "f_score": 0.9815,
+  "simplicity": 0.6268,
+  "edges": 7.6485,
+  "activities": 4.7053,
+  "rel": 2.7914,
+  "rho": 0.9602
+ },
+ "clusters": [
+  {
+   "size": 2634,
+   "rel": 1.2155,
+   "rho": 0.9787,
+   "pruned_activities": 2,
+   "edges": 6,
+   "activities": 4,
+   "fitness": 0.9957,
+   "precision": 0.9962,
+   "f_score": 0.996,
+   "simplicity": 0.6296,
+   "cluster_id": 0
+  },
+  {
+   "size": 823,
+   "rel": 4.547,
+   "rho": 0.9174,
+   "pruned_activities": 2,
+   "edges": 11,
+   "activities": 6,
+   "fitness": 0.9864,
+   "precision": 0.9691,
+   "f_score": 0.9777,
+   "simplicity": 0.6,
+   "cluster_id": 1
+  },
+  {
+   "size": 462,
+   "rel": 6.7086,
+   "rho": 0.9545,
+   "pruned_activities": 0,
+   "edges": 12,
+   "activities": 6,
+   "fitness": 0.9946,
+   "precision": 0.883,
+   "f_score": 0.9355,
+   "simplicity": 0.5652,
+   "cluster_id": 2
+  },
+  {
+   "size": 300,
+   "rel": 2.702,
+   "rho": 0.9667,
+   "pruned_activities": 1,
+   "edges": 7,
+   "activities": 5,
+   "fitness": 0.9928,
+   "precision": 0.959,
+   "f_score": 0.9756,
+   "simplicity": 0.6923,
+   "cluster_id": 3
+  },
+  {
+   "size": 358,
+   "rel": 5.3695,
+   "rho": 0.9246,
+   "pruned_activities": 0,
+   "edges": 7,
+   "activities": 5,
+   "fitness": 0.9864,
+   "precision": 0.9124,
+   "f_score": 0.948,
+   "simplicity": 0.6923,
+   "cluster_id": 4
+  }
+ ],
+ "score_seconds": 4.7
+}

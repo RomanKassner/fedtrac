@@ -1,0 +1,392 @@
+    Finished `release` profile [optimized] target(s) in 0.06s
+     Running `target/release/clustering_federated --data-dir data/splits/sepsis_2party --case-ids config/case_ids/sepsis_2party_full.txt --encoding bigram --mpc --reveal-secret-projection --projection-seed 1337 --reuse-extraction --evaluate-full --fast-eval --run-name uni_ms_sepsis_rp_bigram_s1337`
+--- Start ---
+Output: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08
+Loaded XES: 11263 events (Party_A.xes), 3951 events (Party_B.xes) from data/splits/sepsis_2party
+
+--- Phase 0: Case ID Intersection (2 parties) ---
+Phase 0: pinned to 927 cases from config/case_ids/sepsis_2party_full.txt
+Phase 0: 927 common cases in 1.115371ms
+
+--- Phase 1: Activity Dictionary ---
+Phase 1: 16 user activities (19 total with markers) in 856.626µs
+[Harness] Auto-L reads the joint per-case length distribution across parties; a deployment fixes --max-trace-len by policy instead
+[MPC] Trace length distribution (merged, 2 parties): P50=14, P95=31, P99=52, max=185
+[MPC] Dynamic L = 48 (per-party, bigram coverage 97.0%), truncated = 0.3%
+[Plaintext] Integrated 927 traces
+[Plaintext] 123 bigrams, 927 features
+[Auto-kproj] Party 0 sparsity (Bigram): 6.7
+[Auto-kproj] Party 1 sparsity (Bigram): 3.2
+[Auto-kproj] CS_per_party=107, CS_full=177, CS_binding=107, k_proj=91 (safety=0.8)
+[MPC] Party 0: 927 cases
+[MPC] Party 1: 927 cases
+[MPC] --reuse-extraction: tail-only (skip Round-1 input read + merge + extract) (encoding slab @789804)
+[MPC] NORM_PRESHIFT auto-raised to 6 (encoding Bigram worst-case ‖y‖² exceeds the sfix range at the default preshift 2; revealed cells scale by 2^(16+6/2))
+[Privacy] Variant anonymity (embedding profile): 672 classes / 927 cases; singletons 593 (64.0%); min non-singleton class 2
+[Privacy] Budget-bounded k_priv = 5 (k0=5, tau=20%): suppresses 79.8% of cases (assigned in-MPC by nearest centroid, hybrid reveal)
+[Harness] Plaintext calibration cross-check: expected k_priv = 5 (compare with the in-MPC K_PRIV_SELECTED below)
+
+--- Protocol: Reveal-Secret-Projection (2 parties) ---
+  Round 1: secret R, dense secret projection, row shuffle, reveal Y_shuffled
+  Middle:  plaintext clustering on Y_shuffled (any algorithm, any k)
+  Relabel: tiny MPC pass applies π⁻¹, persists secret one-hot labels
+  Round 2: secure aggregation under SECURE_LABELS=1 (DFG cells + sizes)
+[Privacy] Fingerprint hash seed: 14675317069482363225
+[MPC] compiled secure_extract_rsecret in 0.0s (bytecode cache hit)
+[SPDZ] Running 2 parties...
+[SPDZ-NP] === N-Party Merge Tree Configuration (reveal-secret-projection) ===
+[SPDZ-NP] MODE: PRODUCTION - secret R, L2-normalised+shuffled Y revealed, π persisted for Round 2 relabel
+[SPDZ-NP] CORE_MODE=2 (0=full,2=tail_only)  PERSIST_ENC=0  ENC_OFFSET=789804  BIGRAM_OFFSET=0
+[SPDZ-NP] === Steps 1-2 (tail_only): read core slab from persistence ===
+[SPDZ-NP] === Step 2b: Sample secret projection matrix R ===
+[SPDZ-NP] === Step 2c: Project Y = X · R^T ===
+[SPDZ-NP] === Step 2c-norm: L2-row-normalise (sfix) ===
+[SPDZ-NP] === Step 2c-anon: Anonymous-set bit (K_PRIV=5) ===
+[SPDZ-NP] === Step 2d: Shuffle Y rows via secure_shuffle ===
+[SPDZ-NP] === Step 3: Persist bigram DFG ===
+[SPDZ-NP] Saved 927 x 361 bigram features at offset 0
+[SPDZ-NP] Saved π@334647, shuffled Y@335574, backbone bits@419931
+[SPDZ-NP] === Step 4: Reveal anonymous Y rows (hybrid reveal) ===
+[SPDZ-NP] === Complete ===
+[MPC] Round 1 (rsecret) completed in 69.359286701s
+[Privacy] Budget-bounded k_priv = 5 (selected in-MPC; k0=5, tau=20%)
+[MPC] 927 shuffled rows, dim=91, π at offset 334647
+[Privacy] Unit-norm check: all revealed rows ‖y‖² ≥ 0.5 (min=0.9957)
+[Privacy] Hybrid reveal: 187/927 rows in anonymous set A_kpriv (k_priv=5); 740 suppressed-tail rows assigned in-MPC by nearest centroid
+[Auto-k] Running k_select.py (n=187)...
+[Auto-k] k=3 (method=prediction_strength, PS=0.628)
+Clustered into 3 groups (kmeans, k=3, max_iter=10, n_init=10)
+[Local] clustering completed in 1.474359917s
+[Auto-k] Resolved k=3 (selected on the revealed backbone rows of Y_pi; shared with the plaintext baseline)
+[SPDZ] Compiling secure_relabel with args ["927", "334647", "8", "3", "420858", "1", "91", "335574", "419931", "54"]...
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ] Compiled secure_relabel-927-334647-8-3-420858-1-91-335574-419931-54
+[MPC] compiled secure_relabel in 1.0s
+[SPDZ] Running 2 parties...
+[SPDZ-RL] === Secure Relabel ===
+[SPDZ-RL] MODE: PRODUCTION - shuffle-then-open un-shuffle, secret one-hot at offset 420858
+[SPDZ-RL] === Complete ===
+[MPC] secure_relabel completed in 1.441429281s
+[SPDZ] Compiling secure_aggregate with args ["927", "927", "361", "3", "1", "420858", "8", "2", "200"]...
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ compile] WARNING: Order of memory instructions not preserved, errors possible
+[SPDZ] Compiled secure_aggregate-927-927-361-3-1-420858-8-2-200
+[MPC] compiled secure_aggregate in 0.6s
+[SPDZ] Running 2 parties...
+[SPDZ-R2] === Secure Aggregate ===
+[SPDZ-R2] MODE: PRODUCTION - secret one-hot labels from persistence, no label-side reveal
+[SPDZ-R2] === Step 1: Read Saved Features ===
+[SPDZ-R2] === Step 2: Read Assignments ===
+[SPDZ-R2] === Step 3: Aggregate DFG ===
+[SPDZ-R2] Aggregated 927 traces into 3 clusters
+[SPDZ-R2] === Step 3b: In-MPC Edge Filter ===
+[SPDZ-R2] Filtered 289 activity cells per cluster
+[SPDZ-R2] === Step 4: Output ===
+[SPDZ-R2] === Complete ===
+[MPC] Round 2 (secret labels) completed in 2.493918911s
+[MPC] Cluster sizes (derived from START rows): [616, 206, 105]
+MPC completed in 73.307365275s
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/cluster_0_dfg.json
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/cluster_1_dfg.json
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/cluster_2_dfg.json
+Exported 3 DFGs to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/activity_org_map.json
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/cluster_0_traces.json (616 traces)
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/cluster_1_traces.json (206 traces)
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/cluster_2_traces.json (105 traces)
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/cluster_assignments.json
+Exported feature matrix (927 x 91) to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/features.csv
+
+--- Evaluation: federated ---
+[Eval] === Tier: federated ===
+[Eval] Found 3 cluster DFGs, 3 trace files
+[Eval] --- Cluster 0 (616 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 1 (206 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 2 (105 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 0 (616 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/cluster_0_hm.pnml
+[Eval] Heuristics Miner: 31 places, 45 transitions
+[Eval]     Fitness: 0.8124
+[Eval]     Precision: 0.9657
+[Eval]     Generalization: 0.8187
+[Eval]     Simplicity: 0.5278
+[Eval]     F-Score: 0.8824
+[Eval] --- Cluster 1 (206 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/cluster_1_hm.pnml
+[Eval] Heuristics Miner: 30 places, 45 transitions
+[Eval]     Fitness: 0.8103
+[Eval]     Precision: 0.9069
+[Eval]     Generalization: 0.7356
+[Eval]     Simplicity: 0.5319
+[Eval]     F-Score: 0.8559
+[Eval] --- Cluster 2 (105 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/cluster_2_hm.pnml
+[Eval] Heuristics Miner: 18 places, 29 transitions
+[Eval]     Fitness: 0.9212
+[Eval]     Precision: 0.8981
+[Eval]     Generalization: 0.5776
+[Eval]     Simplicity: 0.5802
+[Eval]     F-Score: 0.9095
+[Eval] === Weighted Averages (clustered, HM) ===
+[Eval]   clustered: fitness=0.8243  precision=0.9450  generalization=0.7729  simplicity=0.5346  F=0.8796
+[Eval] === Single-Model Baseline ===
+[Eval]   Merged 3 DFGs into global DFG
+[Eval]   Discovering global process tree...
+[Eval]   ERROR in discovery: list index out of range
+[Eval] === Global HM Baseline ===
+[Eval]   Discovering global Petri net (Heuristics Miner)...
+[Eval] Petri net saved to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/global_hm.pnml
+[Eval] Heuristics Miner: 32 places, 49 transitions
+[Eval]   Computing conformance (all traces)...
+[Eval]     Fitness: 0.8062
+[Eval]     Precision: 0.9700
+[Eval]     Generalization: 0.8318
+[Eval]     Simplicity: 0.5031
+[Eval]     F-Score: 0.8806
+[Eval]   Global HM: fitness=0.8062  precision=0.9700  generalization=0.8318  simplicity=0.5031  F=0.8806
+[Eval] (Skipping log-based baseline)
+[Eval] === Per-Cluster Results (HM) ===
+[Eval]  Cluster   Size  Fitness  Precis. General.   Simpl.  F-Score
+[Eval]        0    616   0.8124   0.9657   0.8187   0.5278   0.8824
+[Eval]        1    206   0.8103   0.9069   0.7356   0.5319   0.8559
+[Eval]        2    105   0.9212   0.8981   0.5776   0.5802   0.9095
+[Eval]    W.AVG          0.8243   0.9450   0.7729   0.5346   0.8796
+[Eval] === Method Comparison ===
+[Eval] Method                        Fitness  Precision  F-Score    Buijs
+[Eval] --------------------------------------------------------------------
+[Eval] Per-cluster HM                 0.8243     0.9450   0.8796   0.8636
+[Eval] Global HM (no clustering)      0.8062     0.9700   0.8806   0.8681
+[Eval] === Clustering Quality Metrics ===
+[Eval]   Edge (DFG) Entropy:
+[Eval]     H(global)    = 4.6480 bits
+[Eval]     H(clustered) = 4.5244 bits
+[Eval]     Reduction    = 2.7%
+[Eval]     H(cluster 0) = 4.5555 bits
+[Eval]     H(cluster 1) = 4.6835 bits
+[Eval]     H(cluster 2) = 4.0304 bits
+[Eval]   Trace Variant Entropy (675 global variants):
+[Eval]     H(global)    = 8.9231 bits
+[Eval]     H(clustered) = 7.6931 bits
+[Eval]     Reduction    = 13.8%
+[Eval]     H(cluster 0) = 8.6047 bits
+[Eval]     H(cluster 1) = 6.8153 bits
+[Eval]     H(cluster 2) = 4.0676 bits
+[Eval]   Entropic Relevance (lower = cluster model encodes log more compactly):
+[Eval]     Weighted avg  = 39.2224 bits/trace
+[Eval]     Cluster 0     = 43.8812 bits/trace (size=616)
+[Eval]     Cluster 1     = 36.4360 bits/trace (size=206)
+[Eval]     Cluster 2     = 17.3576 bits/trace (size=105)
+[Eval]   Variant Purity (homogeneity by classification scheme):
+[Eval]     Length           homogeneity=0.0964
+[Eval]       Global: {'mid': 378, 'short': 529, 'long': 20}
+[Eval]       Cluster 0 (616): dominant=52%  [mid:323, short:278, long:15]
+[Eval]       Cluster 1 (206): dominant=74%  [short:152, mid:50, long:4]
+[Eval]       Cluster 2 (105): dominant=94%  [short:99, mid:5, long:1]
+[Eval]     Activity set     homogeneity=0.1596
+[Eval]       Global: {'has_A': 671, 'has_B': 56, 'neither': 200}
+[Eval]       Cluster 0 (616): dominant=86%  [has_A:530, neither:55, has_B:31]
+[Eval]       Cluster 1 (206): dominant=57%  [has_A:117, neither:72, has_B:17]
+[Eval]       Cluster 2 (105): dominant=70%  [neither:73, has_A:24, has_B:8]
+[Eval]     Loop behavior    homogeneity=0.2835 *
+[Eval]       Global: {'has_loops': 738, 'no_loops': 189}
+[Eval]       Cluster 0 (616): dominant=94%  [has_loops:579, no_loops:37]
+[Eval]       Cluster 1 (206): dominant=64%  [has_loops:131, no_loops:75]
+[Eval]       Cluster 2 (105): dominant=73%  [no_loops:77, has_loops:28]
+[Eval]   Approach                      F-Score   Edge H    Var H       ER
+[Eval]   ----------------------------------------------------------------
+[Eval]   Global HM (no clustering)      0.8806        -        -        -
+[Eval]   Per-cluster HM                 0.8796     2.7%    13.8%    39.22
+[Eval]   Per-cluster detail (HM):
+[Eval]    Cluster  Size  Fitness  Precis.  F-Score  Edge H      ER  |P|  |T|  |A|  CFC  Sound
+[Eval]   ------------------------------------------------------------------------------------------------
+[Eval]          0   616   0.8124   0.9657   0.8824  4.5555   43.88   31   45  110   36    yes
+[Eval]          1   206   0.8103   0.9069   0.8559  4.6835   36.44   30   45  108   35    yes
+[Eval]          2   105   0.9212   0.8981   0.9095  4.0304   17.36   18   29   64   19    yes
+[Eval] === Headline Diagnostics ===
+[Eval]   HM F-Score (all):              0.8796
+[Eval]   HM F-Score (sound only):       0.8796  (3/3 sound)
+[Eval]   HM Buijs (10·fit+10·prec+gen+simpl)/22: 0.8636
+[Eval]   Entropic relevance (HM, lower=better): 39.22 bits/trace
+[Eval]   Edge entropy reduction:          2.7%  WARNING data-bound
+[Eval]   Cluster size imbalance:          5.9x  (Gini=0.37, sizes=[616, 206, 105])
+[Eval]   Notice: edge_red < 15% — clustering captures limited flow structure at this k (often data-bound).
+[Eval] Saved to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/federated/evaluation_results.json
+
+--- Plaintext Baseline ---
+Clustered into 3 groups (kmeans, k=3, max_iter=10, n_init=10)
+
+--- Phase 4: Build Cluster DFGs ---
+  Cluster 0: filtered 59 edges below 20.2 (kept 42)
+  Cluster 1: filtered 49 edges below 12.3 (kept 53)
+  Cluster 2: filtered 43 edges below 10.7 (kept 48)
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/cluster_0_dfg.json
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/cluster_1_dfg.json
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/cluster_2_dfg.json
+Exported 3 DFGs to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/activity_org_map.json
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/cluster_0_traces.json (235 traces)
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/cluster_1_traces.json (309 traces)
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/cluster_2_traces.json (383 traces)
+  Written: output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/cluster_assignments.json
+Exported feature matrix (927 x 123) to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/features.csv
+
+--- Evaluation: plaintext ---
+[Eval] === Tier: plaintext ===
+[Eval] Found 3 cluster DFGs, 3 trace files
+[Eval] --- Cluster 0 (235 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 1 (309 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 2 (383 traces, IM) ---
+[Eval]   ERROR in discovery: list index out of range
+[Eval] --- Cluster 0 (235 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/cluster_0_hm.pnml
+[Eval] Heuristics Miner: 21 places, 30 transitions
+[Eval]     Fitness: 0.7089
+[Eval]     Precision: 0.6758
+[Eval]     Generalization: 0.7287
+[Eval]     Simplicity: 0.5730
+[Eval]     F-Score: 0.6920
+[Eval] --- Cluster 1 (309 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/cluster_1_hm.pnml
+[Eval] Heuristics Miner: 27 places, 43 transitions
+[Eval]     Fitness: 0.7975
+[Eval]     Precision: 0.9850
+[Eval]     Generalization: 0.7500
+[Eval]     Simplicity: 0.5072
+[Eval]     F-Score: 0.8814
+[Eval] --- Cluster 2 (383 traces, HM) ---
+[Eval] Petri net saved to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/cluster_2_hm.pnml
+[Eval] Heuristics Miner: 33 places, 47 transitions
+[Eval]     Fitness: 0.8150
+[Eval]     Precision: 0.9862
+[Eval]     Generalization: 0.7950
+[Eval]     Simplicity: 0.5333
+[Eval]     F-Score: 0.8924
+[Eval] === Weighted Averages (clustered, HM) ===
+[Eval]   clustered: fitness=0.7823  precision=0.9071  generalization=0.7632  simplicity=0.5347  F=0.8379
+[Eval] === Single-Model Baseline ===
+[Eval]   Merged 3 DFGs into global DFG
+[Eval]   Discovering global process tree...
+[Eval]   ERROR in discovery: list index out of range
+[Eval] === Global HM Baseline ===
+[Eval]   Discovering global Petri net (Heuristics Miner)...
+[Eval] Petri net saved to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/global_hm.pnml
+[Eval] Heuristics Miner: 31 places, 47 transitions
+[Eval]   Computing conformance (all traces)...
+[Eval]     Fitness: 0.8023
+[Eval]     Precision: 0.9700
+[Eval]     Generalization: 0.8495
+[Eval]     Simplicity: 0.5065
+[Eval]     F-Score: 0.8782
+[Eval]   Global HM: fitness=0.8023  precision=0.9700  generalization=0.8495  simplicity=0.5065  F=0.8782
+[Eval] (Skipping log-based baseline)
+[Eval] === Per-Cluster Results (HM) ===
+[Eval]  Cluster   Size  Fitness  Precis. General.   Simpl.  F-Score
+[Eval]        0    235   0.7089   0.6758   0.7287   0.5730   0.6920
+[Eval]        1    309   0.7975   0.9850   0.7500   0.5072   0.8814
+[Eval]        2    383   0.8150   0.9862   0.7950   0.5333   0.8924
+[Eval]    W.AVG          0.7823   0.9071   0.7632   0.5347   0.8379
+[Eval] === Method Comparison ===
+[Eval] Method                        Fitness  Precision  F-Score    Buijs
+[Eval] --------------------------------------------------------------------
+[Eval] Per-cluster HM                 0.7823     0.9071   0.8379   0.8269
+[Eval] Global HM (no clustering)      0.8023     0.9700   0.8782   0.8672
+[Eval] === Clustering Quality Metrics ===
+[Eval]   Edge (DFG) Entropy:
+[Eval]     H(global)    = 4.6480 bits
+[Eval]     H(clustered) = 4.5014 bits
+[Eval]     Reduction    = 3.1%
+[Eval]     H(cluster 0) = 4.3448 bits
+[Eval]     H(cluster 1) = 4.5467 bits
+[Eval]     H(cluster 2) = 4.5610 bits
+[Eval]   Trace Variant Entropy (675 global variants):
+[Eval]     H(global)    = 8.9231 bits
+[Eval]     H(clustered) = 7.3660 bits
+[Eval]     Reduction    = 17.4%
+[Eval]     H(cluster 0) = 7.8020 bits
+[Eval]     H(cluster 1) = 6.7781 bits
+[Eval]     H(cluster 2) = 7.5727 bits
+[Eval]   Entropic Relevance (lower = cluster model encodes log more compactly):
+[Eval]     Weighted avg  = 38.9451 bits/trace
+[Eval]     Cluster 0     = 60.4791 bits/trace (size=235)
+[Eval]     Cluster 1     = 33.5133 bits/trace (size=309)
+[Eval]     Cluster 2     = 30.1146 bits/trace (size=383)
+[Eval]   Variant Purity (homogeneity by classification scheme):
+[Eval]     Length           homogeneity=0.2626
+[Eval]       Global: {'mid': 378, 'long': 20, 'short': 529}
+[Eval]       Cluster 0 (235): dominant=87%  [mid:204, short:17, long:14]
+[Eval]       Cluster 1 (309): dominant=79%  [short:245, mid:58, long:6]
+[Eval]       Cluster 2 (383): dominant=70%  [short:267, mid:116]
+[Eval]     Activity set     homogeneity=0.1021
+[Eval]       Global: {'has_A': 671, 'has_B': 56, 'neither': 200}
+[Eval]       Cluster 0 (235): dominant=74%  [has_A:175, neither:39, has_B:21]
+[Eval]       Cluster 1 (309): dominant=50%  [has_A:156, neither:130, has_B:23]
+[Eval]       Cluster 2 (383): dominant=89%  [has_A:340, neither:31, has_B:12]
+[Eval]     Loop behavior    homogeneity=0.3300 *
+[Eval]       Global: {'has_loops': 738, 'no_loops': 189}
+[Eval]       Cluster 0 (235): dominant=100%  [has_loops:235]
+[Eval]       Cluster 1 (309): dominant=52%  [no_loops:161, has_loops:148]
+[Eval]       Cluster 2 (383): dominant=93%  [has_loops:355, no_loops:28]
+[Eval]   Approach                      F-Score   Edge H    Var H       ER
+[Eval]   ----------------------------------------------------------------
+[Eval]   Global HM (no clustering)      0.8782        -        -        -
+[Eval]   Per-cluster HM                 0.8379     3.1%    17.4%    38.95
+[Eval]   Per-cluster detail (HM):
+[Eval]    Cluster  Size  Fitness  Precis.  F-Score  Edge H      ER  |P|  |T|  |A|  CFC  Sound
+[Eval]   ------------------------------------------------------------------------------------------------
+[Eval]          0   235   0.7089   0.6758   0.6920  4.3448   60.48   21   30   70   21    yes
+[Eval]          1   309   0.7975   0.9850   0.8814  4.5467   33.51   27   43  104   36    yes
+[Eval]          2   383   0.8150   0.9862   0.8924  4.5610   30.11   33   47  115   37    yes
+[Eval] === Headline Diagnostics ===
+[Eval]   HM F-Score (all):              0.8379
+[Eval]   HM F-Score (sound only):       0.8379  (3/3 sound)
+[Eval]   HM Buijs (10·fit+10·prec+gen+simpl)/22: 0.8269
+[Eval]   Entropic relevance (HM, lower=better): 38.95 bits/trace
+[Eval]   Edge entropy reduction:          3.1%  WARNING data-bound
+[Eval]   Cluster size imbalance:          1.6x  (Gini=0.11, sizes=[235, 309, 383])
+[Eval]   Notice: edge_red < 15% — clustering captures limited flow structure at this k (often data-bound).
+[Eval] Saved to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/evaluation_results.json
+
+=== Evaluation ===
+Evaluation completed in 320ns
+
+--- Tier Comparison ---
+[Compare] === Tier Comparison ===
+[Compare] --- Single-Model vs Clustered (Plaintext) ---
+[Compare]            Metric     Single  Clustered      Delta
+[Compare]           fitness        n/a        n/a        n/a
+[Compare]         precision        n/a        n/a        n/a
+[Compare]    generalization        n/a        n/a        n/a
+[Compare]        simplicity        n/a        n/a        n/a
+[Compare]           f_score        n/a        n/a        n/a
+[Compare] --- Plaintext vs Federated (Privacy Cost) ---
+[Compare]            Metric  Plaintext  Federated      Delta
+[Compare]           fitness        n/a        n/a        n/a
+[Compare]         precision        n/a        n/a        n/a
+[Compare]    generalization        n/a        n/a        n/a
+[Compare]        simplicity        n/a        n/a        n/a
+[Compare]           f_score        n/a        n/a        n/a
+[Compare] --- Cluster Assignment Agreement ---
+[Compare]   ARI = 0.1687
+[Compare]   NMI = 0.2372
+[Compare] --- Per-Cluster DFG L1 Distance ---
+[Compare]   Global DFG L1 = 0.0434
+[Compare] === Consolidated Results ===
+[Compare]            Metric     Single  Clust(PT) Clust(MPC)
+[Compare]           fitness     0.0000     0.0000     0.0000
+[Compare]         precision     0.0000     0.0000     0.0000
+[Compare]    generalization     0.0000     0.0000     0.0000
+[Compare]        simplicity     0.0000     0.0000     0.0000
+[Compare]           f_score     0.0000     0.0000     0.0000
+[Compare] Saved comparison to output/runs/uni_ms_sepsis_rp_bigram_s1337_2026-10-05_20-11-08/plaintext/comparison.json
+
+=== Evaluation ===
+Evaluation completed in 350ns
+[SPDZ] Truncated raw inputs + memory dumps: Input-P3-0, Input-P4-0, Input-P2-0, Input-P6-0, Input-P7-0, Input-P0-0, Input-P1-0, Input-P5-0; PRESERVED the extract slab (--reuse-extraction success)

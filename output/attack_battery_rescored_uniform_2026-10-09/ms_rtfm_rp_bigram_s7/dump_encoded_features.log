@@ -1,0 +1,21 @@
+$ /home/roman/projects/federated_clustering/target/release/clustering_federated --data-dir data/splits/road_traffic_split --case-ids config/case_ids/rtfm_full.txt --encoding bigram --truncate-baseline --dump-encoded-features --run-name rescore_uni_ms_rtfm_rp_bigram_s7
+
+--- Start ---
+Output: output/runs/rescore_uni_ms_rtfm_rp_bigram_s7_2026-10-09_17-01-56
+Loaded XES: 414077 events (Party_A.xes), 147393 events (Party_B.xes) from data/splits/road_traffic_split
+
+--- Phase 0: Case ID Intersection (2 parties) ---
+Phase 0: pinned to 129985 cases from config/case_ids/rtfm_full.txt
+Phase 0: 129985 common cases in 329.263713ms
+
+--- Phase 1: Activity Dictionary ---
+Phase 1: 11 user activities (14 total with markers) in 137.687341ms
+
+--- Phase 2-3: Plaintext Integration & Clustering ---
+[Harness] Auto-L reads the joint per-case length distribution across parties; a deployment fixes --max-trace-len by policy instead
+[MPC] Trace length distribution (merged, 2 parties): P50=5, P95=6, P99=6, max=20
+[MPC] Dynamic L = 8 (per-party, bigram coverage 99.7%), truncated = 0.0%
+[Plaintext] Integrated 129985 traces (truncated, L=8)
+[Plaintext] 81 bigrams, 129985 features
+Exported encoded feature matrix (129985 x 81) to output/runs/rescore_uni_ms_rtfm_rp_bigram_s7_2026-10-09_17-01-56/features_encoded.csv (case ids in output/runs/rescore_uni_ms_rtfm_rp_bigram_s7_2026-10-09_17-01-56/features_encoded_cases.txt)
+Plaintext dump completed in 1.96673237s

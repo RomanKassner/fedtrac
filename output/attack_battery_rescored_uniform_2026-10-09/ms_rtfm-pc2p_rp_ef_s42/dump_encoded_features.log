@@ -1,0 +1,21 @@
+$ /home/roman/projects/federated_clustering/target/release/clustering_federated --data-dir data/splits/road_traffic_split --case-ids config/case_ids/rtfm_rtseries_1184.txt --encoding ef --truncate-baseline --dump-encoded-features --run-name rescore_uni_ms_rtfm-pc2p_rp_ef_s42
+
+--- Start ---
+Output: output/runs/rescore_uni_ms_rtfm-pc2p_rp_ef_s42_2026-10-11_06-32-13
+Loaded XES: 414077 events (Party_A.xes), 147393 events (Party_B.xes) from data/splits/road_traffic_split
+
+--- Phase 0: Case ID Intersection (2 parties) ---
+Phase 0: pinned to 1184 cases from config/case_ids/rtfm_rtseries_1184.txt
+Phase 0: 1184 common cases in 330.539423ms
+
+--- Phase 1: Activity Dictionary ---
+Phase 1: 11 user activities (14 total with markers) in 77.708559ms
+
+--- Phase 2-3: Plaintext Integration & Clustering ---
+[Harness] Auto-L reads the joint per-case length distribution across parties; a deployment fixes --max-trace-len by policy instead
+[MPC] Trace length distribution (merged, 2 parties): P50=9, P95=10, P99=12, max=20
+[MPC] Dynamic L = 8 (per-party, bigram coverage 98.0%), truncated = 0.3%
+[Plaintext] Integrated 1184 traces (truncated, L=8)
+[Plaintext] 76 bigrams, 1184 features
+Exported encoded feature matrix (1184 x 196) to output/runs/rescore_uni_ms_rtfm-pc2p_rp_ef_s42_2026-10-11_06-32-13/features_encoded.csv (case ids in output/runs/rescore_uni_ms_rtfm-pc2p_rp_ef_s42_2026-10-11_06-32-13/features_encoded_cases.txt)
+Plaintext dump completed in 188.917384ms

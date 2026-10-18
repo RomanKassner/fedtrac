@@ -1,0 +1,12 @@
+cell,exit,wallclock_s,run_dir
+ms_sepsis-pc2p_rp_ef_s42,1,0,output/runs/uni_ms_sepsis-pc2p_rp_ef_s42_2026-10-10_17-23-17
+ms_sepsis-pc3p_rp_ef_s42,1,0,output/runs/uni_ms_sepsis-pc3p_rp_ef_s42_2026-10-10_17-23-20
+ms_sepsis_rp_ef_s101,1,0,output/runs/uni_ms_sepsis_rp_ef_s101_2026-10-05_20-16-42
+ms_sepsis_rp_ef_s1337,1,0,output/runs/uni_ms_sepsis_rp_ef_s1337_2026-10-05_20-16-41
+ms_sepsis_rp_ef_s202,1,0,output/runs/uni_ms_sepsis_rp_ef_s202_2026-10-05_20-16-42
+ms_sepsis_rp_ef_s42,1,0,output/runs/uni_ms_sepsis_rp_ef_s42_2026-10-05_20-16-40
+ms_sepsis_rp_ef_s7,1,0,output/runs/uni_ms_sepsis_rp_ef_s7_2026-10-05_20-16-42
+rtSepsis_sl_ef_2p,1,1,output/runs/uni_rtSepsis_sl_ef_2p_2026-10-10_17-23-17
+rtSepsis_sl_ef_3p,1,0,output/runs/uni_rtSepsis_sl_ef_3p_2026-10-10_17-23-20
+sepsis-ef_sl_km,1,0,output/runs/uni_sepsis-ef_sl_km_2026-10-05_20-16-41
+sepsis-ef_sl_seq,1,0,output/runs/uni_sepsis-ef_sl_seq_2026-10-05_20-16-41

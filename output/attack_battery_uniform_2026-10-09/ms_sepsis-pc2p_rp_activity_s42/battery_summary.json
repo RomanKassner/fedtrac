@@ -1,0 +1,90 @@
+{
+  "run": "uni_ms_sepsis-pc2p_rp_activity_s42_2026-10-10_17-11-20",
+  "revealed_nonzero_rows": 415,
+  "total_rows": 925,
+  "suppressed_tail_rows": 510,
+  "k_proj": 19,
+  "d": 123,
+  "seed": 42,
+  "blas_threads": "1",
+  "jl_distance_fidelity": "JL distance fidelity: median rel-diff = 0.09, within-25% = 76.1%",
+  "frequency_guessing_baseline": {
+    "top_k": 5,
+    "P": 0.8999,
+    "R": 0.3366,
+    "cols": [
+      1,
+      41,
+      89,
+      32,
+      55
+    ],
+    "note": "null model: the top-5 globally most frequent feature cells predicted for every case, scored like the attacks (micro P/R vs X > 0); reads no revealed row"
+  },
+  "real_envelope": [
+    {
+      "attack": "no-prior pinv",
+      "m": "-",
+      "P": 0.0,
+      "R": 0.0,
+      "detail": null
+    },
+    {
+      "attack": "FastICA",
+      "m": "-",
+      "P": 0.73,
+      "R": 0.11,
+      "detail": null
+    },
+    {
+      "attack": "distance+MDS",
+      "m": "-",
+      "P": 0.5,
+      "R": 0.7,
+      "detail": null
+    },
+    {
+      "attack": "known-sample (norm match)",
+      "m": "5",
+      "P": 0.44,
+      "R": 0.17,
+      "detail": null
+    },
+    {
+      "attack": "known-sample (norm match)",
+      "m": "20",
+      "P": 0.29,
+      "R": 0.19,
+      "detail": null
+    },
+    {
+      "attack": "known-sample (norm match)",
+      "m": "50",
+      "P": 0.23,
+      "R": 0.2,
+      "detail": null
+    },
+    {
+      "attack": "known-sample (dist match)",
+      "m": "5",
+      "P": 0.42,
+      "R": 0.2,
+      "detail": "5/5 paired"
+    },
+    {
+      "attack": "known-sample (dist match)",
+      "m": "20",
+      "P": 0.25,
+      "R": 0.19,
+      "detail": "0/20 paired"
+    },
+    {
+      "attack": "known-sample (dist match)",
+      "m": "50",
+      "P": 0.21,
+      "R": 0.19,
+      "detail": "0/50 paired"
+    }
+  ],
+  "note": "real_envelope = hybrid-suppression-aware attack on the actual revealed Y; P/R are the citable post-hardening leakage. The FastICA/distance+MDS rows are oracle-aligned upper bounds (best_column_align uses X_true) measuring the accepted distance-leak floor, not honest attacks. The m/m 'paired' detail is semantically broken post-suppression (indices shift after the masked-row drop) -- read P/R, not the paired count."
+}
